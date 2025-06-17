@@ -31,5 +31,12 @@ namespace Domain.ValueObjects
         {
             yield return Value;
         }
+
+
+        /// <summary>
+        /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
+        /// тогда Value объекты остаются null и этот конструктор решает эту проблему
+        /// </summary>
+        internal Username() { Value = ""; }
     }
 }

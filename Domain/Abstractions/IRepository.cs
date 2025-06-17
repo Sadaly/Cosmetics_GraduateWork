@@ -10,19 +10,19 @@ namespace Domain.Abstractions
         /// Добавление нового экземпляра. При этом передаваемый экземпляр изменяет свой Id, если Id есть вообще как поле.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> AddAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновляет значения на основе переданного экземпляра.
         /// </summary>
         /// <param name="entity">Измененный экземпляр.</param>
-        Task<Result> UpdateAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Удаление экземпляра.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Result> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Возвращает объект по Id.

@@ -55,5 +55,12 @@ namespace Domain.ValueObjects
                 return builder.ToString();
             }
         }
+
+
+        /// <summary>
+        /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
+        /// тогда Value объекты остаются null и этот конструктор решает эту проблему
+        /// </summary>
+        internal PasswordHashed() { Value = ""; }
     }
 }

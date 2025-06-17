@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using Application.Entity.Users.Commands.UserCreate;
+using Application.Entity.Users.Commands.UserLogin;
+using Domain.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Abstractions;
 
@@ -8,5 +11,47 @@ namespace WebApi.Controllers
     public class UsersController : ApiController
     {
         public UsersController(ISender sender) : base(sender) { }
+
+        [HttpPost("Registration")]
+        public async Task<IActionResult> CreateUser(
+            [FromBody] UserCreateCommand command,
+            CancellationToken cancellationToken)
+        {
+            var response = await Sender.Send(command, cancellationToken);
+
+            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> LoginUser(
+            [FromBody] UserLoginCommand command,
+            CancellationToken cancellationToken)
+        {
+            Result<string> tokenResult = await Sender.Send(command, cancellationToken);
+
+            if (tokenResult.IsFailure) return HandleFailure(tokenResult);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddYears(1)
+            };
+
+            Response.Cookies.Delete("access_token");
+            Response.Cookies.Append("access_token", tokenResult.Value, cookieOptions);
+
+            string? userId = JwtHelper.GetClaim(tokenResult.Value, "sub");
+
+            return Ok(new { message = userId });
+        }
+
+        [HttpPost("Logout")]
+        public IActionResult LogoutUser()
+        {
+            Response.Cookies.Delete("access_token");
+            return Ok();
+        }
     }
 }

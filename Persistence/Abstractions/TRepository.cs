@@ -2,11 +2,7 @@
 using Domain.Common;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Persistence.Abstractions
 {
@@ -21,11 +17,31 @@ namespace Persistence.Abstractions
             _dbSet = dbContext.Set<T>();
         }
 
-        protected abstract Task<Result> VerificationBeforeAddingAsync(T entity, CancellationToken cancellationToken);
-        protected abstract Task<Result> VerificationBeforeUpdateAsync(T entity, CancellationToken cancellationToken);
-        protected abstract Task<Result> VerificationBeforeRemoveAsync(T entity, CancellationToken cancellationToken);
+        protected abstract Task<Result> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected abstract Task<Result> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected abstract Task<Result> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken);
 
-        public Task<Result> AddAsync(T entity, CancellationToken cancellationToken = default)
+        public Task<Result> AddAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -40,32 +56,12 @@ namespace Persistence.Abstractions
             throw new NotImplementedException();
         }
 
-        public Task<Result<List<T>>> GetAllAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        public Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, System.Linq.Expressions.Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result> RemoveAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result> UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
