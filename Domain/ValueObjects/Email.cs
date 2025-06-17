@@ -1,9 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.ValueObjects
 {
+    [ComplexType]
     public class Email : ValueObject
     {
         public const int MAX_LENGTH = 50;

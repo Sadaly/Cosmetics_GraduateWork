@@ -6,6 +6,7 @@ namespace Domain.Entity
 {
     public class User : BaseEntity
     {
+        private User(Guid id) : base(id) { }
         public User(Guid id, Email email, Username username, PasswordHashed passwordHashed)
         {
             Id = id;

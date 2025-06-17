@@ -13,13 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{802FC8B1-CB7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F7AFEE63-2BDF-45A3-A0D2-8BF88FB85F8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{E006C04D-601B-4512-ADB1-514BB4C777DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{E006C04D-601B-4512-ADB1-514BB4C777DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{C66796BA-E16C-41C4-AB0F-2A7C21C91DF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{C66796BA-E16C-41C4-AB0F-2A7C21C91DF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{A4156FED-AB02-4C35-87EB-9E9A39E794FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{A4156FED-AB02-4C35-87EB-9E9A39E794FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{47B4BA3F-4C53-4B0E-90A8-306D7F72E2B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{47B4BA3F-4C53-4B0E-90A8-306D7F72E2B7}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "CleanArchRR-docker-compose", "CleanArchRR-docker-compose.dcproj", "{1E58E9F6-E746-47D8-B9F0-70436527672C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{47B4BA3F-4C53-4B0E-90A8-306D7F72E2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47B4BA3F-4C53-4B0E-90A8-306D7F72E2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47B4BA3F-4C53-4B0E-90A8-306D7F72E2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E58E9F6-E746-47D8-B9F0-70436527672C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E58E9F6-E746-47D8-B9F0-70436527672C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E58E9F6-E746-47D8-B9F0-70436527672C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E58E9F6-E746-47D8-B9F0-70436527672C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.ValueObjects
 {
+    [ComplexType]
     public class Username : ValueObject
     {
         public const int MAX_LENGTH = 30;

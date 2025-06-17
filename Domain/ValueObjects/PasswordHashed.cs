@@ -1,11 +1,13 @@
 ﻿using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Domain.ValueObjects
 {
+    [ComplexType]
     public class PasswordHashed : ValueObject
     {
         public const int MAX_LENGTH = 100;
