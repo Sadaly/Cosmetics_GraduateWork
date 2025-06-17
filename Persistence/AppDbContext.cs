@@ -20,7 +20,7 @@ namespace Persistence
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("User ID=postgres;Password=postgrespw;Host=localhost;Port=5430;Database=dbtest;");
+            optionsBuilder.UseNpgsql("User ID=postgres;Password=postgrespw;Host=postgres;Port=5432;Database=dbtest;");
         }
 
         void ApplyConfiguration(ModelBuilder modelBuilder)
