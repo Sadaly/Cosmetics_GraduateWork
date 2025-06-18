@@ -17,7 +17,7 @@ namespace Domain.Errors
                 "User.UsernameAlreadyInUse",
                 "Имя пользователя уже используется");
             public static readonly Error IncorrectUsernameOrPassword = new(
-    "           User.IncorrectUsernameOrPassword",
+                "User.IncorrectUsernameOrPassword",
                 "Неправильное имя пользователя или пароль");
             public static readonly Error NotFound = new(
                 "User.NotFound",

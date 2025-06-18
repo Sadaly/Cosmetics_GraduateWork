@@ -7,6 +7,7 @@ using WebAPI.OptionsSetup;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -99,7 +100,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseCors();
 

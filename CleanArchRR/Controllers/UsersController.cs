@@ -3,7 +3,9 @@ using Application.Entity.Users.Commands.UserLogin;
 using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebAPI.Abstractions;
+using WebAPI.Extensions;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +18,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> CreateUser(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
-        {
-            var response = await Sender.Send(command, cancellationToken);
-
-            return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
-        }
+            =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [HttpPost("Login")]
         public async Task<IActionResult> LoginUser(
@@ -29,8 +27,24 @@ namespace WebApi.Controllers
         {
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
 
-            if (tokenResult.IsFailure) return HandleFailure(tokenResult);
+            if (tokenResult.IsFailure) return tokenResult.ToActionResult();
 
+            SetToken(tokenResult.Value);
+
+            string? userId = JwtHelper.GetClaim(tokenResult.Value, ClaimTypes.NameIdentifier);
+
+            return Ok(userId);
+        }
+
+        [HttpPost("Logout")]
+        public IActionResult LogoutUser()
+        {
+            Response.Cookies.Delete("access_token");
+            return Ok();
+        }
+
+        private void SetToken(Result<string> token)
+        {
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
@@ -40,18 +54,9 @@ namespace WebApi.Controllers
             };
 
             Response.Cookies.Delete("access_token");
-            Response.Cookies.Append("access_token", tokenResult.Value, cookieOptions);
+            Response.Cookies.Append("access_token", token.Value, cookieOptions);
 
-            string? userId = JwtHelper.GetClaim(tokenResult.Value, "sub");
-
-            return Ok(new { message = userId });
-        }
-
-        [HttpPost("Logout")]
-        public IActionResult LogoutUser()
-        {
-            Response.Cookies.Delete("access_token");
-            return Ok();
+            string? userId = JwtHelper.GetClaim(token.Value, "sub");
         }
     }
 }
