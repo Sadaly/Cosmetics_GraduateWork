@@ -2,6 +2,7 @@
 using Application.Entity.Users.Commands.UserLogin;
 using Domain.Shared;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebAPI.Abstractions;
@@ -36,6 +37,7 @@ namespace WebApi.Controllers
             return Ok(userId);
         }
 
+        [Authorize]
         [HttpPost("Logout")]
         public IActionResult LogoutUser()
         {
