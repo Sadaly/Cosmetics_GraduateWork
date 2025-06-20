@@ -32,11 +32,9 @@ namespace WebApi.Middleware
             var (statusCode, error) = MapExceptionToResponse(exception);
             context.Response.StatusCode = (int)statusCode;
 
-            var response = new
-            {
-                Code = error.Code,
-                Message = error.Message
-            };
+            var response = new Error(
+                error.Code,
+                error.Message);
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
