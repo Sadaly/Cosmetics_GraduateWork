@@ -1,5 +1,7 @@
 using Application.Behaviors;
 using FluentValidation;
+using Infrastructure.IService;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +77,8 @@ builder.Services.AddSwaggerGen(opt =>
         }
     });
 });
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 

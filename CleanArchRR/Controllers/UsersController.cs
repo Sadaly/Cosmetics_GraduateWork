@@ -1,9 +1,11 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserLogin;
 using Domain.Shared;
+using Infrastructure.IService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using System.Security.Claims;
 using WebApi.Abstractions;
 using WebApi.Extensions;
@@ -13,7 +15,12 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : ApiController
     {
-        public UsersController(ISender sender) : base(sender) { }
+        private readonly ITokenService _tokenService;
+
+        public UsersController(ISender sender, ITokenService tokenService) : base(sender)
+        {
+            _tokenService = tokenService;
+        }
 
         [HttpPost("Registration")]
         public async Task<IActionResult> CreateUser(
@@ -30,9 +37,9 @@ namespace WebApi.Controllers
 
             if (tokenResult.IsFailure) return tokenResult.ToActionResult();
 
-            SetToken(tokenResult.Value);
-
-            string? userId = JwtHelper.GetClaim(tokenResult.Value, ClaimTypes.NameIdentifier);
+            _tokenService.SetJwtToken(Response, tokenResult.Value);
+            
+            string? userId = _tokenService.GetClaim(tokenResult.Value, ClaimTypes.NameIdentifier);
 
             return Ok(userId);
         }
@@ -41,24 +48,8 @@ namespace WebApi.Controllers
         [HttpPost("Logout")]
         public IActionResult LogoutUser()
         {
-            Response.Cookies.Delete("access_token");
+            _tokenService.DeleteJwtToken(Response);
             return Ok();
-        }
-
-        private void SetToken(Result<string> token)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddYears(1)
-            };
-
-            Response.Cookies.Delete("access_token");
-            Response.Cookies.Append("access_token", token.Value, cookieOptions);
-
-            string? userId = JwtHelper.GetClaim(token.Value, "sub");
         }
     }
 }

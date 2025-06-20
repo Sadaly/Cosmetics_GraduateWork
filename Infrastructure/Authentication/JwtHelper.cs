@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 
-public static class JwtHelper
+internal static class JwtHelper
 {
     public static string? GetClaim(string jwtToken, string claimType)
     {
