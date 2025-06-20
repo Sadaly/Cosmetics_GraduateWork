@@ -1,13 +1,13 @@
 using Application.Behaviors;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
-using FluentValidation;
-using WebAPI.OptionsSetup;
-using Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Persistence;
 using Serilog;
-using Web.Middleware;
+using WebApi.Extensions;
+using WebAPI.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,7 +100,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseCustomExceptionHandler();
 app.UseSerilogRequestLogging();
 app.UseCors();
 

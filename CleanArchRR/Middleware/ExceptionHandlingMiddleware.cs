@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace Web.Middleware
+namespace WebApi.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
