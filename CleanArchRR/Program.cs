@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using Serilog;
 using WebApi.Extensions;
-using WebAPI.OptionsSetup;
+using WebApi.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
 

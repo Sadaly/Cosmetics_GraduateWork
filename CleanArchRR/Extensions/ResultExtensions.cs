@@ -1,7 +1,7 @@
 ﻿using Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Extensions;
+namespace WebApi.Extensions;
 
 public static class ResultExtensions
 {
