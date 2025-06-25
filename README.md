@@ -1,5 +1,5 @@
-# CleanArch_Base [WIP]
-**CleanArch_Base** - это основа для будущих проектов
+# Cosmetics_GraduateWork [WIP]
+**Cosmetics_GraduateWork** - это моя дипломная работа
 ---
 
 ## ⚙️ Технологии и компоненты
