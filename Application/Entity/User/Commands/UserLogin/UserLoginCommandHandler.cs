@@ -21,14 +21,14 @@ namespace Application.Entity.Users.Commands.UserLogin
         public async Task<Result<string>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
         {
             var email = Email.Create(request.Email);
-
             var passwordHash = PasswordHashed.Create(request.Password);
 
             var user = await _userRepository.GetByEmailAsync(email, cancellationToken);
             if (user.IsFailure) return Result.Failure<string>(user.Error);
 
             var userpw = user.Value.PasswordHashed;
-            if (userpw.Value != passwordHash.Value.Value) return Result.Failure<string>(PersistenceErrors.User.IncorrectUsernameOrPassword);
+            if (userpw.Value != passwordHash.Value.Value) return Result.Failure<string>(
+                PersistenceErrors.User.IncorrectUsernameOrPassword);
 
             string token = _jwtProvider.Generate(user.Value);
 

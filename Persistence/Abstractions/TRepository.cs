@@ -3,6 +3,7 @@ using Domain.Common;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace Persistence.Abstractions
 {
@@ -20,83 +21,37 @@ namespace Persistence.Abstractions
             _dbSet = dbContext.Set<T>();
         }
 
-        protected abstract Task<Result> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken);
-        protected abstract Task<Result> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken);
-        protected abstract Task<Result> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected abstract Task<Result<T>> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected abstract Task<Result<T>> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected abstract Task<Result<T>> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken);
 
-        public virtual async Task<Result> AddAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        public virtual async Task<Result<T>> AddAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
-            Result result = await VerificationBeforeAddingAsync(entity, cancellationToken);
-            if (result.IsFailure) return result;
-
+            Result<T> verify = await VerificationBeforeAddingAsync(entity, cancellationToken);
+            if (verify.IsFailure) return verify;
 
             await _dbSet.AddAsync(entity.Value, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return Result.Success();
+            return entity;
         }
-        /// <summary>
-        /// Получение сущности типа репозитория по Id с учетом ошибки
-        /// </summary>
-        protected async Task<Result<T>> GetFromDBAsync(
-            Guid id,
-            CancellationToken cancellationToken
-            ) => await GetFromDBAsync<T>(
-                id,
-                GetErrorIdEmpty(),
-                GetErrorNotFound(),
-                cancellationToken);
 
-        /// <summary>
-        /// Получение сущности по Id
-        /// </summary>
-        private async Task<TBaseEntity?> GetFromDBAsync<TBaseEntity>(
-            Guid id,
-            CancellationToken cancellationToken
-            ) where TBaseEntity : BaseEntity =>
-                await _dbContext
-                    .Set<TBaseEntity>()
-                    .FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-        /// <summary>
-        /// Получение результата поиска по Id с учетом ошибки 
-        /// </summary>
-        protected async Task<Result<TBaseEntity>> GetFromDBAsync<TBaseEntity>(
-            Guid id,
-            Error IdEmpty,
-            Error NotFound,
-            CancellationToken cancellationToken
-            ) where TBaseEntity : BaseEntity
+        public async Task<Result<T>> GetFromDBAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id == Guid.Empty) return Result.Failure<TBaseEntity>(IdEmpty);
+            if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
 
-            TBaseEntity? entity = await GetFromDBAsync<TBaseEntity>(id, cancellationToken);
-            if (entity == null) return Result.Failure<TBaseEntity>(NotFound);
+            T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+            if (entity == null) return Result.Failure<T>(GetErrorNotFound());
 
             return Result.Success(entity);
-        }
-        /// <summary>
-        /// Получение сущности типа репозитория по предикату
-        /// </summary>
-        private async Task<T?> GetFromDBAsync(
-            Expression<Func<T, bool>> predicate,
-            CancellationToken cancellationToken
-            ) => await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
-        /// <summary>
-        /// Получение сущности типа репозитория по предикату с учетом ошибки
-        /// </summary>
-        protected async Task<Result<T>> GetFromDBAsync(
-            Expression<Func<T, bool>> predicate,
-            Error NotFound,
-            CancellationToken cancellationToken
-            )
+        }               
+
+        public async Task<Result<T>> GetFromDBAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            T? entity = await GetFromDBAsync(predicate, cancellationToken);
-            if (entity == null) return Result.Failure<T>(NotFound);
-
-            return Result.Success(entity);
+            T? entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+            if (entity == null) return Result.Failure<T>(GetErrorNotFound());
+            return entity;
         }
 
-        public Task<Result> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        public Task<Result<T>> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

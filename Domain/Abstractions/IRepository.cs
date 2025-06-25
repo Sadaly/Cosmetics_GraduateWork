@@ -10,13 +10,13 @@ namespace Domain.Abstractions
         /// Добавление нового экземпляра. При этом передаваемый экземпляр изменяет свой Id, если Id есть вообще как поле.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task<Result> AddAsync(Result<T> entity, CancellationToken cancellationToken = default);
+        Task<Result<T>> AddAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновляет значения на основе переданного экземпляра.
         /// </summary>
         /// <param name="entity">Измененный экземпляр.</param>
-        Task<Result> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default);
+        Task<Result<T>> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Удаление экземпляра.
@@ -64,10 +64,17 @@ namespace Domain.Abstractions
         /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
         /// <param name="count">Количество взятых значений.</param>
         /// <returns>Возвращает часть списка элементы которого удовлетворяют условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
-        public Task<Result<List<T>>> GetAllAsync(
-            int startIndex,
-            int count,
-            Expression<Func<T, bool>> predicate,
-            CancellationToken cancellationToken = default);
+        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получение сущности типа репозитория по предикату
+        /// </summary>
+        /// <param name="predicate">Условия для получения сущности.</param>
+        public Task<Result<T>> GetFromDBAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение сущности типа репозитория по Id с учетом ошибки
+        /// </summary>
+        public Task<Result<T>> GetFromDBAsync(Guid id, CancellationToken cancellationToken);
     }
 }

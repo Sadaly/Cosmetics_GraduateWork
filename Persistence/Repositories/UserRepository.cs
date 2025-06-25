@@ -15,7 +15,7 @@ namespace Persistence.Repositories
         public async Task<Result<User>> GetByEmailAsync(Result<Email> email, CancellationToken cancellationToken = default)
         {
             if (email.IsFailure) return Result.Failure<User>(email.Error);
-            return await GetFromDBAsync(u => u.Email == email.Value, PersistenceErrors.User.NotFound, cancellationToken);
+            return await GetFromDBAsync(u => u.Email == email.Value, cancellationToken);
         }
 
         public Task<Result<User>> GetByUsernameAsync(Result<Username> username, CancellationToken cancellationToken = default)
@@ -35,21 +35,24 @@ namespace Persistence.Repositories
             return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username.Value, cancellationToken);
         }
 
-        protected async override Task<Result> VerificationBeforeAddingAsync(Result<User> entity, CancellationToken cancellationToken)
+        protected async override Task<Result<User>> VerificationBeforeAddingAsync(Result<User> entity, CancellationToken cancellationToken)
         {
+            if (entity.IsFailure) return entity;
+
             Result<bool> unique;
 
             unique = await IsEmailUniqueAsync(entity.Value.Email, cancellationToken);
-            if (unique.IsFailure) { return unique; }
-            if (!unique.Value) { return Result.Failure(PersistenceErrors.User.EmailNotUnique); }
+            if (unique.IsFailure) return Result.Failure<User>(unique.Error);
+            if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.EmailNotUnique);
 
             unique = await IsUsernameUniqueAsync(entity.Value.Username, cancellationToken);
-            if (unique.IsFailure) { return unique; }
-            if (!unique.Value) { return Result.Failure(PersistenceErrors.User.UsernameNotUnique); }
+            if (unique.IsFailure) return Result.Failure<User>(unique.Error);
+            if (!unique.Value) { return Result.Failure<User>(PersistenceErrors.User.UsernameNotUnique); }
 
             var user = await GetFromDBAsync(entity.Value.Id, cancellationToken);
-            if (user.IsSuccess) { return Result.Failure(PersistenceErrors.User.AlreadyExists); }
-            return Result.Success();
+            if (user.IsSuccess) return Result.Failure<User>(PersistenceErrors.User.AlreadyExists);
+
+            return entity;
         }
         protected override Error GetErrorIdEmpty()
         {
@@ -61,14 +64,16 @@ namespace Persistence.Repositories
             return PersistenceErrors.User.NotFound;
         }
 
-        protected override Task<Result> VerificationBeforeRemoveAsync(Result<User> entity, CancellationToken cancellationToken)
+        protected async override Task<Result<User>> VerificationBeforeRemoveAsync(Result<User> entity, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+            if (entity.IsFailure) return entity;
         }
 
-        protected override Task<Result> VerificationBeforeUpdateAsync(Result<User> entity, CancellationToken cancellationToken)
+        protected async override Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> entity, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+            if (entity.IsFailure) return entity;
         }
     }
 }
