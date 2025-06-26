@@ -11,10 +11,6 @@ namespace Domain.ValueObjects
         public const int MAX_LENGTH = 5000;
         public const string DEFAULT_VALUE = "Content DEFAULT_VALUE";
 
-        public Content()
-        {
-            Value = DEFAULT_VALUE;
-        }
         private Content(string value)
         {
             Value = value;
@@ -47,5 +43,7 @@ namespace Domain.ValueObjects
         {
             yield return Value;
         }
+
+        internal Content() { Value = DEFAULT_VALUE; }
     }
 }

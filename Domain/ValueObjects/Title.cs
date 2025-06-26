@@ -9,6 +9,7 @@ namespace Domain.ValueObjects
     public class Title : ValueObject
     {
         public const int MAX_LENGTH = 100;
+        public const string DEFAULT_VALUE = "Title DEFAULT_VALUE";
 
         private Title(string value)
         {
@@ -41,5 +42,6 @@ namespace Domain.ValueObjects
         {
             yield return Value;
         }
+        internal Title() { Value = DEFAULT_VALUE; }
     }
 }

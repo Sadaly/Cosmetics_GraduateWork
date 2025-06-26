@@ -9,12 +9,8 @@ namespace Domain.ValueObjects
     {
         public const int MAX_LENGTH = 15;
         public const int MIN_LENGTH = 8;
-        public const string DEFAULT_VALUE = "Phone number DEFAULT_VALUE";
+        public const string DEFAULT_VALUE = "PhoneNumber DEFAULT_VALUE";
 
-        public PhoneNumber()
-        {
-            Value = DEFAULT_VALUE;
-        }
         private PhoneNumber(string phoneNumber)
         {
             Value = phoneNumber;
@@ -28,7 +24,7 @@ namespace Domain.ValueObjects
         /// </summary>
         /// <param name="phoneNumber">Строка с номером телефона</param>
         /// <returns>Новый экземпляр <see cref="PhoneNumber"/></returns>
-        public static Result<PhoneNumber> Create(string phoneNumber)
+        public static Result<PhoneNumber>? Create(string phoneNumber)
         {
             var cleanedNumber = Regex.Replace(phoneNumber, @"[^0-9+]", "");
 
@@ -49,5 +45,6 @@ namespace Domain.ValueObjects
         {
             yield return Value;
         }
+        internal PhoneNumber() { Value = DEFAULT_VALUE; }
     }
 }

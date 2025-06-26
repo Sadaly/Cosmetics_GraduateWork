@@ -26,13 +26,13 @@ namespace Persistence.Repositories
         public async Task<Result<bool>> IsEmailUniqueAsync(Result<Email> email, CancellationToken cancellationToken = default)
         {
             if (email.IsFailure) return Result.Failure<bool>(email.Error);
-            return !await _dbContext.Set<User>().AnyAsync(u => u.Email == email.Value, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(u => u.Email == email.Value && u.IsSoftDelete == false, cancellationToken);
         }
 
         public async Task<Result<bool>> IsUsernameUniqueAsync(Result<Username> username, CancellationToken cancellationToken = default)
         {
             if (username.IsFailure) return Result.Failure<bool>(username.Error);
-            return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username.Value, cancellationToken);
+            return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username.Value && u.IsSoftDelete == false, cancellationToken);
         }
 
         protected async override Task<Result<User>> VerificationBeforeAddingAsync(Result<User> entity, CancellationToken cancellationToken)

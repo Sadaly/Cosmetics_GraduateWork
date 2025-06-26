@@ -12,6 +12,7 @@ namespace Domain.ValueObjects
         public const int MIN_LENGTH = 5;
         public const int FIRST_PART_MIN_LENGTH = 1;
         public const int SECOND_PART_MIN_LENGTH = 1;
+        public const string DEFAULT_VALUE = "Email DEFAULT_VALUE";
 
         public string Value { get; set; }
 
@@ -35,6 +36,13 @@ namespace Domain.ValueObjects
 
             return new Email(value);
         }
+        public static Result<Email> CreateOrDefault(string? value)
+        {
+            return value == null 
+                ? new Email() 
+                : Create(value);
+        }
+
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
@@ -45,6 +53,6 @@ namespace Domain.ValueObjects
         /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
         /// тогда Value объекты остаются null и этот конструктор решает эту проблему
         /// </summary>
-        internal Email() { Value = ""; }
+        internal Email() { Value = DEFAULT_VALUE; }
     }
 }

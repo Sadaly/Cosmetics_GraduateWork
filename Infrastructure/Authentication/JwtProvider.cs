@@ -21,7 +21,8 @@ namespace Infrastructure.Authentication
         {
             var claims = new Claim[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email.Value)
+                new Claim(ClaimTypes.Email, user.Email.Value),
+                new Claim(ClaimTypes.Role, user.GetType().Name)
             };
 
             var signingCredentials = new SigningCredentials(

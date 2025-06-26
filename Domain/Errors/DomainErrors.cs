@@ -16,6 +16,10 @@ namespace Domain.Errors
             public static readonly Error TooShort = new(
                 "Username.TooShort",
                 $"Поле слишком короткое. Минимальная длина {Domain.ValueObjects.Username.MAX_LENGTH} символа");
+
+            public static readonly Error AlreadySet = new(
+                "Username.AlreadySet",
+                "Имя пользовтеля совпадает с предыдущим");
         }
 
         public static class Email
@@ -35,6 +39,10 @@ namespace Domain.Errors
             public static readonly Error InvalidFormat = new(
                 "Email.InvalidFormat",
                 $"Поле имеет неправльный формат. Верный формат: example@gmail.com");
+
+            public static readonly Error AlreadySet = new(
+                "Email.AlreadySet",
+                "Значение совпадает с предыдущим");
         }
         
         public static class PasswordHashed
@@ -50,6 +58,10 @@ namespace Domain.Errors
             public static readonly Error TooShort = new(
                 "PasswordHashed.TooShort",
                 $"Поле слишком короткое. Минимальная длина {Domain.ValueObjects.PasswordHashed.MAX_LENGTH} символа");
+
+            public static readonly Error AlreadySet = new(
+                "PasswordHashed.AlreadySet",
+                "Значение совпадает с предыдущим");
         }
 
         public static class PhoneNumber
@@ -73,6 +85,10 @@ namespace Domain.Errors
             public static readonly Error AlreadyVerified = new(
                 "PhoneNumber.AlreadyVerified",
                 "Телефон уже подтвержден");
+
+            public static readonly Error AlreadySet = new(
+                "PhoneNumber.AlreadySet",
+                "Значение совпадает с предыдущим");
         }
 
         public static class Content
@@ -84,6 +100,10 @@ namespace Domain.Errors
             public static readonly Error TooLong = new(
                 "Content.TooLong",
                 "Содержание слишком длинное");
+
+            public static readonly Error AlreadySet = new(
+                "Content.AlreadySet",
+                "Значение совпадает с предыдущим");
         }
 
         public static class Title
@@ -95,6 +115,10 @@ namespace Domain.Errors
             public static readonly Error TooLong = new(
                 "Title.TooLong",
                 "Название слишком длинное");
+
+            public static readonly Error AlreadySet = new(
+                "Title.AlreadySet",
+                "Значение совпадает с предыдущим");
         }
     }
 }

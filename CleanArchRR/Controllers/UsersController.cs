@@ -1,5 +1,6 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserLogin;
+using Domain.Entity;
 using Domain.Shared;
 using Infrastructure.IService;
 using MediatR;
@@ -9,6 +10,7 @@ using System.Reflection;
 using System.Security.Claims;
 using WebApi.Abstractions;
 using WebApi.Extensions;
+using WebApi.Policies;
 
 namespace WebApi.Controllers
 {
@@ -22,7 +24,8 @@ namespace WebApi.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpPost("Registration")]
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateUser(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)

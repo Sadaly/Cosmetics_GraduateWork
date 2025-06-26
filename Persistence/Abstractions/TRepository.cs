@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using Domain.Common;
+using Domain.Errors;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -40,6 +41,7 @@ namespace Persistence.Abstractions
 
             T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
+            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity.IsSoftDeleted);
 
             return Result.Success(entity);
         }               
@@ -48,6 +50,8 @@ namespace Persistence.Abstractions
         {
             T? entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
+            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity.IsSoftDeleted);
+
             return entity;
         }
 
