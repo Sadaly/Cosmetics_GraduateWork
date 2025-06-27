@@ -50,8 +50,8 @@ namespace Application.Entity.Users.Commands.UserCreate
             if (request.Password != null) 
                 user.Value.UpdatePassword(PasswordHashed.Create(request.Password));
 
-            var add = await _userRepository.AddAsync(user, cancellationToken);
-            var save = await _unitOfWork.SaveChangesAsync(add, cancellationToken);
+            var update = await _userRepository.UpdateAsync(user, cancellationToken);
+            var save = await _unitOfWork.SaveChangesAsync(update, cancellationToken);
 
             return save.IsSuccess
                 ? save.Value.Id
