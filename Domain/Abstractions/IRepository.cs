@@ -22,19 +22,7 @@ namespace Domain.Abstractions
         /// Удаление экземпляра.
         /// </summary>
         /// <param name="entity">Ссылка на entity.</param>
-        Task<Result> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Возвращает объект по Id.
-        /// </summary>
-        /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Удаление экземпляра по Id.
-        /// </summary>
-        /// <param name="entityId">Id сущности.</param>
-        Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default);
+        Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Возвращает все объекты.
@@ -70,11 +58,13 @@ namespace Domain.Abstractions
         /// Получение сущности типа репозитория по предикату
         /// </summary>
         /// <param name="predicate">Условия для получения сущности.</param>
-        public Task<Result<T>> GetFromDBAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+        /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
+        public Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получение сущности типа репозитория по Id с учетом ошибки
         /// </summary>
-        public Task<Result<T>> GetFromDBAsync(Guid id, CancellationToken cancellationToken);
+        /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
+        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

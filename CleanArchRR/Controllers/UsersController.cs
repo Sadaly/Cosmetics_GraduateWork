@@ -54,5 +54,8 @@ namespace WebApi.Controllers
             _tokenService.DeleteJwtToken(Response);
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<IActionResult>
     }
 }

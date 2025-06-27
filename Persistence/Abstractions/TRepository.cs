@@ -35,7 +35,7 @@ namespace Persistence.Abstractions
             return entity;
         }
 
-        public async Task<Result<T>> GetFromDBAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
 
@@ -44,9 +44,9 @@ namespace Persistence.Abstractions
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity.IsSoftDeleted);
 
             return Result.Success(entity);
-        }               
+        }
 
-        public async Task<Result<T>> GetFromDBAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
             T? entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
@@ -55,17 +55,18 @@ namespace Persistence.Abstractions
             return entity;
         }
 
-        public Task<Result<T>> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        public async Task<Result<T>> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            Result result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
+            if (result.IsFailure) return Result.Failure<T>(result.Error);
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return entity;
         }
 
-        public Task<Result> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
