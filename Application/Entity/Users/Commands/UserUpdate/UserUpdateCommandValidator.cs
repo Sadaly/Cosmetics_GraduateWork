@@ -48,7 +48,7 @@ namespace Application.Entity.Users.Commands.UserCreate
                 }).WithMessage(DomainErrors.Email.TooShort)
                 ;
 
-            RuleFor(x => x.Password).NotEmpty()
+            RuleFor(x => x.Password)
                 //Проверка максимальной длины
                 .Must(password => {
                     if (!string.IsNullOrEmpty(password)) if (password.Length > PasswordHashed.MAX_LENGTH) return false;

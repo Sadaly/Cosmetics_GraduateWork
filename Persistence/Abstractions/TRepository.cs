@@ -41,7 +41,7 @@ namespace Persistence.Abstractions
 
             T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
-            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity.IsSoftDeleted);
+            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
             return Result.Success(entity);
         }
@@ -50,7 +50,7 @@ namespace Persistence.Abstractions
         {
             T? entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
-            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity.IsSoftDeleted);
+            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
             return entity;
         }
@@ -60,8 +60,7 @@ namespace Persistence.Abstractions
             Result result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
             if (result.IsFailure) return Result.Failure<T>(result.Error);
 
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            _dbContext.Entry(entity.Value).State = EntityState.Modified;
 
             return entity;
         }

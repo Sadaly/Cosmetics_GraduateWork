@@ -1,4 +1,5 @@
-﻿using Domain.Shared;
+﻿using Domain.Common;
+using Domain.Shared;
 namespace Domain.Errors
 {
     /// <summary>
@@ -8,13 +9,13 @@ namespace Domain.Errors
     /// </summary>
     public static class PersistenceErrors
     {
-        public static class Entity
+        public static class Entity<T> where T : BaseEntity
         {
             public static readonly Error IsSoftDeleted = new(
-                "Entity.IsSoftDeleted",
+                $"{typeof(T).Name}.IsSoftDeleted",
                 "Сущность помечена на удаление");
         }
-            public static class User
+        public static class User
         {
             public static readonly Error EmailAlreadyInUse = new(
                 "User.EmailAlreadyInUse",

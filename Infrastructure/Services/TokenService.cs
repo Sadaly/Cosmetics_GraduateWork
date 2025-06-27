@@ -1,5 +1,8 @@
 ﻿using Infrastructure.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Infrastructure.Services
 {
@@ -15,7 +18,7 @@ namespace Infrastructure.Services
             return JwtHelper.GetClaim(token, claimType);
         }
 
-        public void SetJwtToken(HttpResponse response, string token)
+        public string SetJwtToken(HttpResponse response, string token)
         {
             var cookieOptions = new CookieOptions
             {
@@ -29,6 +32,8 @@ namespace Infrastructure.Services
             response.Cookies.Append("access_token", token, cookieOptions);
 
             string? userId = JwtHelper.GetClaim(token, "sub");
+
+            return token;
         }
     }
 }

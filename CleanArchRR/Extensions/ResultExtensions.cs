@@ -5,6 +5,7 @@ namespace WebApi.Extensions;
 
 public static class ResultExtensions
 {
+    internal static IActionResult ToActionResult<T>(this T value) { return new OkObjectResult(value); }
     internal static IActionResult ToActionResult<T>(this Result<T> result)
     {
         if (result.IsSuccess)

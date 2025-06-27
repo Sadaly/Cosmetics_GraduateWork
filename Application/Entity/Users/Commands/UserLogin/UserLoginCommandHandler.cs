@@ -32,7 +32,7 @@ namespace Application.Entity.Users.Commands.UserLogin
 
             string token = _jwtProvider.Generate(user.Value);
 
-            return Result.Success(token);
+            return token;
         }
     }
 }

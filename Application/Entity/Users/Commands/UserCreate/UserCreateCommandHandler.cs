@@ -25,7 +25,7 @@ namespace Application.Entity.Users.Commands.UserCreate
             var password = PasswordHashed.Create(request.Password);
 
             var user = User.Create(email, username, password);
-            var add = await _userRepository.UpdateAsync(user, cancellationToken);
+            var add = await _userRepository.AddAsync(user, cancellationToken);
             var save = await _unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess 

@@ -5,6 +5,8 @@ using Domain.Shared;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Abstractions;
+using System.Threading;
+using System.Xml;
 
 namespace Persistence.Repositories
 {
@@ -15,12 +17,13 @@ namespace Persistence.Repositories
         public async Task<Result<User>> GetByEmailAsync(Result<Email> email, CancellationToken cancellationToken = default)
         {
             if (email.IsFailure) return Result.Failure<User>(email.Error);
-            return await GetFromDBAsync(u => u.Email == email.Value, cancellationToken);
+            return await GetByPredicateAsync(u => u.Email == email.Value, cancellationToken);
         }
 
-        public Task<Result<User>> GetByUsernameAsync(Result<Username> username, CancellationToken cancellationToken = default)
+        public async Task<Result<User>> GetByUsernameAsync(Result<Username> username, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            if (username.IsFailure) return Result.Failure<User>(username.Error);
+            return await GetByPredicateAsync(u => u.Username == username.Value, cancellationToken);
         }
 
         public async Task<Result<bool>> IsEmailUniqueAsync(Result<Email> email, CancellationToken cancellationToken = default)
@@ -35,24 +38,24 @@ namespace Persistence.Repositories
             return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username.Value && u.IsSoftDelete == false, cancellationToken);
         }
 
-        protected async override Task<Result<User>> VerificationBeforeAddingAsync(Result<User> entity, CancellationToken cancellationToken)
+        protected async override Task<Result<User>> VerificationBeforeAddingAsync(Result<User> newUser, CancellationToken cancellationToken)
         {
-            if (entity.IsFailure) return entity;
+            if (newUser.IsFailure) return newUser;
 
             Result<bool> unique;
 
-            unique = await IsEmailUniqueAsync(entity.Value.Email, cancellationToken);
+            unique = await IsEmailUniqueAsync(newUser.Value.Email, cancellationToken);
             if (unique.IsFailure) return Result.Failure<User>(unique.Error);
             if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.EmailNotUnique);
 
-            unique = await IsUsernameUniqueAsync(entity.Value.Username, cancellationToken);
+            unique = await IsUsernameUniqueAsync(newUser.Value.Username, cancellationToken);
             if (unique.IsFailure) return Result.Failure<User>(unique.Error);
             if (!unique.Value) { return Result.Failure<User>(PersistenceErrors.User.UsernameNotUnique); }
 
-            var user = await GetFromDBAsync(entity.Value.Id, cancellationToken);
+            var user = await GetByIdAsync(newUser.Value.Id, cancellationToken);
             if (user.IsSuccess) return Result.Failure<User>(PersistenceErrors.User.AlreadyExists);
 
-            return entity;
+            return newUser;
         }
         protected override Error GetErrorIdEmpty()
         {
@@ -64,16 +67,16 @@ namespace Persistence.Repositories
             return PersistenceErrors.User.NotFound;
         }
 
-        protected async override Task<Result<User>> VerificationBeforeRemoveAsync(Result<User> entity, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-            if (entity.IsFailure) return entity;
-        }
-
         protected async override Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> entity, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            if (entity.IsFailure) return entity;
+            if (entity.IsFailure) return Result.Failure<User>(entity);
+            return await GetByIdAsync(entity.Value.Id, cancellationToken);
+        }
+        
+        protected async override Task<Result<User>> VerificationBeforeRemoveAsync(Result<User> entity, CancellationToken cancellationToken)
+        {
+            if (entity.IsFailure) return Result.Failure<User>(entity);
+            return await GetByIdAsync(entity.Value.Id, cancellationToken);
         }
     }
 }
