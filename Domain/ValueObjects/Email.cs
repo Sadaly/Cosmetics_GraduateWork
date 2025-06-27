@@ -2,6 +2,7 @@
 using Domain.Errors;
 using Domain.Shared;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Domain.Errors.DomainErrors;
 
 namespace Domain.ValueObjects
 {
@@ -28,19 +29,24 @@ namespace Domain.ValueObjects
             if (value.Length > MAX_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooLong);
             if (value.Length < MIN_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooShort);
 
-            var split = value.Split('@');
-            if (split.Length != 2) return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
-            if (split[0].Length < FIRST_PART_MIN_LENGTH 
-                || split[1].Length < SECOND_PART_MIN_LENGTH) 
-                return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
+            if (!IsValidFormat(value)) return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
 
             return new Email(value);
         }
-        public static Result<Email> CreateOrDefault(string? value)
+
+        /// <summary>
+        /// Проверка формата и размера левых и правых частей по разделителю '@'
+        /// </summary>
+        /// <param name="email">Почта</param>
+        /// <returns></returns>
+        public static bool IsValidFormat (string email)
         {
-            return value == null 
-                ? new Email() 
-                : Create(value);
+            var split = email.Split('@');
+            if (split.Length != 2) return false;
+            if (split[0].Length < FIRST_PART_MIN_LENGTH
+                || split[1].Length < SECOND_PART_MIN_LENGTH)
+                return false;
+            return true;
         }
 
         public override IEnumerable<object> GetAtomicValues()

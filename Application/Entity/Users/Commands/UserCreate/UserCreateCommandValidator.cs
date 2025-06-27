@@ -11,18 +11,10 @@ namespace Application.Entity.Users.Commands.UserCreate
         {
             RuleFor(x => x.Username).NotEmpty()
                 .MinimumLength(Username.MIN_LENGTH)
-                .MaximumLength(Username.MAX_LENGTH); ;
+                .MaximumLength(Username.MAX_LENGTH);
 
-            RuleFor(x => x.Email).NotEmpty().Must((email) =>
-            {
-                // Проверка ввода на корректность формата
-                var split = email.Split('@');
-                if (split.Length != 2) return false;
-                if (split[0].Length < Email.FIRST_PART_MIN_LENGTH
-                    || split[1].Length < Email.SECOND_PART_MIN_LENGTH)
-                    return false;
-                return true;
-            }).WithMessage(DomainErrors.Email.InvalidFormat)  //Сообщение о неправильном формате
+            RuleFor(x => x.Email).NotEmpty().Must(email => { return Email.IsValidFormat(email); })
+                .WithMessage(DomainErrors.Email.InvalidFormat)
                 .MinimumLength(Email.MIN_LENGTH)
                 .MaximumLength(Email.MAX_LENGTH); 
 

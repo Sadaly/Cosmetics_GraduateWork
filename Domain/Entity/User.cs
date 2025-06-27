@@ -35,7 +35,6 @@ namespace Domain.Entity
         public Result<User> UpdateEmail(Result<Email> email)
         {
             if (email.IsFailure) return Result.Failure<User>(email.Error);
-            if (email.Value.Value == Email.DEFAULT_VALUE) return this;
             if (email.Value == this.Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
             this.Email = email.Value;
             return this;
@@ -43,7 +42,6 @@ namespace Domain.Entity
         public Result<User> UpdateUsername(Result<Username> username)
         {
             if (username.IsFailure) return Result.Failure<User>(username.Error);
-            if (username.Value.Value == Username.DEFAULT_VALUE) return this;
             if (username.Value == this.Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
             this.Username = username.Value;
             return this;
@@ -51,7 +49,6 @@ namespace Domain.Entity
         public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
         {
             if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
-            if (passwordHashed.Value.Value == PasswordHashed.DEFAULT_VALUE) return this;
             if (passwordHashed.Value == this.PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
             this.PasswordHashed = passwordHashed.Value;
             return this;

@@ -32,12 +32,7 @@ namespace Domain.ValueObjects
 
             return new PasswordHashed(hash);
         }
-        public static Result<PasswordHashed> CreateOrDefault(string? value)
-        {
-            return value == null
-                ? new PasswordHashed()
-                : Create(value);
-        }
+
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;

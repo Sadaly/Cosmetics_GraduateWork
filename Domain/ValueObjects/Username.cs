@@ -28,12 +28,7 @@ namespace Domain.ValueObjects
 
             return new Username(value);
         }
-        public static Result<Username> CreateOrDefault(string? value)
-        {
-            return value == null
-                ? new Username()
-                : Create(value);
-        }
+
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
