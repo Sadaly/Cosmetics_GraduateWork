@@ -91,14 +91,12 @@ namespace Persistence.Abstractions
         }
 
         public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).ToListAsync(cancellationToken);
-        }
+            => await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken);
+   
 
         public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).Where(predicate).ToListAsync(cancellationToken); ;
-        }
+            => await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken); 
+        
 
         public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
@@ -109,11 +107,12 @@ namespace Persistence.Abstractions
                 .AsNoTracking()
                 .Where(e => !e.IsSoftDelete)
                 .Where(predicate)
+                .OrderBy(e => e.CreatedAt)
                 .Skip(startIndex)
                 .Take(count)
                 .ToListAsync(cancellationToken);
 
-            return Result.Success(result);
+            return result;
         }
 
         public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default)
@@ -124,11 +123,12 @@ namespace Persistence.Abstractions
             var result = await _dbSet
                 .AsNoTracking()
                 .Where(e => !e.IsSoftDelete)
+                .OrderBy(e => e.CreatedAt)
                 .Skip(startIndex)
                 .Take(count)
                 .ToListAsync(cancellationToken);
 
-            return Result.Success(result);
+            return result;
         }
     }
 }
