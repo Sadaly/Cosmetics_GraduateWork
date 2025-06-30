@@ -23,7 +23,7 @@ namespace Domain.Errors
                 "Сущность помечена на удаление");
             public static readonly Error NotFound = new(
                 $"{typeof(T).Name}.NotFound",
-                "Сущность типа не найдена");
+                $"Сущность типа '{typeof(T).Name}' не найдена");
             public static readonly Error IdEmpty = new(
                 $"{typeof(T).Name}.IdEmpty",
                 "Не передан Id сущности для поиска в БД");

@@ -1,5 +1,7 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserLogin;
+using Application.Entity.Users.Queries.GetUserById;
+using Application.Entity.Users.Queries.TakeUsers;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Shared;
@@ -13,6 +15,9 @@ using WebApi.Abstractions;
 using WebApi.DTO.UserDTO;
 using WebApi.Extensions;
 using WebApi.Policies;
+using WebApi.SupportData;
+using WebApi.SupportData.Filters;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebApi.Controllers
 {
@@ -29,14 +34,14 @@ namespace WebApi.Controllers
         //Создание пользователя
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateUser(
+        public async Task<IActionResult> Create(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
             =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         //Вход в систему
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginUser(
+        public async Task<IActionResult> Login(
             [FromBody] UserLoginCommand command,
             CancellationToken cancellationToken)
         {
@@ -52,7 +57,7 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpPost("Logout")]
-        public IActionResult LogoutUser()
+        public IActionResult LogoutSelf()
         {
             _tokenService.DeleteJwtToken(Response);
             return Ok();
@@ -60,7 +65,7 @@ namespace WebApi.Controllers
 
         [Authorize]
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateUserSelf(
+        public async Task<IActionResult> UpdateSelf(
             [FromForm] UserUpdateRequest request,
             CancellationToken cancellationToken)
         {
@@ -75,12 +80,33 @@ namespace WebApi.Controllers
 
         [HttpGet("me")]
         [Authorize]
-        public IActionResult GetMe()
+        public IActionResult GetSelf()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return Ok(new { userId, email, role });
         }
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("{userId:guid}")]
+        public async Task<IActionResult> GetById(
+            Guid userId, 
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UserGetByIdQuery(userId), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] UserFilter filter,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UsersGetAllQuery(filter.ToPredicate()), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("Take")]
+        public async Task<IActionResult> Take(
+            [FromQuery] TakeData<UserFilter, User> take,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate()), cancellationToken)).ToActionResult();
     }
 }

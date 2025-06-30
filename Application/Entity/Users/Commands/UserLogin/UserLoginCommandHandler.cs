@@ -24,7 +24,8 @@ namespace Application.Entity.Users.Commands.UserLogin
             var passwordHash = PasswordHashed.Create(request.Password);
 
             var user = await _userRepository.GetByEmailAsync(email, cancellationToken);
-            if (user.IsFailure) return Result.Failure<string>(user.Error);
+            if (user.IsFailure) return Result.Failure<string>(
+                PersistenceErrors.User.IncorrectUsernameOrPassword);
 
             var userpw = user.Value.PasswordHashed;
             if (userpw.Value != passwordHash.Value.Value) return Result.Failure<string>(

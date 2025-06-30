@@ -10,7 +10,7 @@ namespace Domain.Common
         public Guid Id { get; protected set; }
         public bool IsSoftDelete { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
-        public DateTime UpdateAt { get; protected set; }
+        public DateTime UpdatedAt { get; protected set; }
         public virtual Result SoftDelete()
         {
             IsSoftDelete = true;

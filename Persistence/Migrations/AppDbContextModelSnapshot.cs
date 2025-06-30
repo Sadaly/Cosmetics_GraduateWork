@@ -35,7 +35,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsSoftDelete")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("UpdateAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.ComplexProperty<Dictionary<string, object>>("Email", "Domain.Entity.User.Email#Email", b1 =>
