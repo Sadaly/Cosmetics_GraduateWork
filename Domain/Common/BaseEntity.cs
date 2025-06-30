@@ -11,7 +11,7 @@ namespace Domain.Common
         public bool IsSoftDelete { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdateAt { get; protected set; }
-        public virtual Result Delete()
+        public virtual Result SoftDelete()
         {
             IsSoftDelete = true;
             return Result.Success();

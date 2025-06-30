@@ -4,7 +4,6 @@ using Domain.Errors;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace Persistence.Abstractions
 {
@@ -13,8 +12,15 @@ namespace Persistence.Abstractions
         protected readonly AppDbContext _dbContext;
         protected readonly DbSet<T> _dbSet;
 
-        protected abstract Error GetErrorNotFound();
-        protected abstract Error GetErrorIdEmpty();
+        protected virtual Error GetErrorIdEmpty()
+        {
+            return PersistenceErrors.Entity<T>.IdEmpty;
+        }
+
+        protected virtual Error GetErrorNotFound()
+        {
+            return PersistenceErrors.Entity<T>.NotFound;
+        }
 
         public TRepository(AppDbContext dbContext)
         {
@@ -23,12 +29,21 @@ namespace Persistence.Abstractions
         }
 
         protected abstract Task<Result<T>> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken);
-        protected abstract Task<Result<T>> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken);
-        protected abstract Task<Result<T>> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken);
+
+        protected virtual async Task<Result<T>> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken)
+        {
+            if (entity.IsFailure) return Result.Failure<T>(entity);
+            return await GetByIdAsync(entity.Value.Id, cancellationToken);
+        }
+        protected virtual async Task<Result<T>> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken)
+        {            
+            if (entity.IsFailure) return Result.Failure<T>(entity);
+            return await GetByIdAsync(entity.Value.Id, cancellationToken);
+        }
 
         public virtual async Task<Result<T>> AddAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
-            Result<T> verify = await VerificationBeforeAddingAsync(entity, cancellationToken);
+            var verify = await VerificationBeforeAddingAsync(entity, cancellationToken);
             if (verify.IsFailure) return verify;
 
             await _dbSet.AddAsync(entity.Value, cancellationToken);
@@ -39,7 +54,7 @@ namespace Persistence.Abstractions
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
 
-            T? entity = await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+            T? entity = await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
@@ -48,7 +63,7 @@ namespace Persistence.Abstractions
 
         public async Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            T? entity = await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+            T? entity = await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(predicate, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
@@ -57,7 +72,7 @@ namespace Persistence.Abstractions
 
         public async Task<Result<T>> UpdateAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
-            Result result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
+            var result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
             if (result.IsFailure) return Result.Failure<T>(result.Error);
 
             _dbContext.Entry(entity.Value).State = EntityState.Modified;
@@ -65,34 +80,55 @@ namespace Persistence.Abstractions
             return entity;
         }
 
-        public Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        public async Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var result = await VerificationBeforeRemoveAsync(entity, cancellationToken);
+            if (result.IsFailure) return Result.Failure<T>(result.Error);
+
+            _dbContext.Entry(entity.Value).State = EntityState.Modified;
+
+            return entity;
         }
 
-        public Task<Result> RemoveAsync(Guid entityId, CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).ToListAsync(cancellationToken);
         }
 
-        public Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).Where(predicate).ToListAsync(cancellationToken); ;
         }
 
-        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
+
+            var result = await _dbSet
+                .AsNoTracking()
+                .Where(e => !e.IsSoftDelete)
+                .Where(predicate)
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
         }
 
-        public Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
-        }
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
 
-        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
+            var result = await _dbSet
+                .AsNoTracking()
+                .Where(e => !e.IsSoftDelete)
+                .Skip(startIndex)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return Result.Success(result);
         }
     }
 }

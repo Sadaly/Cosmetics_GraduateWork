@@ -9,12 +9,26 @@ namespace Domain.Errors
     /// </summary>
     public static class PersistenceErrors
     {
+        public static readonly Error IncorrectStartIndex = new(
+            "IncorrectStartIndex",
+            "Некорректный индекс старта взятых элементов. Значение параметра не может быть меньше нуля.");
+        public static readonly Error IncorrectCount = new(
+            "IncorrectCount",
+            "Некорректное количество взятых элементов. Значение параметра не может быть меньше единицы.");
+
         public static class Entity<T> where T : BaseEntity
         {
             public static readonly Error IsSoftDeleted = new(
                 $"{typeof(T).Name}.IsSoftDeleted",
                 "Сущность помечена на удаление");
+            public static readonly Error NotFound = new(
+                $"{typeof(T).Name}.NotFound",
+                "Сущность типа не найдена");
+            public static readonly Error IdEmpty = new(
+                $"{typeof(T).Name}.IdEmpty",
+                "Не передан Id сущности для поиска в БД");
         }
+
         public static class User
         {
             public static readonly Error EmailAlreadyInUse = new(
@@ -26,9 +40,6 @@ namespace Domain.Errors
             public static readonly Error IncorrectUsernameOrPassword = new(
                 "User.IncorrectUsernameOrPassword",
                 "Неправильное имя пользователя или пароль");
-            public static readonly Error NotFound = new(
-                "User.NotFound",
-                "Пользователь не найден");
             public static readonly Error UsernameNotUnique = new(
                 "User.UsernameNotUnique",
                 "Username пользователя не уникален");
@@ -38,6 +49,9 @@ namespace Domain.Errors
             public static readonly Error AlreadyExists = new(
                 "User.AlreadyExists",
                 "Пользователь уже существует");
+            public static readonly Error UpdateChangeNothing = new(
+                "User.UpdateChangeNothing",
+                "Обновление данных ничего не изменило");
         }
     }
 }

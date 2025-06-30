@@ -31,37 +31,17 @@ namespace Application.Entity.Users.Commands.UserCreate
             if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
             //Первое условие проверяет, нужно ли обновлять поле
-            //Второе условие проверяет, не совпадает ли оно с предыдущим
-            //Третье условие проверяет, корректность работы проверки на уникальность
-            //Четвертое условие проверяет является ли значение уникальным
-            //Пятое условие проверяет нормальный ли результат работы с сущностью Юзера
+            //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
             if (request.Email != null) {
-                if (request.Email == user.Value.Email.Value) return Result.Failure<Guid>(ApplicationErrors.UserCommandUpdate.EmailAlreadyInUse);
-                
                 var email = Email.Create(request.Email);
-                
-                var unique = await _userRepository.IsEmailUniqueAsync(email);
-                if (unique.IsFailure) return Result.Failure<Guid>(unique.Error);
-                if (!unique.Value) return Result.Failure<Guid>(PersistenceErrors.User.EmailAlreadyInUse);
-
                 user.Value.UpdateEmail(email);
                 if (user.IsFailure) return Result.Failure<Guid>(user.Error);
             }
 
             //Первое условие проверяет, нужно ли обновлять поле
-            //Второе условие проверяет, не совпадает ли оно с предыдущим
-            //Третье условие проверяет, корректность работы проверки на уникальность
-            //Четвертое условие проверяет является ли значение уникальным
-            //Пятое условие проверяет нормальный ли результат работы с сущностью Юзера
+            //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
             if (request.Username != null) {
-                if (request.Username == user.Value.Username.Value) return Result.Failure<Guid>(ApplicationErrors.UserCommandUpdate.UsernameAlreadyInUse);
-
                 var username = Username.Create(request.Username);
-
-                var unique = await _userRepository.IsUsernameUniqueAsync(username);
-                if (unique.IsFailure) return Result.Failure<Guid>(unique.Error);
-                if (!unique.Value) return Result.Failure<Guid>(PersistenceErrors.User.UsernameAlreadyInUse);
-
                 user.Value.UpdateUsername(username);
                 if (user.IsFailure) return Result.Failure<Guid>(user.Error);
             }

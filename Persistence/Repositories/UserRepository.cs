@@ -57,26 +57,36 @@ namespace Persistence.Repositories
 
             return newUser;
         }
-        protected override Error GetErrorIdEmpty()
-        {
-            return PersistenceErrors.User.NotFound;
-        }
 
-        protected override Error GetErrorNotFound()
+        protected async override Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> newEntity, CancellationToken cancellationToken)
         {
-            return PersistenceErrors.User.NotFound;
-        }
+            if (newEntity.IsFailure) return newEntity;
 
-        protected async override Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> entity, CancellationToken cancellationToken)
-        {
-            if (entity.IsFailure) return Result.Failure<User>(entity);
-            return await GetByIdAsync(entity.Value.Id, cancellationToken);
-        }
-        
-        protected async override Task<Result<User>> VerificationBeforeRemoveAsync(Result<User> entity, CancellationToken cancellationToken)
-        {
-            if (entity.IsFailure) return Result.Failure<User>(entity);
-            return await GetByIdAsync(entity.Value.Id, cancellationToken);
+            var oldEntity = await GetByIdAsync(newEntity.Value.Id, cancellationToken);
+            if (oldEntity.IsFailure) return oldEntity;
+
+            Result<bool> unique = Result.Success<bool>(false);
+
+            if (newEntity.Value.Email.Value != oldEntity.Value.Email.Value)
+            {
+                Console.WriteLine(newEntity.Value.Email.Value);
+                Console.WriteLine(oldEntity.Value.Email.Value);
+                unique = await IsEmailUniqueAsync(newEntity.Value.Email, cancellationToken);
+                if (unique.IsFailure) return Result.Failure<User>(unique.Error);
+                if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.EmailNotUnique);
+            }
+            Console.WriteLine(newEntity.Value.Username.Value);
+            Console.WriteLine(oldEntity.Value.Username.Value);
+
+            if (newEntity.Value.Username.Value != oldEntity.Value.Username.Value)
+            {
+                unique = await IsUsernameUniqueAsync(newEntity.Value.Username, cancellationToken);
+                if (unique.IsFailure) return Result.Failure<User>(unique.Error);
+                if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.UsernameNotUnique);
+            }
+            if (newEntity.Value.PasswordHashed.Value != oldEntity.Value.PasswordHashed.Value) unique = Result.Success<bool>(true); 
+            if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.UpdateChangeNothing);
+            return newEntity;
         }
     }
 }
