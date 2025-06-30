@@ -69,14 +69,10 @@ namespace Persistence.Repositories
 
             if (newEntity.Value.Email.Value != oldEntity.Value.Email.Value)
             {
-                Console.WriteLine(newEntity.Value.Email.Value);
-                Console.WriteLine(oldEntity.Value.Email.Value);
                 unique = await IsEmailUniqueAsync(newEntity.Value.Email, cancellationToken);
                 if (unique.IsFailure) return Result.Failure<User>(unique.Error);
                 if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.EmailNotUnique);
             }
-            Console.WriteLine(newEntity.Value.Username.Value);
-            Console.WriteLine(oldEntity.Value.Username.Value);
 
             if (newEntity.Value.Username.Value != oldEntity.Value.Username.Value)
             {
