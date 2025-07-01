@@ -91,18 +91,18 @@ namespace Domain.Errors
                 "Значение совпадает с предыдущим");
         }
 
-        public static class Content
+        public static class Text
         {
             public static readonly Error Empty = new(
-                "Content.Empty",
+                "Text.Empty",
                 "Содержание пусто");
 
             public static readonly Error TooLong = new(
-                "Content.TooLong",
+                "Text.TooLong",
                 "Содержание слишком длинное");
 
             public static readonly Error AlreadySet = new(
-                "Content.AlreadySet",
+                "Text.AlreadySet",
                 "Значение совпадает с предыдущим");
         }
 

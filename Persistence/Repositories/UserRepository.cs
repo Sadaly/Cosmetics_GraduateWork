@@ -5,8 +5,6 @@ using Domain.Shared;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Abstractions;
-using System.Threading;
-using System.Xml;
 
 namespace Persistence.Repositories
 {

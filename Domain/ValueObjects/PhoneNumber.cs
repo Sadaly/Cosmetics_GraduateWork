@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     {
         public const int MAX_LENGTH = 15;
         public const int MIN_LENGTH = 8;
-        public const string DEFAULT_VALUE = "PhoneNumber DEFAULT_VALUE";
+        public const string DEFAULT_VALUE = "Не указано";
 
         private PhoneNumber(string phoneNumber)
         {
@@ -26,6 +26,9 @@ namespace Domain.ValueObjects
         /// <returns>Новый экземпляр <see cref="PhoneNumber"/></returns>
         public static Result<PhoneNumber>? Create(string phoneNumber)
         {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return CreateDefault();
+
             var cleanedNumber = Regex.Replace(phoneNumber, @"[^0-9+]", "");
 
             if (string.IsNullOrWhiteSpace(cleanedNumber))

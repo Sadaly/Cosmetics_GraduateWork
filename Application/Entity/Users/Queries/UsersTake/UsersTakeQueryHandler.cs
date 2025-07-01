@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.Repositories;
 using Domain.Shared;
-namespace Application.Entity.Users.Queries.TakeUsers
+namespace Application.Entity.Users.Queries.UsersTake
 {
     internal class UsersTakeQueryHandler : IQueryHandler<UsersTakeQuery, List<UserResponse>>
     {

@@ -28,6 +28,28 @@ public static class ResultExtensions
                         result.Error))
         };
     }
+    internal static IActionResult ToActionResult(this Result result)
+    {
+        if (result.IsSuccess)
+            return new OkObjectResult(result);
+
+        return result switch
+        {
+            IValidationResult validationResult =>
+                new BadRequestObjectResult(
+                    CreateProblemDetails(
+                        "Validation Error",
+                        StatusCodes.Status400BadRequest,
+                        result.Error,
+                        validationResult.Errors)),
+            _ =>
+                new BadRequestObjectResult(
+                    CreateProblemDetails(
+                        "Bad Request",
+                        StatusCodes.Status400BadRequest,
+                        result.Error))
+        };
+    }
 
     private static ProblemDetails CreateProblemDetails(
         string title,

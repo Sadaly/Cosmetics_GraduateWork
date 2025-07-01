@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     public class Title : ValueObject
     {
         public const int MAX_LENGTH = 100;
-        public const string DEFAULT_VALUE = "Title DEFAULT_VALUE";
+        public const string DEFAULT_VALUE = "Не указано";
 
         private Title(string value)
         {
@@ -17,7 +17,8 @@ namespace Domain.ValueObjects
         }
 
         public string Value { get; set; }
-
+        
+        public static Title CreateDefault() { return new Title(); }
 
         /// <summary>
         /// Создание экземпляра <see cref="Title"/>  с проверкой входящих значений
@@ -27,15 +28,11 @@ namespace Domain.ValueObjects
         public static Result<Title> Create(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
-            {
-                return Result.Failure<Title>(DomainErrors.Title.Empty);
-            }
+                return CreateDefault();
 
             if (title.Length > MAX_LENGTH)
-            {
                 return Result.Failure<Title>(DomainErrors.Title.TooLong);
-            }
-
+            
             return new Title(title);
         }
         public override IEnumerable<object> GetAtomicValues()

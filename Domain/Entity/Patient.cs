@@ -8,49 +8,34 @@ namespace Domain.Entity
     {
         private Patient(Guid id) : base(id)
         {
-            Email = new Email();
-            PhoneNumber = new PhoneNumber();
-            Username = new Username();
+            Fullname = new Username();
         }
-        private Patient(Guid Id, Email? email, Username username, PhoneNumber phoneNumber) : base(Id)
+        private Patient(Guid id, Username fullname) : base(id)
         {
-            Email = email;
-            PhoneNumber = phoneNumber;
-            Username = username;
+            this.Fullname = fullname;
         }
-        public Email? Email { get; set; }
-        public PhoneNumber PhoneNumber { get; set; }
-        public Username Username { get; set; }
+        public Username Fullname { get; set; }
 
-        public static Result<Patient> Create(Result<Username> username, Result<PhoneNumber> phoneNumber, Result<Email>? email = null)
+        public PatientCard? Card { get; set; } = null!;
+        public static Result<Patient> Create(Result<Username> fullname)
         {
-            if (email != null && email.IsFailure) return Result.Failure<Patient>(email.Error);
-            if (username.IsFailure) return Result.Failure<Patient>(username.Error);
-            if (phoneNumber.IsFailure) return Result.Failure<Patient>(phoneNumber.Error);
+            if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
+            
             var _id = Guid.NewGuid();
+            var patient = new Patient(_id, fullname.Value);
 
-            return new Patient(_id, email?.Value, username.Value, phoneNumber.Value);
-        }
+            var card = PatientCard.Create(0, Text.CreateDefault(), Text.CreateDefault(), PhoneNumber.CreateDefault(), patient);
+            if (card.IsFailure) return Result.Failure<Patient>(card.Error);
 
-        public Result<Patient> UpdateEmail(Result<Email> email)
-        {
-            if (email.IsFailure) return Result.Failure<Patient>(email.Error);
-            if (email.Value == this.Email) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Email.AlreadySet);
-            this.Email = email.Value;
-            return this;
+            patient.Card = card.Value;
+
+            return patient;            
         }
-        public Result<Patient> UpdateUsername(Result<Username> username)
+        public Result<Patient> UpdateFullname(Result<Username> fullname)
         {
-            if (username.IsFailure) return Result.Failure<Patient>(username.Error);
-            if (username.Value == this.Username) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
-            this.Username = username.Value;
-            return this;
-        }
-        public Result<Patient> UpdatePassword(Result<PhoneNumber> phoneNumber)
-        {
-            if (phoneNumber.IsFailure) return Result.Failure<Patient>(phoneNumber.Error);
-            if (phoneNumber.Value == this.PhoneNumber) return Result.Failure<Patient>(Domain.Errors.DomainErrors.PhoneNumber.AlreadySet);
-            this.PhoneNumber = phoneNumber.Value;
+            if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
+            if (fullname.Value == this.Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
+            this.Fullname = fullname.Value;
             return this;
         }
     }

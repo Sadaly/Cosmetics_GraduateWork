@@ -38,6 +38,7 @@ namespace Persistence.Abstractions
         protected virtual async Task<Result<T>> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken)
         {            
             if (entity.IsFailure) return Result.Failure<T>(entity);
+            if (!entity.Value.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.ShouldBeSoftDeleted);
             return await GetByIdAsync(entity.Value.Id, cancellationToken);
         }
 

@@ -1,7 +1,8 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserLogin;
-using Application.Entity.Users.Queries.GetUserById;
-using Application.Entity.Users.Queries.TakeUsers;
+using Application.Entity.Users.Queries.UserGetById;
+using Application.Entity.Users.Queries.UsersGetAll;
+using Application.Entity.Users.Queries.UsersTake;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Shared;
@@ -9,7 +10,6 @@ using Infrastructure.IService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using System.Security.Claims;
 using WebApi.Abstractions;
 using WebApi.DTO.UserDTO;
@@ -17,7 +17,6 @@ using WebApi.Extensions;
 using WebApi.Policies;
 using WebApi.SupportData;
 using WebApi.SupportData.Filters;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebApi.Controllers
 {
@@ -55,7 +54,6 @@ namespace WebApi.Controllers
         }
 
 
-        [Authorize]
         [HttpPost("Logout")]
         public IActionResult LogoutSelf()
         {
@@ -108,5 +106,16 @@ namespace WebApi.Controllers
             [FromQuery] TakeData<UserFilter, User> take,
             CancellationToken cancellationToken)
             => (await Sender.Send(new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate()), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpDelete()]
+        public async Task<IActionResult> RemoveById(
+            UserSoftDeleteCommand command,
+            CancellationToken cancellationToken)
+        {
+            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == command.Id.ToString()) 
+                return Result.Failure(WebErrors.UserController.RemoveById.SelfDeleteFobbiden).ToActionResult();
+            return (await Sender.Send(command, cancellationToken)).ToActionResult();
+        }
     }
 }

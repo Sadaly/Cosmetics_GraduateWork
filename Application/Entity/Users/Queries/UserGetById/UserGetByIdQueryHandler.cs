@@ -2,7 +2,7 @@
 using Domain.Repositories;
 using Domain.Shared;
 
-namespace Application.Entity.Users.Queries.GetUserById
+namespace Application.Entity.Users.Queries.UserGetById
 {
     internal sealed class UserGetByIdQueryHandler : IQueryHandler<UserGetByIdQuery, UserResponse>
     {

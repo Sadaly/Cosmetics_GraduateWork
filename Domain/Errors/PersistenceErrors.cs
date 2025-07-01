@@ -20,7 +20,10 @@ namespace Domain.Errors
         {
             public static readonly Error IsSoftDeleted = new(
                 $"{typeof(T).Name}.IsSoftDeleted",
-                "Сущность помечена на удаление");
+                "Сущность уже помечена на удаление");
+            public static readonly Error ShouldBeSoftDeleted = new(
+                $"{typeof(T).Name}.ShouldBeSoftDeleted",
+                "Сущность должна быть помечена на удаление");
             public static readonly Error NotFound = new(
                 $"{typeof(T).Name}.NotFound",
                 $"Сущность типа '{typeof(T).Name}' не найдена");

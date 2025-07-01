@@ -11,6 +11,12 @@ namespace Domain.Errors
                 "UserController.UpdateSelf.EmptyId",
                 "Передан пустой Id, невозможно обновить данные пользователя");
             }
+            public static class RemoveById
+            {
+                public static readonly Error SelfDeleteFobbiden = new(
+                "UserController.RemoveById.SelfDeleteFobbiden",
+                "Запрещено удалять самого себя из системы. Создайте нового пользователя и удалите себя через него");
+            }
         }
     }
 }

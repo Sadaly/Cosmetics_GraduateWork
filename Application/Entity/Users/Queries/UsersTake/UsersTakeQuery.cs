@@ -2,7 +2,7 @@
 using Domain.Entity;
 using System.Linq.Expressions;
 
-namespace Application.Entity.Users.Queries.TakeUsers;
+namespace Application.Entity.Users.Queries.UsersTake;
 public sealed record UsersTakeQuery(
     int StartIndex,
     int Count,

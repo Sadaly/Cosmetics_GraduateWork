@@ -6,20 +6,16 @@ namespace Domain.Entity
 {
     public class User : BaseEntity
     {
-        private User(Guid id) : base(id) {
-            Email = new Email();
-            Username = new Username();
-            PasswordHashed = new PasswordHashed();
-        }
+        private User(Guid id) : base(id) { }
         private User(Guid id, Email email, Username username, PasswordHashed passwordHashed) : base(id) {
             Email = email;
             Username = username;
             PasswordHashed = passwordHashed;
         }
 
-        public Email Email { get; set; }
-        public Username Username { get; set; }
-        public PasswordHashed PasswordHashed { get; set; }
+        public Email Email { get; set; } = null!;
+        public Username Username { get; set; } = null!;
+        public PasswordHashed PasswordHashed { get; set; } = null!;
 
 
         public static Result<User> Create(Result<Email> email, Result<Username> username, Result<PasswordHashed> passwordHashed)
