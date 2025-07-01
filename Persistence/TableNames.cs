@@ -1,4 +1,4 @@
-﻿namespace Persistence.Configurations
+﻿namespace Persistence
 {
     internal static class TableNames
     {

@@ -26,7 +26,7 @@ namespace Domain.Entity
         public Guid PatientId { get; set; }
         public Patient Patient { get; set; } = null!;
 
-        public static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
+        internal static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
         {
             if (adress.IsFailure) return Result.Failure<PatientCard>(adress.Error);
             if (patient.IsFailure) return Result.Failure<PatientCard>(patient.Error);

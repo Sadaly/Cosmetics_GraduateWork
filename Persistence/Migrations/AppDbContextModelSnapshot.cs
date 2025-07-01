@@ -23,6 +23,91 @@ namespace Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entity.Patient", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Fullname", "Domain.Entity.Patient.Fullname#Username", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patient", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.PatientCard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte>("Age")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Adress", "Domain.Entity.PatientCard.Adress#Text", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Complaints", "Domain.Entity.PatientCard.Complaints#Text", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "Domain.Entity.PatientCard.PhoneNumber#PhoneNumber", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId")
+                        .IsUnique();
+
+                    b.ToTable("PatientCard", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -68,6 +153,22 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.PatientCard", b =>
+                {
+                    b.HasOne("Domain.Entity.Patient", "Patient")
+                        .WithOne("Card")
+                        .HasForeignKey("Domain.Entity.PatientCard", "PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Patient", b =>
+                {
+                    b.Navigation("Card");
                 });
 #pragma warning restore 612, 618
         }

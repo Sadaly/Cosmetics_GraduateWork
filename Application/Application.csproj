@@ -15,4 +15,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entity\Patient\Commands\PatientCreateCommand\" />
+    <Folder Include="Entity\Patient\Queries\" />
+  </ItemGroup>
+
 </Project>

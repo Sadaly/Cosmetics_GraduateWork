@@ -1,10 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
 
 namespace Domain.ValueObjects
 {
+    [ComplexType]
     public class PhoneNumber : ValueObject
     {
         public const int MAX_LENGTH = 15;
