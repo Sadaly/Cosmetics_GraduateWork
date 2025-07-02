@@ -11,6 +11,12 @@ namespace Domain.Common
         public bool IsSoftDelete { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
+
+        private readonly List<IDomainEvent> _domainEvents = new();
+
+        public IReadOnlyCollection<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
+        public void ClearDomainEvents() => _domainEvents.Clear();
+        protected void RaiseDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
         public virtual Result SoftDelete()
         {
             IsSoftDelete = true;

@@ -28,7 +28,13 @@ namespace Persistence.Abstractions
             _dbSet = dbContext.Set<T>();
         }
 
-        protected abstract Task<Result<T>> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken);
+        protected virtual async Task<Result<T>> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken)
+        {
+            if (entity.IsFailure) return Result.Failure<T>(entity);
+            var exists = await GetByIdAsync(entity.Value.Id, cancellationToken);
+            if (exists.IsSuccess) return Result.Failure<T>(PersistenceErrors.Entity<T>.AlreadyExists);
+            return entity;
+        }
 
         protected virtual async Task<Result<T>> VerificationBeforeUpdateAsync(Result<T> entity, CancellationToken cancellationToken)
         {
@@ -81,10 +87,12 @@ namespace Persistence.Abstractions
             return entity;
         }
 
-        public async Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
+        public virtual async Task<Result<T>> RemoveAsync(Result<T> entity, CancellationToken cancellationToken = default)
         {
             var result = await VerificationBeforeRemoveAsync(entity, cancellationToken);
             if (result.IsFailure) return Result.Failure<T>(result.Error);
+
+            entity.Value.SoftDelete();
 
             _dbContext.Entry(entity.Value).State = EntityState.Modified;
 

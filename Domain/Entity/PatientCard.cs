@@ -17,6 +17,7 @@ namespace Domain.Entity
             PhoneNumber = phoneNumber;
             PatientId = patient.Id;
             Patient = patient;
+            _skinFeatures = new();
         }
 
         public byte Age { get; set; }
@@ -25,6 +26,10 @@ namespace Domain.Entity
         public PhoneNumber PhoneNumber { get; set; } = null!;
         public Guid PatientId { get; set; }
         public Patient Patient { get; set; } = null!;
+
+
+        public List<SkinFeature> skinFeatures => _skinFeatures;
+        private readonly List<SkinFeature> _skinFeatures = null!;
 
         internal static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
         {

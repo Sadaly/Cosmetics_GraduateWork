@@ -30,6 +30,9 @@ namespace Domain.Errors
             public static readonly Error IdEmpty = new(
                 $"{typeof(T).Name}.IdEmpty",
                 "Не передан Id сущности для поиска в БД");
+            public static readonly Error AlreadyExists = new(
+                $"{typeof(T).Name}.AlreadyExists",
+                $"Сущность типа '{typeof(T).Name}' уже существует");
         }
 
         public static class User
@@ -49,9 +52,6 @@ namespace Domain.Errors
             public static readonly Error EmailNotUnique = new(
                 "User.EmailNotUnique",
                 "Email пользователя не уникален");
-            public static readonly Error AlreadyExists = new(
-                "User.AlreadyExists",
-                "Пользователь уже существует");
             public static readonly Error UpdateChangeNothing = new(
                 "User.UpdateChangeNothing",
                 "Обновление данных ничего не изменило");

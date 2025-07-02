@@ -20,12 +20,7 @@ namespace Application.Entity.Users.Commands.UserCreate
 
         public async Task<Result<Guid>> Handle(UserSoftDeleteCommand request, CancellationToken cancellationToken)
         {
-            //Получение пользователя и проверка, существует ли он вообще
             var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
-            if (user.IsFailure) return Result.Failure<Guid>(user.Error);
-
-            user.Value.SoftDelete();
-
             var update = await _userRepository.RemoveAsync(user, cancellationToken);
             var save = await _unitOfWork.SaveChangesAsync(update, cancellationToken);
 

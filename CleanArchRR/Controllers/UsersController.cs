@@ -1,7 +1,7 @@
 ﻿using Application.Entity.Users.Commands.UserCreate;
 using Application.Entity.Users.Commands.UserLogin;
+using Application.Entity.Users.Queries.GetAll;
 using Application.Entity.Users.Queries.UserGetById;
-using Application.Entity.Users.Queries.UsersGetAll;
 using Application.Entity.Users.Queries.UsersTake;
 using Domain.Entity;
 using Domain.Errors;

@@ -51,7 +51,7 @@ namespace Persistence.Repositories
             if (!unique.Value) { return Result.Failure<User>(PersistenceErrors.User.UsernameNotUnique); }
 
             var user = await GetByIdAsync(newUser.Value.Id, cancellationToken);
-            if (user.IsSuccess) return Result.Failure<User>(PersistenceErrors.User.AlreadyExists);
+            if (user.IsSuccess) return Result.Failure<User>(PersistenceErrors.Entity<User>.AlreadyExists);
 
             return newUser;
         }

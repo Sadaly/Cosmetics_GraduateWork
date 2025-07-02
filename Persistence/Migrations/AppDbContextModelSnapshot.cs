@@ -108,6 +108,56 @@ namespace Persistence.Migrations
                     b.ToTable("PatientCard", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entity.SkinFeature", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("SkinFeature", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.SkinFeatureType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SkinFeatureType", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -166,9 +216,34 @@ namespace Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Domain.Entity.SkinFeature", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("skinFeatures")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.SkinFeatureType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
             modelBuilder.Entity("Domain.Entity.Patient", b =>
                 {
-                    b.Navigation("Card");
+                    b.Navigation("Card")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entity.PatientCard", b =>
+                {
+                    b.Navigation("skinFeatures");
                 });
 #pragma warning restore 612, 618
         }

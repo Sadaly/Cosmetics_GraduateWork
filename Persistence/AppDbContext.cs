@@ -8,6 +8,8 @@ namespace Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
+        public DbSet<SkinFeature> skinFeatures { get; set; }
+        public DbSet<SkinFeatureType> skinFeatureTypes { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public AppDbContext()
         {
@@ -30,6 +32,8 @@ namespace Persistence
             modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PatientConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PatientCardConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.SkinFeatureConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.SkinFeatureTypeConfiguration());
         }
     }
 }

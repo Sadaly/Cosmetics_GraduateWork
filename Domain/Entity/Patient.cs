@@ -16,7 +16,7 @@ namespace Domain.Entity
         }
         public Username Fullname { get; set; }
 
-        public PatientCard? Card { get; set; } = null!;
+        public PatientCard Card { get; set; } = null!;
         public static Result<Patient> Create(Result<Username> fullname)
         {
             if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
@@ -37,6 +37,15 @@ namespace Domain.Entity
             if (fullname.Value == this.Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
             this.Fullname = fullname.Value;
             return this;
+        }
+        public override Result SoftDelete()
+        {
+            if (Card != null)
+            {
+                var res = Card.SoftDelete();
+                if (res.IsFailure) return res;
+            }
+            return base.SoftDelete();
         }
     }
 }

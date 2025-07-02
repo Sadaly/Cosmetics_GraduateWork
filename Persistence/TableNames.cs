@@ -5,6 +5,8 @@
         internal const string User = nameof(User);
         internal const string Patient = nameof(Patient); 
         internal const string PatientCard = nameof(PatientCard);
+        internal const string SkinFeature = nameof(SkinFeature);
+        internal const string SkinFeatureType = nameof(SkinFeatureType);
         internal static class UserTable
         {
             internal const string Id = nameof(Id);

@@ -2,7 +2,7 @@
 using Domain.Repositories;
 using Domain.Shared;
 
-namespace Application.Entity.Users.Queries.UsersGetAll
+namespace Application.Entity.Users.Queries.GetAll
 {
     internal sealed class UsersGetAllQueryHandler : IQueryHandler<UsersGetAllQuery, List<UserResponse>>
     {

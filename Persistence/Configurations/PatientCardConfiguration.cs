@@ -11,6 +11,10 @@ namespace Persistence.Configurations
             builder.ToTable(TableNames.PatientCard);
 
             builder.HasKey(pc => pc.Id);
+            builder
+                .HasMany(pc => pc.skinFeatures)
+                .WithOne(sf => sf.PatientCard)
+                .HasForeignKey(sf => sf.PatientCardId);
         }
     }
 }
