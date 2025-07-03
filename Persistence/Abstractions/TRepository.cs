@@ -51,7 +51,7 @@ namespace Persistence.Abstractions
             return entity;
         }
 
-        public async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
 

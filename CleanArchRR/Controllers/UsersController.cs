@@ -27,7 +27,7 @@ namespace WebApi.Controllers
     {
         //Создание пользователя
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPost("Create")]
+        [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
@@ -50,14 +50,14 @@ namespace WebApi.Controllers
 
 
         [HttpPost("Logout")]
-        public IActionResult LogoutSelf()
+        public IActionResult Logout()
         {
             tokenService.DeleteJwtToken(Response);
             return Ok();
         }
 
         [Authorize]
-        [HttpPut("Update")]
+        [HttpPut("Self")]
         public async Task<IActionResult> UpdateSelf(
             [FromForm] UserUpdateRequest request,
             CancellationToken cancellationToken)
@@ -71,7 +71,7 @@ namespace WebApi.Controllers
             return result.ToActionResult();
         }
 
-        [HttpGet("me")]
+        [HttpGet("Me")]
         [Authorize]
         public IActionResult GetSelf()
         {
@@ -103,14 +103,14 @@ namespace WebApi.Controllers
             => (await Sender.Send(new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate()), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete()]
+        [HttpDelete("{userId:guid}")]
         public async Task<IActionResult> RemoveById(
-            UserSoftDeleteCommand command,
+            Guid userId,
             CancellationToken cancellationToken)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == command.Id.ToString()) 
+            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == userId.ToString())
                 return Result.Failure(WebErrors.UserController.RemoveById.SelfDeleteFobbiden).ToActionResult();
-            return (await Sender.Send(command, cancellationToken)).ToActionResult();
+            return (await Sender.Send(new UserSoftDeleteCommand(userId), cancellationToken)).ToActionResult();
         }
     }
 }

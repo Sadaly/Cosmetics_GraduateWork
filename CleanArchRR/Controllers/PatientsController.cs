@@ -1,4 +1,5 @@
-﻿using Application.Entity.Patients.Commands.CreateCommand;
+﻿using Application.Entity.Patients.Commands.Create;
+using Application.Entity.Patients.Commands.SoftDelete;
 using Application.Entity.Patients.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,7 @@ namespace WebApi.Controllers
         }
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPost("Create")]
+        [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] PatientCreateCommand command,
             CancellationToken cancellationToken)
@@ -30,6 +31,12 @@ namespace WebApi.Controllers
             [FromQuery] PatientFilter filter,
             CancellationToken cancellationToken)
             => (await Sender.Send(new PatientsGetAllQuery(filter.ToPredicate()), cancellationToken)).ToActionResult();
-        
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpDelete("{patientId:guid}")]
+        public async Task<IActionResult> RemoveById(
+            Guid patientId,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new PatientSoftDeleteCommand(patientId), cancellationToken)).ToActionResult();
     }
 }

@@ -5,7 +5,7 @@ using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
 
-namespace Application.Entity.Patients.Commands.CreateCommand
+namespace Application.Entity.Patients.Commands.Create
 {
     internal class PatientCreateCommandHandler(IPatientRepository patientRepository, IUnitOfWork unitOfWork, IPatientCardRepository patientCardRepository) : ICommandHandler<PatientCreateCommand, Guid>
     {
