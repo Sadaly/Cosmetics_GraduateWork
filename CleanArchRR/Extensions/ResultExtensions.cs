@@ -1,14 +1,37 @@
 ﻿using Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Extensions;
+namespace WebApi.Extensions;
 
 public static class ResultExtensions
 {
+    internal static IActionResult ToActionResult<T>(this T value) { return new OkObjectResult(value); }
     internal static IActionResult ToActionResult<T>(this Result<T> result)
     {
         if (result.IsSuccess)
             return new OkObjectResult(result.Value);
+
+        return result switch
+        {
+            IValidationResult validationResult =>
+                new BadRequestObjectResult(
+                    CreateProblemDetails(
+                        "Validation Error",
+                        StatusCodes.Status400BadRequest,
+                        result.Error,
+                        validationResult.Errors)),
+            _ =>
+                new BadRequestObjectResult(
+                    CreateProblemDetails(
+                        "Bad Request",
+                        StatusCodes.Status400BadRequest,
+                        result.Error))
+        };
+    }
+    internal static IActionResult ToActionResult(this Result result)
+    {
+        if (result.IsSuccess)
+            return new OkObjectResult(result);
 
         return result switch
         {

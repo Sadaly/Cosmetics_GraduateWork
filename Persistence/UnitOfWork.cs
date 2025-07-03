@@ -1,5 +1,5 @@
 ﻿using Domain.Abstractions;
-using Persistence;
+using Domain.Shared;
 
 namespace Persistence;
 
@@ -12,8 +12,11 @@ internal sealed class UnitOfWork : IUnitOfWork
         _dbContext = dbContext;
     }
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<T>> SaveChangesAsync<T>(Result<T> result, CancellationToken cancellationToken = default)
     {
+        if (result.IsFailure) return result;
+
         await _dbContext.SaveChangesAsync(cancellationToken);
+        return result;
     }
 }

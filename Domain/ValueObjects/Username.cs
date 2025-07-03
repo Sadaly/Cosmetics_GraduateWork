@@ -8,8 +8,9 @@ namespace Domain.ValueObjects
     [ComplexType]
     public class Username : ValueObject
     {
-        public const int MAX_LENGTH = 30;
+        public const int MAX_LENGTH = 60;
         public const int MIN_LENGTH = 3;
+        public const string DEFAULT_VALUE = "Username DEFAULT_VALUE";
 
         public string Value { get; set; }
 
@@ -27,6 +28,7 @@ namespace Domain.ValueObjects
 
             return new Username(value);
         }
+
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
@@ -37,6 +39,6 @@ namespace Domain.ValueObjects
         /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
         /// тогда Value объекты остаются null и этот конструктор решает эту проблему
         /// </summary>
-        internal Username() { Value = ""; }
+        internal Username() { Value = DEFAULT_VALUE; }
     }
 }

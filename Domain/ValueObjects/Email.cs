@@ -2,6 +2,7 @@
 using Domain.Errors;
 using Domain.Shared;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Domain.Errors.DomainErrors;
 
 namespace Domain.ValueObjects
 {
@@ -12,6 +13,7 @@ namespace Domain.ValueObjects
         public const int MIN_LENGTH = 5;
         public const int FIRST_PART_MIN_LENGTH = 1;
         public const int SECOND_PART_MIN_LENGTH = 1;
+        public const string DEFAULT_VALUE = "Email DEFAULT_VALUE";
 
         public string Value { get; set; }
 
@@ -27,14 +29,26 @@ namespace Domain.ValueObjects
             if (value.Length > MAX_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooLong);
             if (value.Length < MIN_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooShort);
 
-            var split = value.Split('@');
-            if (split.Length != 2) return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
-            if (split[0].Length < FIRST_PART_MIN_LENGTH 
-                || split[1].Length < SECOND_PART_MIN_LENGTH) 
-                return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
+            if (!IsValidFormat(value)) return Result.Failure<Email>(DomainErrors.Email.InvalidFormat);
 
             return new Email(value);
         }
+
+        /// <summary>
+        /// Проверка формата и размера левых и правых частей по разделителю '@'
+        /// </summary>
+        /// <param name="email">Почта</param>
+        /// <returns></returns>
+        public static bool IsValidFormat (string email)
+        {
+            var split = email.Split('@');
+            if (split.Length != 2) return false;
+            if (split[0].Length < FIRST_PART_MIN_LENGTH
+                || split[1].Length < SECOND_PART_MIN_LENGTH)
+                return false;
+            return true;
+        }
+
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
@@ -45,6 +59,6 @@ namespace Domain.ValueObjects
         /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
         /// тогда Value объекты остаются null и этот конструктор решает эту проблему
         /// </summary>
-        internal Email() { Value = ""; }
+        internal Email() { Value = DEFAULT_VALUE; }
     }
 }

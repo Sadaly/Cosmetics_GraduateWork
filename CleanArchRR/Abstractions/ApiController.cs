@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Abstractions;
+namespace WebApi.Abstractions;
 
 [ApiController]
 public abstract class ApiController : ControllerBase

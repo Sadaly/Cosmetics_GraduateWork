@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace WebAPI.OptionsSetup
+namespace WebApi.OptionsSetup
 {
     public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
     {

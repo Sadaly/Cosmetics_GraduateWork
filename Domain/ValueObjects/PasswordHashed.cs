@@ -12,6 +12,7 @@ namespace Domain.ValueObjects
     {
         public const int MAX_LENGTH = 100;
         public const int MIN_LENGTH = 8;
+        public const string DEFAULT_VALUE = "PasswordHashed DEFAULT_VALUE";
 
         public string Value { get; set; }
 
@@ -61,6 +62,6 @@ namespace Domain.ValueObjects
         /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
         /// тогда Value объекты остаются null и этот конструктор решает эту проблему
         /// </summary>
-        internal PasswordHashed() { Value = ""; }
+        internal PasswordHashed() { Value = DEFAULT_VALUE; }
     }
 }

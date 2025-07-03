@@ -1,64 +1,116 @@
-﻿using Application.Entity.Users.Commands.UserCreate;
-using Application.Entity.Users.Commands.UserLogin;
+﻿using Application.Entity.Users.Commands.Create;
+using Application.Entity.Users.Commands.Login;
+using Application.Entity.Users.Commands.SoftDelete;
+using Application.Entity.Users.Commands.Update;
+using Application.Entity.Users.Queries.GetAll;
+using Application.Entity.Users.Queries.GetById;
+using Application.Entity.Users.Queries.UsersTake;
+using Domain.Entity;
+using Domain.Errors;
 using Domain.Shared;
+using Infrastructure.IService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WebAPI.Abstractions;
-using WebAPI.Extensions;
+using WebApi.Abstractions;
+using WebApi.DTO.UserDTO;
+using WebApi.Extensions;
+using WebApi.Policies;
+using WebApi.SupportData;
+using WebApi.SupportData.Filters;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : ApiController
+    public class UsersController(ISender sender, ITokenService tokenService) : ApiController(sender)
     {
-        public UsersController(ISender sender) : base(sender) { }
-
-        [HttpPost("Registration")]
-        public async Task<IActionResult> CreateUser(
+        //Создание пользователя
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
             =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
 
+        //Вход в систему
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginUser(
+        public async Task<IActionResult> Login(
             [FromBody] UserLoginCommand command,
             CancellationToken cancellationToken)
         {
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
-
             if (tokenResult.IsFailure) return tokenResult.ToActionResult();
-
-            SetToken(tokenResult.Value);
-
-            string? userId = JwtHelper.GetClaim(tokenResult.Value, ClaimTypes.NameIdentifier);
-
-            return Ok(userId);
+            
+            return tokenService.GetClaim(
+                tokenService.SetJwtToken(Response, tokenResult.Value), 
+                ClaimTypes.NameIdentifier)
+                .ToActionResult();
         }
 
-        [Authorize]
+
         [HttpPost("Logout")]
-        public IActionResult LogoutUser()
+        public IActionResult LogoutSelf()
         {
-            Response.Cookies.Delete("access_token");
+            tokenService.DeleteJwtToken(Response);
             return Ok();
         }
 
-        private void SetToken(Result<string> token)
+        [Authorize]
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateSelf(
+            [FromForm] UserUpdateRequest request,
+            CancellationToken cancellationToken)
         {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddYears(1)
-            };
+            //сначала нужно получить Id
+            var getCurUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (getCurUserId == null) return Result.Failure(WebErrors.UserController.UpdateSelf.EmptyId).ToActionResult();
+            var command = new UserUpdateCommand(Guid.Parse(getCurUserId), request.Username, request.Email, request.Password);
+            var result = await Sender.Send(command, cancellationToken);
 
-            Response.Cookies.Delete("access_token");
-            Response.Cookies.Append("access_token", token.Value, cookieOptions);
+            return result.ToActionResult();
+        }
 
-            string? userId = JwtHelper.GetClaim(token.Value, "sub");
+        [HttpGet("me")]
+        [Authorize]
+        public IActionResult GetSelf()
+        {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok(new { userId, email, role });
+        }
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("{userId:guid}")]
+        public async Task<IActionResult> GetById(
+            Guid userId, 
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UserGetByIdQuery(userId), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] UserFilter filter,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UsersGetAllQuery(filter.ToPredicate()), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("Take")]
+        public async Task<IActionResult> Take(
+            [FromQuery] TakeData<UserFilter, User> take,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate()), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpDelete()]
+        public async Task<IActionResult> RemoveById(
+            UserSoftDeleteCommand command,
+            CancellationToken cancellationToken)
+        {
+            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == command.Id.ToString()) 
+                return Result.Failure(WebErrors.UserController.RemoveById.SelfDeleteFobbiden).ToActionResult();
+            return (await Sender.Send(command, cancellationToken)).ToActionResult();
         }
     }
 }

@@ -1,13 +1,18 @@
 using Application.Behaviors;
+using Domain.Entity;
 using FluentValidation;
+using Infrastructure.IService;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Serilog;
+using System.Security.Claims;
 using WebApi.Extensions;
-using WebAPI.OptionsSetup;
+using WebApi.OptionsSetup;
+using WebApi.Policies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +81,8 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString));
@@ -85,6 +92,11 @@ builder.Host.UseSerilog((context, configuration) =>
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(AuthorizePolicy.UserOnly, policy =>
+        policy.RequireClaim(ClaimTypes.Role, typeof(User).Name));
+});
 
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
