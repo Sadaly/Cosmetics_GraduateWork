@@ -3,7 +3,7 @@ using Domain.ValueObjects;
 
 namespace Domain.Common
 {
-    public class TypeEntity : BaseEntity
+    public abstract class TypeEntity : BaseEntity
     {
         protected TypeEntity(Guid id) : base(id) { }
         protected TypeEntity(Guid id, Title title) : base(id)
@@ -11,11 +11,6 @@ namespace Domain.Common
             Title = title;
         }
 
-        Title Title = null!;
-        public static Result<TypeEntity> Create(Result<Title> title)
-        {
-            if (title.IsFailure) return Result.Failure<TypeEntity>(title);
-            return new TypeEntity(Guid.NewGuid(), title.Value);
-        }
+        public Title Title { get; set; } = null!;
     }
 }

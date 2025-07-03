@@ -2,6 +2,7 @@
 using Domain.Errors;
 using Domain.ValueObjects;
 using Domain.Shared;
+using Application.Entity.Users.Commands.Update;
 
 namespace Application.Entity.Users.Commands.UserCreate
 {

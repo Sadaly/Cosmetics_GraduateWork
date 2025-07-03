@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Domain.ValueObjects;
 using Domain.Errors;
+using Application.Entity.Users.Commands.Login;
 
 namespace Application.Entity.Users.Commands.UserLogin
 {

@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Entity.Users.Commands.UserCreate;
+namespace Application.Entity.Users.Commands.Update;
 
 public sealed record UserUpdateCommand(
     Guid Id,

@@ -3,9 +3,10 @@
     public class TransitiveEntity<T> : BaseEntity where T : TypeEntity
     {
         public TransitiveEntity(Guid id) : base(id) { }
-        public TransitiveEntity(Guid id, Guid typeId) : base(id)
+        public TransitiveEntity(Guid id, T type) : base(id)
         {
-            TypeId = typeId;
+            TypeId = type.Id;
+            Type = type;
         }
 
         public Guid TypeId { get; set; }

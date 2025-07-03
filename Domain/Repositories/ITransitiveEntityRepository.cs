@@ -3,7 +3,7 @@ using Domain.Common;
 
 namespace Domain.Repositories
 {
-    public interface ITransitiveEntityRepository<T> : IRepository<T> where T : TransitiveEntity<TypeEntity>
-    {
-    }
+    public interface ITransitiveEntityRepository<TypeE, TransitiveE> : IRepository<TransitiveE>
+        where TypeE : TypeEntity
+        where TransitiveE : TransitiveEntity<TypeE>;
 }

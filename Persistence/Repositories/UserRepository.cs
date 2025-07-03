@@ -8,10 +8,8 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class UserRepository : TRepository<User>, IUserRepository
+    public class UserRepository(AppDbContext dbContext) : TRepository<User>(dbContext), IUserRepository
     {
-        public UserRepository(AppDbContext dbContext) : base(dbContext) { }
-
         public async Task<Result<User>> GetByEmailAsync(Result<Email> email, CancellationToken cancellationToken = default)
         {
             if (email.IsFailure) return Result.Failure<User>(email.Error);
@@ -60,7 +58,7 @@ namespace Persistence.Repositories
         {
             if (newEntity.IsFailure) return newEntity;
 
-            var oldEntity = await GetByIdAsync(newEntity.Value.Id, cancellationToken);
+            var oldEntity = await GetByIdAsNoTrackingAsync(newEntity.Value.Id, cancellationToken);
             if (oldEntity.IsFailure) return oldEntity;
 
             Result<bool> unique = Result.Success<bool>(false);

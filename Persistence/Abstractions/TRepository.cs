@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 
 namespace Persistence.Abstractions
 {
-    public abstract class TRepository<T> : IRepository<T> where T : BaseEntity
+    public abstract class TRepository<T>(AppDbContext dbContext) : IRepository<T> where T : BaseEntity
     {
-        protected readonly AppDbContext _dbContext;
-        protected readonly DbSet<T> _dbSet;
+        protected readonly AppDbContext _dbContext = dbContext;
+        protected readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
         protected virtual Error GetErrorIdEmpty()
         {
@@ -20,12 +20,6 @@ namespace Persistence.Abstractions
         protected virtual Error GetErrorNotFound()
         {
             return PersistenceErrors.Entity<T>.NotFound;
-        }
-
-        public TRepository(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-            _dbSet = dbContext.Set<T>();
         }
 
         protected virtual async Task<Result<T>> VerificationBeforeAddingAsync(Result<T> entity, CancellationToken cancellationToken)
@@ -44,7 +38,7 @@ namespace Persistence.Abstractions
         protected virtual async Task<Result<T>> VerificationBeforeRemoveAsync(Result<T> entity, CancellationToken cancellationToken)
         {            
             if (entity.IsFailure) return Result.Failure<T>(entity);
-            if (!entity.Value.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.ShouldBeSoftDeleted);
+            if (entity.Value.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
             return await GetByIdAsync(entity.Value.Id, cancellationToken);
         }
 
@@ -61,7 +55,7 @@ namespace Persistence.Abstractions
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
 
-            T? entity = await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+            T? entity = await _dbSet.Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
@@ -70,7 +64,7 @@ namespace Persistence.Abstractions
 
         public async Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            T? entity = await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(predicate, cancellationToken);
+            T? entity = await _dbSet.Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(predicate, cancellationToken);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
@@ -100,11 +94,11 @@ namespace Persistence.Abstractions
         }
 
         public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default)
-            => await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken);
+            => await _dbSet.Where(e => !e.IsSoftDelete).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken);
    
 
         public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-            => await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken); 
+            => await _dbSet.Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken); 
         
 
         public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
@@ -113,7 +107,6 @@ namespace Persistence.Abstractions
             if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
 
             var result = await _dbSet
-                .AsNoTracking()
                 .Where(e => !e.IsSoftDelete)
                 .Where(predicate)
                 .OrderBy(e => e.CreatedAt)
@@ -130,7 +123,6 @@ namespace Persistence.Abstractions
             if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
 
             var result = await _dbSet
-                .AsNoTracking()
                 .Where(e => !e.IsSoftDelete)
                 .OrderBy(e => e.CreatedAt)
                 .Skip(startIndex)
@@ -138,6 +130,17 @@ namespace Persistence.Abstractions
                 .ToListAsync(cancellationToken);
 
             return result;
+        }
+
+        public async Task<Result<T>> GetByIdAsNoTrackingAsync(Guid id, CancellationToken cancellationToken)
+        {
+            if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
+
+            T? entity = await _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+            if (entity == null) return Result.Failure<T>(GetErrorNotFound());
+            if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
+
+            return Result.Success(entity);
         }
     }
 }

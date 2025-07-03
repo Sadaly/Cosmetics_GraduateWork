@@ -153,6 +153,15 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.SkinFeatureType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
                     b.HasKey("Id");
 
                     b.ToTable("SkinFeatureType", (string)null);

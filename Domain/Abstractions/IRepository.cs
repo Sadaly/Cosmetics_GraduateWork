@@ -66,5 +66,11 @@ namespace Domain.Abstractions
         /// </summary>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
         public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получение сущности типа репозитория по Id без отслеживания с учетом ошибки
+        /// </summary>
+        /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
+        public Task<Result<T>> GetByIdAsNoTrackingAsync(Guid id, CancellationToken cancellationToken);
     }
 }

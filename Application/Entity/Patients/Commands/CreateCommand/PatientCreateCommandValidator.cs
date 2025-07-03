@@ -1,4 +1,4 @@
-﻿namespace Application.Entity.Patients.Commands.PatientCreateCommand
+﻿namespace Application.Entity.Patients.Commands.CreateCommand
 {
     internal class PatientCreateCommandValidator
     {

@@ -1,7 +1,9 @@
-﻿using Application.Entity.Users.Commands.UserCreate;
-using Application.Entity.Users.Commands.UserLogin;
+﻿using Application.Entity.Users.Commands.Create;
+using Application.Entity.Users.Commands.Login;
+using Application.Entity.Users.Commands.SoftDelete;
+using Application.Entity.Users.Commands.Update;
 using Application.Entity.Users.Queries.GetAll;
-using Application.Entity.Users.Queries.UserGetById;
+using Application.Entity.Users.Queries.GetById;
 using Application.Entity.Users.Queries.UsersTake;
 using Domain.Entity;
 using Domain.Errors;
@@ -21,15 +23,8 @@ using WebApi.SupportData.Filters;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : ApiController
+    public class UsersController(ISender sender, ITokenService tokenService) : ApiController(sender)
     {
-        private readonly ITokenService _tokenService;
-
-        public UsersController(ISender sender, ITokenService tokenService) : base(sender)
-        {
-            _tokenService = tokenService;
-        }
-
         //Создание пользователя
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPost("Create")]
@@ -47,8 +42,8 @@ namespace WebApi.Controllers
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
             if (tokenResult.IsFailure) return tokenResult.ToActionResult();
             
-            return _tokenService.GetClaim(
-                _tokenService.SetJwtToken(Response, tokenResult.Value), 
+            return tokenService.GetClaim(
+                tokenService.SetJwtToken(Response, tokenResult.Value), 
                 ClaimTypes.NameIdentifier)
                 .ToActionResult();
         }
@@ -57,7 +52,7 @@ namespace WebApi.Controllers
         [HttpPost("Logout")]
         public IActionResult LogoutSelf()
         {
-            _tokenService.DeleteJwtToken(Response);
+            tokenService.DeleteJwtToken(Response);
             return Ok();
         }
 

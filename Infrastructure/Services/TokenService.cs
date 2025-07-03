@@ -31,7 +31,7 @@ namespace Infrastructure.Services
             response.Cookies.Delete("access_token");
             response.Cookies.Append("access_token", token, cookieOptions);
 
-            string? userId = JwtHelper.GetClaim(token, "sub");
+            //string? userId = JwtHelper.GetClaim(token, "sub");
 
             return token;
         }

@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
+using Application.Entity.Users.Commands.Create;
 using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Repositories;

@@ -5,19 +5,10 @@ using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
 
-namespace Application.Entity.Users.Commands.UserCreate
+namespace Application.Entity.Users.Commands.Update
 {
-    public sealed class UserUpdateCommandHandler : ICommandHandler<UserUpdateCommand, Guid>
+    public sealed class UserUpdateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserUpdateCommand, Guid>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public UserUpdateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
-        {
-            _userRepository = userRepository;
-            _unitOfWork = unitOfWork;
-        }
-
         public async Task<Result<Guid>> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
         {
             //Если все поля пустые, то смысла вызывать эту комманду не было (на фронте можно настроить
@@ -27,7 +18,7 @@ namespace Application.Entity.Users.Commands.UserCreate
                 return Result.Failure<Guid>(ApplicationErrors.UserCommandUpdate.NullValues);
 
             //Получение пользователя и проверка, существует ли он вообще
-            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+            var user = await userRepository.GetByIdAsNoTrackingAsync(request.Id, cancellationToken);
             if (user.IsFailure) return Result.Failure<Guid>(user.Error);
 
             //Первое условие проверяет, нужно ли обновлять поле
@@ -52,8 +43,8 @@ namespace Application.Entity.Users.Commands.UserCreate
             if (request.Password != null) 
                 user.Value.UpdatePassword(PasswordHashed.Create(request.Password));
 
-            var update = await _userRepository.UpdateAsync(user, cancellationToken);
-            var save = await _unitOfWork.SaveChangesAsync(update, cancellationToken);
+            var update = await userRepository.UpdateAsync(user, cancellationToken);
+            var save = await unitOfWork.SaveChangesAsync(update, cancellationToken);
 
             return save.IsSuccess
                 ? save.Value.Id

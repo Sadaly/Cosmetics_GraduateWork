@@ -1,16 +1,15 @@
 ﻿using Domain.Common;
+using Domain.Repositories;
 using Domain.Shared;
-using Persistence;
-using Persistence.Abstractions;
 
-namespace Domain.Repositories
+namespace Persistence.Abstractions
 {
     public abstract class EntityTypeRepository<TypeE, TransitiveE> : TRepository<TypeE>, IEntityTypeRepository<TypeE, TransitiveE> 
         where TypeE : TypeEntity
         where TransitiveE : TransitiveEntity<TypeE>
     {
-        protected readonly ITransitiveEntityRepository<TransitiveEntity<TypeEntity>> _transitiveEntityRepository;
-        protected EntityTypeRepository(AppDbContext dbContext, ITransitiveEntityRepository<TransitiveEntity<TypeEntity>> transitiveEntityRepository) : base(dbContext)
+        protected readonly ITransitiveEntityRepository<TypeE, TransitiveE> _transitiveEntityRepository;
+        protected EntityTypeRepository(AppDbContext dbContext, ITransitiveEntityRepository<TypeE, TransitiveE> transitiveEntityRepository) : base(dbContext)
         {
             _transitiveEntityRepository = transitiveEntityRepository;
         }

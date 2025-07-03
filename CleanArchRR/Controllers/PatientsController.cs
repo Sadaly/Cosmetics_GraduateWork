@@ -1,4 +1,4 @@
-﻿using Application.Entity.Patients.Commands.PatientCreateCommand;
+﻿using Application.Entity.Patients.Commands.CreateCommand;
 using Application.Entity.Patients.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

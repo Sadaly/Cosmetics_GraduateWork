@@ -8,8 +8,8 @@ namespace Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
-        public DbSet<SkinFeature> skinFeatures { get; set; }
-        public DbSet<SkinFeatureType> skinFeatureTypes { get; set; }
+        public DbSet<SkinFeature> SkinFeatures { get; set; }
+        public DbSet<SkinFeatureType> SkinFeatureTypes { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public AppDbContext()
         {
@@ -27,7 +27,7 @@ namespace Persistence
             optionsBuilder.UseNpgsql("User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=postgres;");
         }
         
-        private void ApplyConfiguration(ModelBuilder modelBuilder)
+        private static void ApplyConfiguration(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.PatientConfiguration());

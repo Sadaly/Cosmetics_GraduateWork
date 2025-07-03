@@ -4,9 +4,9 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class SkinTypeFeatureRepository : TRepository<SkinFeatureType>, ISkinTypeFeatureRepository
+    public class SkinTypeFeatureRepository : EntityTypeRepository<SkinFeatureType, SkinFeature>, ISkinFeatureTypeRepository
     {
-        public SkinTypeFeatureRepository(AppDbContext dbContext) : base(dbContext)
+        public SkinTypeFeatureRepository(AppDbContext dbContext, ITransitiveEntityRepository<SkinFeatureType, SkinFeature> transitiveEntityRepository) : base(dbContext, transitiveEntityRepository)
         {
         }
     }

@@ -8,21 +8,16 @@ using Domain.Entity;
 
 namespace Infrastructure.Authentication
 {
-    internal sealed class JwtProvider : IJwtProvider
+    internal sealed class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
     {
-        private readonly JwtOptions _options;
-
-        public JwtProvider(IOptions<JwtOptions> options)
-        {
-            _options = options.Value;
-        }
+        private readonly JwtOptions _options = options.Value;
 
         public string Generate(User user)
         {
             var claims = new Claim[] {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email.Value),
-                new Claim(ClaimTypes.Role, user.GetType().Name)
+                new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new (ClaimTypes.Email, user.Email.Value),
+                new (ClaimTypes.Role, user.GetType().Name)
             };
 
             var signingCredentials = new SigningCredentials(
@@ -35,7 +30,7 @@ namespace Infrastructure.Authentication
                 _options.Audience,
                 claims,
                 null,
-                DateTime.UtcNow.AddHours(1),
+                DateTime.UtcNow.AddYears(1),
                 signingCredentials
                 );
 
