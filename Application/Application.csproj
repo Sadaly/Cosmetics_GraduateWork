@@ -15,4 +15,13 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entity\PatientCards\Commands\Update\" />
+    <Folder Include="Entity\PatientCards\Commands\" />
+    <Folder Include="Entity\PatientCards\Queries\" />
+    <Folder Include="Entity\Patients\Queries\Take\" />
+    <Folder Include="Entity\SkinFeatures\Queries\GetAll\" />
+    <Folder Include="Entity\SkinFeatures\Queries\Take\" />
+  </ItemGroup>
+
 </Project>

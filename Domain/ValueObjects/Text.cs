@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     public class Text : ValueObject
     {
         public const int MAX_LENGTH = 5000;
-        public const string DEFAULT_VALUE = "Не указано";
+        public const string DEFAULT_VALUE = "";
 
         private Text(string value)
         {

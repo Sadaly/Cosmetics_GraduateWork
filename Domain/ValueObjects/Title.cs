@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     public class Title : ValueObject
     {
         public const int MAX_LENGTH = 100;
-        public const string DEFAULT_VALUE = "Не указано";
+        public const string DEFAULT_VALUE = "";
 
         private Title(string value)
         {

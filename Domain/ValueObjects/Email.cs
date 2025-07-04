@@ -2,7 +2,6 @@
 using Domain.Errors;
 using Domain.Shared;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Domain.Errors.DomainErrors;
 
 namespace Domain.ValueObjects
 {
@@ -13,7 +12,7 @@ namespace Domain.ValueObjects
         public const int MIN_LENGTH = 5;
         public const int FIRST_PART_MIN_LENGTH = 1;
         public const int SECOND_PART_MIN_LENGTH = 1;
-        public const string DEFAULT_VALUE = "Email DEFAULT_VALUE";
+        public const string DEFAULT_VALUE = "";
 
         public string Value { get; set; }
 
@@ -25,7 +24,7 @@ namespace Domain.ValueObjects
         public static Result<Email> Create(string value)
         {
             // Обрабатываем логически ошибки
-            if (string.IsNullOrEmpty(value)) return Result.Failure<Email>(DomainErrors.Email.Empty);
+            if (string.IsNullOrWhiteSpace(value)) return Result.Failure<Email>(DomainErrors.Email.Empty);
             if (value.Length > MAX_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooLong);
             if (value.Length < MIN_LENGTH) return Result.Failure<Email>(DomainErrors.Email.TooShort);
 

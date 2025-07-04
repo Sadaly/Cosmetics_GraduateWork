@@ -13,7 +13,7 @@ namespace WebApi.SupportData.Filters
         public Expression<Func<Patient, bool>> ToPredicate()
         {
             return patient =>
-                (string.IsNullOrEmpty(Fullname) || patient.Fullname.Value.Contains(Fullname)) &&
+                (string.IsNullOrWhiteSpace(Fullname) || patient.Fullname.Value.Contains(Fullname)) &&
                 (!CreationDateFrom.HasValue || patient.CreatedAt >= CreationDateFrom.Value) &&
                 (!CreationDateTo.HasValue || patient.CreatedAt <= CreationDateTo.Value);
         }

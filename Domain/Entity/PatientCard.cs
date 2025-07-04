@@ -6,7 +6,6 @@ namespace Domain.Entity
 {
     public class PatientCard : BaseEntity
     {
-        private const string NO_COMPLAINTS = "Жалоб нет";
         private PatientCard(Guid id) : base(id) { }
 
         private PatientCard(Guid id, byte age, Text adress, Text complaints, PhoneNumber phoneNumber, Patient patient) : base(id)
@@ -17,7 +16,7 @@ namespace Domain.Entity
             PhoneNumber = phoneNumber;
             PatientId = patient.Id;
             Patient = patient;
-            _skinFeatures = new();
+            _skinFeatures = [];
         }
 
         public byte Age { get; set; }
@@ -28,7 +27,7 @@ namespace Domain.Entity
         public Patient Patient { get; set; } = null!;
 
 
-        public List<SkinFeature> skinFeatures => _skinFeatures;
+        public List<SkinFeature> SkinFeatures => _skinFeatures;
         private readonly List<SkinFeature> _skinFeatures = null!;
 
         internal static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)

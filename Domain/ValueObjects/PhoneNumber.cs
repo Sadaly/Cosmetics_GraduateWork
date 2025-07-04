@@ -11,7 +11,7 @@ namespace Domain.ValueObjects
     {
         public const int MAX_LENGTH = 15;
         public const int MIN_LENGTH = 8;
-        public const string DEFAULT_VALUE = "Не указано";
+        public const string DEFAULT_VALUE = "";
 
         private PhoneNumber(string phoneNumber)
         {

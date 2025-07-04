@@ -14,8 +14,8 @@ namespace WebApi.SupportData.Filters
         public Expression<Func<User, bool>> ToPredicate()
         {
             return user =>
-                (string.IsNullOrEmpty(Username) || user.Username.Value.Contains(Username)) &&
-                (string.IsNullOrEmpty(Email) || user.Email.Value.Contains(Email)) &&
+                (string.IsNullOrWhiteSpace(Username) || user.Username.Value.Contains(Username)) &&
+                (string.IsNullOrWhiteSpace(Email) || user.Email.Value.Contains(Email)) &&
                 (!RegistrationDateFrom.HasValue || user.CreatedAt >= RegistrationDateFrom.Value) &&
                 (!RegistrationDateTo.HasValue || user.CreatedAt <= RegistrationDateTo.Value);
         }

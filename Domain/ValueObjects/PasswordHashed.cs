@@ -24,7 +24,7 @@ namespace Domain.ValueObjects
         public static Result<PasswordHashed> Create(string value)
         {
             // Обрабатываем логически ошибки
-            if (string.IsNullOrEmpty(value)) return Result.Failure<PasswordHashed>(DomainErrors.PasswordHashed.Empty);
+            if (string.IsNullOrWhiteSpace(value)) return Result.Failure<PasswordHashed>(DomainErrors.PasswordHashed.Empty);
             if (value.Length > MAX_LENGTH) return Result.Failure<PasswordHashed>(DomainErrors.PasswordHashed.TooLong);
             if (value.Length < MIN_LENGTH) return Result.Failure<PasswordHashed>(DomainErrors.PasswordHashed.TooShort);
 

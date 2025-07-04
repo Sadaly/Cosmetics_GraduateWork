@@ -10,7 +10,6 @@ namespace Domain.ValueObjects
     {
         public const int MAX_LENGTH = 60;
         public const int MIN_LENGTH = 3;
-        public const string DEFAULT_VALUE = "Username DEFAULT_VALUE";
 
         public string Value { get; set; }
 
@@ -22,7 +21,7 @@ namespace Domain.ValueObjects
         public static Result<Username> Create (string value)
         {
             // Обрабатываем логически ошибки
-            if (string.IsNullOrEmpty(value)) return Result.Failure<Username>(DomainErrors.Username.Empty);
+            if (string.IsNullOrWhiteSpace(value)) return Result.Failure<Username>(DomainErrors.Username.Empty);
             if (value.Length > MAX_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooLong);
             if (value.Length < MIN_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooShort);
 
@@ -39,6 +38,6 @@ namespace Domain.ValueObjects
         /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
         /// тогда Value объекты остаются null и этот конструктор решает эту проблему
         /// </summary>
-        internal Username() { Value = DEFAULT_VALUE; }
+        private Username() { Value = ""; }
     }
 }

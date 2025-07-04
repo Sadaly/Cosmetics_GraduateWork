@@ -12,7 +12,7 @@ namespace Persistence.Configurations
 
             builder.HasKey(pc => pc.Id);
             builder
-                .HasMany(pc => pc.skinFeatures)
+                .HasMany(pc => pc.SkinFeatures)
                 .WithOne(sf => sf.PatientCard)
                 .HasForeignKey(sf => sf.PatientCardId);
         }

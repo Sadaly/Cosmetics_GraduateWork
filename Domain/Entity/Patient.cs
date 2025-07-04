@@ -8,13 +8,12 @@ namespace Domain.Entity
     {
         private Patient(Guid id) : base(id)
         {
-            Fullname = new Username();
         }
         private Patient(Guid id, Username fullname) : base(id)
         {
             this.Fullname = fullname;
         }
-        public Username Fullname { get; set; }
+        public Username Fullname { get; set; } = null!;
 
         public virtual PatientCard Card { get; set; } = null!;
         public static Result<Patient> Create(Result<Username> fullname)
