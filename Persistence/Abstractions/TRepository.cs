@@ -55,140 +55,94 @@ namespace Persistence.Abstractions
         }
         #endregion
         #region Get
-        /// <summary>
-        /// Метод возвращает сущность по предикату и может быть переопределен в наследуемом классе
-        /// </summary>
-        /// <returns></returns>
-        private protected virtual IQueryable<T> GetDefault()
-            => _dbSet.Where(e => !e.IsSoftDelete);
-
-        /// <summary>
-        /// Метод возвращает сущность по предикату с методом AsNoTracking и может быть переопределен в наследуемом классе
-        /// </summary>
-        /// <returns></returns>
-        private protected virtual IQueryable<T> GetNoTracking()
-            => _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete);
-
-        /// <summary>
-        /// Метод возвращает сущность по предикату с методом Include и, если вызывается, должее быть переопределен в наследуемом классе
-        /// </summary>
-        /// <returns></returns>
-        private protected virtual IQueryable<T> GetInclude() 
-            => _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete);
-
-
-        /// <summary>
-        /// Метод возвращает сущность по предикату с методом Include и AsNoTracking и, если вызывается, должее быть переопределен в наследуемом классе
-        /// </summary>
-        /// <returns></returns>
-        private protected virtual IQueryable<T> GetIncludeNoTracking()
-            => _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete);
-
-
-        private async Task<T?> GetModeAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
-        {
-            var entities = mode switch
-            {
-                FetchMode.Default => GetDefault(),
-                FetchMode.NoTracking => GetNoTracking(),
-                FetchMode.Include => GetInclude(),
-                FetchMode.IncludeNoTracking => GetIncludeNoTracking(),
-                _ => null
-            };
-            if (entities != null) return await entities.FirstOrDefaultAsync(predicate, cancellationToken);
-            return null;
-        }
-
         public virtual async Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
         {
             if (id == Guid.Empty) return Result.Failure<T>(GetErrorIdEmpty());
-            Expression<Func<T, bool>> predicate = entity => entity.Id == id;
-
-            var entity = await GetModeAsync(predicate, cancellationToken, mode);
+            var entity = await GetByModeAsync(e => e.Id == id, cancellationToken, mode);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
             return Result.Success(entity);
         }
-
         public async Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
         {
-            var entity = await GetModeAsync(predicate, cancellationToken, mode);
-
+            var entity = await GetByModeAsync(predicate, cancellationToken, mode);
             if (entity == null) return Result.Failure<T>(GetErrorNotFound());
             if (entity.IsSoftDelete) return Result.Failure<T>(PersistenceErrors.Entity<T>.IsSoftDeleted);
 
             return entity;
         }
-        #endregion
-        #region GetAll
+        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
+            => await GetAllByModeAsync(0, _dbSet.Count(), x => true, cancellationToken, mode);
+
+        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
+            => await GetAllByModeAsync(0, _dbSet.Count(), predicate, cancellationToken, mode);
+
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default) {
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
+            return await GetAllByModeAsync(startIndex, count, predicate, cancellationToken, mode);
+        }
+
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default) {
+            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
+            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
+            return await GetAllByModeAsync(startIndex, count, x => true, cancellationToken, mode);
+        }
+
         /// <summary>
         /// Метод возвращает список сущностей по предикату и может быть переопределен в наследуемом классе
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private protected virtual IQueryable<T> GetAllDefault(int startIndex, int count, Expression<Func<T, bool>> predicate)
-            => _dbSet.Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count);
+        private protected virtual IQueryable<T> GetAllDefault()
+            => _dbSet.Where(e => !e.IsSoftDelete);
 
         /// <summary>
         /// Метод возвращает список сущностей по предикату с методом AsNoTracking и может быть переопределен в наследуемом классе
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private protected virtual IQueryable<T> GetAllNoTracking(int startIndex, int count, Expression<Func<T, bool>> predicate)
-            => _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count);
+        private protected virtual IQueryable<T> GetAllNoTracking()
+            => _dbSet.AsNoTracking().Where(e => !e.IsSoftDelete);
 
         /// <summary>
         /// Метод возвращает список сущностей по предикату с методом Include и, если вызывается, должее быть переопределен в наследуемом классе
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private protected virtual IQueryable<T> GetAllInclude(int startIndex, int count, Expression<Func<T, bool>> predicate)
-            => _dbSet.Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count);
+        private protected virtual IQueryable<T> GetAllInclude()
+            => _dbSet.Where(e => !e.IsSoftDelete);
 
         /// <summary>
         /// Метод возвращает список сущностей по предикату с методом Include и AsNoTracking и, если вызывается, должее быть переопределен в наследуемом классе
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private protected virtual IQueryable<T> GetAllIncludeNoTracking(int startIndex, int count, Expression<Func<T, bool>> predicate)
-            => _dbSet.Where(e => !e.IsSoftDelete).Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count);
+        private protected virtual IQueryable<T> GetAllIncludeNoTracking()
+            => _dbSet.Where(e => !e.IsSoftDelete);
 
-        private async Task<List<T>?> GetAllModeAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
+        private async Task<T?> GetByModeAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
         {
             var entities = mode switch
             {
-                FetchMode.Default => GetAllDefault(startIndex, count, predicate),
-                FetchMode.NoTracking => GetAllNoTracking(startIndex, count, predicate),
-                FetchMode.Include => GetAllInclude(startIndex, count, predicate),
-                FetchMode.IncludeNoTracking => GetAllIncludeNoTracking(startIndex, count, predicate),
+                FetchMode.Default => GetAllDefault(),
+                FetchMode.NoTracking => GetAllNoTracking(),
+                FetchMode.Include => GetAllInclude(),
+                FetchMode.IncludeNoTracking => GetAllIncludeNoTracking(),
                 _ => null
             };
-            if (entities != null) return await entities.ToListAsync(cancellationToken);
+            if (entities != null) return await entities.FirstOrDefaultAsync(predicate, cancellationToken);
             return null;
         }
-        public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
-            => await GetAllModeAsync(0, _dbSet.Count(), x => true, cancellationToken, mode);
-
-        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
-            => await GetAllModeAsync(0, _dbSet.Count(), predicate, cancellationToken, mode);
-
-        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
+        private async Task<List<T>?> GetAllByModeAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
         {
-            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
-            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
-            return await GetAllModeAsync(startIndex, count, predicate, cancellationToken, mode);
-        }
-
-        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
-        {
-            if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
-            if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
-            return await GetAllModeAsync(startIndex, count, x => true, cancellationToken, mode);
+            var entities = mode switch
+            {
+                FetchMode.Default => GetAllDefault(),
+                FetchMode.NoTracking => GetAllNoTracking(),
+                FetchMode.Include => GetAllInclude(),
+                FetchMode.IncludeNoTracking => GetAllIncludeNoTracking(),
+                _ => null
+            };
+            if (entities != null) return await entities.Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
+            return null;
         }
         #endregion
         #region Verification
