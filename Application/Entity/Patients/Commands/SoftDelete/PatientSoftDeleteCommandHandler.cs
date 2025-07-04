@@ -9,15 +9,15 @@ namespace Application.Entity.Patients.Commands.SoftDelete
     {
         public async Task<Result<Guid>> Handle(PatientSoftDeleteCommand request, CancellationToken cancellationToken)
         {
-            var patient = await patientRepository.GetByIdAsync(request.PatientId, cancellationToken);
+            var patient = await patientRepository.GetByIdAsync(request.PatientId, cancellationToken, FetchMode.Include);
             if (patient.IsFailure) return Result.Failure<Guid>(patient.Error);
-
+            
             var deletePatient = await patientRepository.RemoveAsync(patient, cancellationToken);
             if (deletePatient.IsFailure) return Result.Failure<Guid>(deletePatient.Error);
 
             var deletePatientCard = await patientCardRepository.RemoveAsync(patient.Value.Card, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(deletePatientCard, cancellationToken);
-            
+
             return save.IsSuccess
                 ? save.Value.Id
                 : Result.Failure<Guid>(save.Error);

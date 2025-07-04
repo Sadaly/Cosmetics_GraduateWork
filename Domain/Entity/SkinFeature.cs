@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Shared;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
@@ -11,6 +12,7 @@ namespace Domain.Entity
             PatientCardId = patientCard.Id;
             PatientCard = patientCard;
         }
+        [JsonIgnore]
         public PatientCard PatientCard { get; set; } = null!;
         public Guid PatientCardId { get; set; }
 

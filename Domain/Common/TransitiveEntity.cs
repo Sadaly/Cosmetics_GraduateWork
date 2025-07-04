@@ -1,4 +1,6 @@
-﻿namespace Domain.Common
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Common
 {
     public class TransitiveEntity<T> : BaseEntity where T : TypeEntity
     {
@@ -10,6 +12,7 @@
         }
 
         public Guid TypeId { get; set; }
+        [JsonIgnore]
         public T Type { get; set; } = null!;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Shared;
 using Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
@@ -24,6 +25,7 @@ namespace Domain.Entity
         public Text Complaints { get; set; } = null!;
         public PhoneNumber PhoneNumber { get; set; } = null!;
         public Guid PatientId { get; set; }
+        [JsonIgnore]
         public Patient Patient { get; set; } = null!;
 
 
