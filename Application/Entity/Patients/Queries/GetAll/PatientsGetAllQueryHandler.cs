@@ -16,8 +16,8 @@ namespace Application.Entity.Patients.Queries.GetAll
         public async Task<Result<List<PatientResponses>>> Handle(PatientsGetAllQuery request, CancellationToken cancellationToken)
         {
             var patients = request.Predicate == null
-                ? await _patientRepository.GetAllAsync(cancellationToken)
-                : await _patientRepository.GetAllAsync(request.Predicate, cancellationToken);
+                ? await _patientRepository.GetAllAsync(cancellationToken, Domain.Abstractions.FetchMode.Include)
+                : await _patientRepository.GetAllAsync(request.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 
             if (patients.IsFailure) return Result.Failure<List<PatientResponses>>(patients.Error);
 

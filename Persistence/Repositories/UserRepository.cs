@@ -58,7 +58,7 @@ namespace Persistence.Repositories
         {
             if (newEntity.IsFailure) return newEntity;
 
-            var oldEntity = await GetByIdAsNoTrackingAsync(newEntity.Value.Id, cancellationToken);
+            var oldEntity = await GetByIdAsync(newEntity.Value.Id, cancellationToken, Domain.Abstractions.FetchMode.NoTracking);
             if (oldEntity.IsFailure) return oldEntity;
 
             Result<bool> unique = Result.Success<bool>(false);

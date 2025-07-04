@@ -27,23 +27,26 @@ namespace Domain.Abstractions
         /// <summary>
         /// Возвращает все объекты.
         /// </summary>
+        /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Возвращает лист, предполагаю что это поменяется когда я возьмусь за реализацию.</returns>
-        Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Возвращает часть объектов.
         /// </summary>
         /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
         /// <param name="count">Количество взятых значений.</param>
+        /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Список из объектов. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
-        Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default);
+        Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Возвращает все объекты, которые соответствуют предикату.
         /// </summary>
         /// <param name="predicate">Условия для списка.</param>
+        /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Возвращает список, все объекты которого удовлетворяют условию <paramref name="predicate"/>.</returns>
-        Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+        Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Метод возвращающий часть данных из БД по указанному предикату (сначала выполняется условие, а затем берутся элементы).
@@ -51,26 +54,22 @@ namespace Domain.Abstractions
         /// <param name="predicate">Условия для списка.</param>
         /// <param name="startIndex">Начальный индекс. 1-ый элемент под индексом 0.</param>
         /// <param name="count">Количество взятых значений.</param>
+        /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Возвращает часть списка элементы которого удовлетворяют условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
-        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Получение сущности типа репозитория по предикату
         /// </summary>
         /// <param name="predicate">Условия для получения сущности.</param>
+        /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        public Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+        public Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Получение сущности типа репозитория по Id с учетом ошибки
         /// </summary>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Получение сущности типа репозитория по Id без отслеживания с учетом ошибки
-        /// </summary>
-        /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        public Task<Result<T>> GetByIdAsNoTrackingAsync(Guid id, CancellationToken cancellationToken);
+        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default);
     }
 }
