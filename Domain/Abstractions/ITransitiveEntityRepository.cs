@@ -1,7 +1,6 @@
-﻿using Domain.Abstractions;
-using Domain.Common;
+﻿using Domain.Common;
 
-namespace Domain.Repositories
+namespace Domain.Abstractions
 {
     public interface ITransitiveEntityRepository<TypeE, TransitiveE> : IRepository<TransitiveE>
         where TypeE : TypeEntity

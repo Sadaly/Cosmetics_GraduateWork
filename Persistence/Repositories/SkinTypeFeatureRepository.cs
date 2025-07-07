@@ -1,4 +1,5 @@
-﻿using Domain.Entity;
+﻿using Domain.Abstractions;
+using Domain.Entity;
 using Domain.Repositories;
 using Persistence.Abstractions;
 

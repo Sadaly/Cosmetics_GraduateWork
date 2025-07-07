@@ -10,7 +10,12 @@ namespace Domain.Common
         {
             Title = title;
         }
-
+        public Result<TypeEntity> Update(Result<Title> title)
+        {
+            if (title.IsFailure) return Result.Failure<TypeEntity>(title);
+            Title = title.Value;
+            return this;
+        }
         public Title Title { get; set; } = null!;
     }
 }

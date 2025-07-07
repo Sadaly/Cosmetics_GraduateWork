@@ -1,5 +1,5 @@
-﻿using Domain.Common;
-using Domain.Repositories;
+﻿using Domain.Abstractions;
+using Domain.Common;
 using Domain.Shared;
 
 namespace Persistence.Abstractions

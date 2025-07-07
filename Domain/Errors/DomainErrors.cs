@@ -3,6 +3,22 @@ namespace Domain.Errors
 {
     public static class DomainErrors
     {
+        public static class Notification
+        {
+            public static readonly Error Late = new(
+                "Notification.Late",
+                "Дата отправки позже чем, дата самой процедуры");
+
+            public static readonly Error ProcedureNotScheduled = new(
+                "Notification.ProcedureNotScheduled",
+                "Прежде чем создать уведомление нужно назначить дату процедуры");
+        }
+        public static class Procedure
+        {
+            public static readonly Error DurationLessThenZero = new(
+                "Procedure.DurationLessThenZero",
+                "Длительность процедуры не может быть ниже 0 минут");
+        }
         public static class Username
         {
             public static readonly Error Empty = new(
