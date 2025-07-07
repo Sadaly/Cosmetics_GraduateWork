@@ -4,11 +4,11 @@ using Domain.Shared;
 
 namespace Application.Entity.Users.Queries.GetById
 {
-    internal sealed class UserGetByIdQueryHandler(IUserRepository userRepository) : IQueryHandler<UserGetByIdQuery, UserResponse>
+    internal sealed class UserGetQueryHandler(IUserRepository userRepository) : IQueryHandler<UserGetQuery, UserResponse>
     {
-        public async Task<Result<UserResponse>> Handle(UserGetByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserResponse>> Handle(UserGetQuery request, CancellationToken cancellationToken)
         {
-            var userResult = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
+            var userResult = await userRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
             if (userResult.IsFailure) return Result.Failure<UserResponse>(userResult.Error);
 
             var response = new UserResponse(userResult.Value);

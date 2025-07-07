@@ -2,12 +2,12 @@
 using Application.Entity.Users.Commands.Login;
 using Application.Entity.Users.Commands.SoftDelete;
 using Application.Entity.Users.Commands.Update;
+using Application.Entity.Users.Queries;
 using Application.Entity.Users.Queries.GetAll;
 using Application.Entity.Users.Queries.GetById;
-using Application.Entity.Users.Queries.UsersTake;
-using Domain.Entity;
 using Domain.Errors;
 using Domain.Shared;
+using Domain.SupportData.Filters;
 using Infrastructure.IService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +17,6 @@ using WebApi.Abstractions;
 using WebApi.DTO.UserDTO;
 using WebApi.Extensions;
 using WebApi.Policies;
-using WebApi.SupportData;
-using WebApi.SupportData.Filters;
 
 namespace WebApi.Controllers
 {
@@ -86,21 +84,23 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetById(
             Guid userId, 
             CancellationToken cancellationToken)
-            => (await Sender.Send(new UserGetByIdQuery(userId), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new UserGetQuery(UserQueries.GetById(userId)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(
             [FromQuery] UserFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new UsersGetAllQuery(filter.ToPredicate()), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new UsersGetAllQuery(UserQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("Take")]
         public async Task<IActionResult> Take(
-            [FromQuery] TakeData<UserFilter, User> take,
+            [FromQuery] UserFilter filter,
+            int StartIndex,
+            int Count,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new UsersTakeQuery(take.StartIndex, take.Count, take.Filter?.ToPredicate()), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new UsersGetAllQuery(UserQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpDelete("{userId:guid}")]

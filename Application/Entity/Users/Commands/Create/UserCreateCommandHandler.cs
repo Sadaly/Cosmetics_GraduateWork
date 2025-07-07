@@ -8,16 +8,10 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Users.Commands.UserCreate
 {
-    public sealed class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, Guid>
+    public sealed class UserCreateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserCreateCommand, Guid>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public UserCreateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
-        {
-            _userRepository = userRepository;
-            _unitOfWork = unitOfWork;
-        }
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
         {

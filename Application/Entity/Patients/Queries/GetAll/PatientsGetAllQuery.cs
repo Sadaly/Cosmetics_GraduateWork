@@ -1,8 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using Application.Abstractions;
 using Application.Abstractions.Messaging;
 using Domain.Entity;
 
 namespace Application.Entity.Patients.Queries.GetAll;
 
 public sealed record PatientsGetAllQuery(
-    Expression<Func<Patient, bool>>? Predicate) : IQuery<List<PatientResponses>>;
+    EntityQueries<Patient> Query,
+    int? StartIndex = null,
+    int? Count = null) : IQuery<List<PatientResponses>>;

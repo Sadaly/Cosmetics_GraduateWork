@@ -1,13 +1,14 @@
 ﻿using Application.Entity.Patients.Commands.Create;
 using Application.Entity.Patients.Commands.SoftDelete;
+using Application.Entity.Patients.Queries;
 using Application.Entity.Patients.Queries.GetAll;
+using Domain.SupportData.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Abstractions;
 using WebApi.Extensions;
 using WebApi.Policies;
-using WebApi.SupportData.Filters;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +31,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAll(
             [FromQuery] PatientFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientsGetAllQuery(filter.ToPredicate()), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientsGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpDelete("{patientId:guid}")]

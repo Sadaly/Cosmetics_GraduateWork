@@ -4,21 +4,15 @@ using Domain.Shared;
 
 namespace Application.Entity.Users.Queries.GetAll
 {
-    internal sealed class UsersGetAllQueryHandler : IQueryHandler<UsersGetAllQuery, List<UserResponse>>
+    internal sealed class UsersGetAllQueryHandler(IUserRepository userRepository) : IQueryHandler<UsersGetAllQuery, List<UserResponse>>
     {
-        private readonly IUserRepository _userRepository;
-
-        public UsersGetAllQueryHandler(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<Result<List<UserResponse>>> Handle(UsersGetAllQuery request, CancellationToken cancellationToken)
         {
-            var users = request.Predicate == null
-                ? await _userRepository.GetAllAsync(cancellationToken)
-                : await _userRepository.GetAllAsync(request.Predicate, cancellationToken);
-
+            var users = request.StartIndex == null || request.Count == null
+                ? await _userRepository.GetAllAsync(request.Query.Predicate, cancellationToken)
+                : await _userRepository.GetAllAsync(request.StartIndex.Value, request.Count.Value, request.Query.Predicate, cancellationToken);
             if (users.IsFailure) return Result.Failure<List<UserResponse>>(users.Error);
 
             var listRes = users.Value.Select(u => new UserResponse(u)).ToList();

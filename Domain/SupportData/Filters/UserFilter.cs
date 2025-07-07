@@ -1,8 +1,8 @@
-﻿using Domain.Entity;
+﻿using Domain.Abstractions;
+using Domain.Entity;
 using System.Linq.Expressions;
-using WebApi.Abstractions;
 
-namespace WebApi.SupportData.Filters
+namespace Domain.SupportData.Filters
 {
     public class UserFilter : IEntityFilter<User>
     {

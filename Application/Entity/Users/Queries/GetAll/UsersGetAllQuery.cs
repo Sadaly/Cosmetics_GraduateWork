@@ -1,8 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using Application.Abstractions;
 using Application.Abstractions.Messaging;
 using Domain.Entity;
 
 namespace Application.Entity.Users.Queries.GetAll;
 
 public sealed record UsersGetAllQuery(
-    Expression<Func<User, bool>>? Predicate) : IQuery<List<UserResponse>>;
+    EntityQueries<User> Query,
+    int? StartIndex = null,
+    int? Count = null) : IQuery<List<UserResponse>>;

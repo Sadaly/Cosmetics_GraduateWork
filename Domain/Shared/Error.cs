@@ -1,6 +1,11 @@
 ﻿namespace Domain.Shared
 {
-    public class Error : IEquatable<Error>
+    /// <summary>
+    /// Создает новый экземпляр ошибки.
+    /// </summary>
+    /// <param name="code">Код ошибки.</param>
+    /// <param name="message">Сообщение об ошибке.</param>
+    public class Error(string code, string message) : IEquatable<Error>
     {
         /// <summary>
         /// Представляет отсутствие ошибки.
@@ -13,25 +18,14 @@
         public static readonly Error NullValue = new("Error.NullValue", "Результат равен null.");
 
         /// <summary>
-        /// Создает новый экземпляр ошибки.
-        /// </summary>
-        /// <param name="code">Код ошибки.</param>
-        /// <param name="message">Сообщение об ошибке.</param>
-        public Error(string code, string message)
-        {
-            Code = code;
-            Message = message;
-        }
-
-        /// <summary>
         /// Код ошибки.
         /// </summary>
-        public string Code { get; }
+        public string Code { get; } = code;
 
         /// <summary>
         /// Сообщение об ошибке.
         /// </summary>
-        public string Message { get; }
+        public string Message { get; } = message;
 
         /// <summary>
         /// Неявное преобразование ошибки в строку (возвращает код ошибки).

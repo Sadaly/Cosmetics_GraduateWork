@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using System.Linq.Expressions;
 
-namespace WebApi.Abstractions
+namespace Domain.Abstractions
 {
     public interface IEntityFilter<TEntity> where TEntity : BaseEntity
     {
