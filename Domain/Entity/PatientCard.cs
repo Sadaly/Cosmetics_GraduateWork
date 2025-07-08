@@ -26,7 +26,7 @@ namespace Domain.Entity
         public Guid PatientId { get; set; }
         [JsonIgnore]
         public Patient Patient { get; set; } = null!;
-        public PatientSpecifics Specifics { get; set; } = null!;
+        public PatientSpecifics? Specifics { get; set; } = null!;
 
         public List<AgeChange> AgeChanges => _ageChanges;
         private readonly List<AgeChange> _ageChanges = [];

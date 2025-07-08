@@ -2,9 +2,9 @@
 
 namespace Domain.Abstractions
 {
-    public interface IEntityTypeRepository<TypeE, TransitiveE> : IRepository<TypeE>
+    public interface IEntityTypeRepository<TypeE, EntityWithT> : IRepository<TypeE>
         where TypeE : TypeEntity
-        where TransitiveE : TransitiveEntity<TypeE>
+        where EntityWithT : EntityWithTntity<TypeE>
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class HealthCond : TransitiveEntity<HealthCondType>
+    public class HealthCond : EntityWithTntity<HealthCondType>
     {
         private HealthCond(Guid id) : base(id) { }
         private HealthCond(Guid id, PatientCard patientCard, HealthCondType type) : base(id, type)

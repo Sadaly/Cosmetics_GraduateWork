@@ -5,10 +5,10 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class SkinFeatureRepository(AppDbContext dbContext) 
-        : EntityWithTypeRepository<SkinFeatureType, SkinFeature>(dbContext), ISkinFeatureRepository
+    public class SkinCareRepository(AppDbContext dbContext) 
+        : EntityWithTypeRepository<SkinCareType, SkinCare>(dbContext), ISkinCareRepository
     {
-        private protected override IQueryable<SkinFeature> GetAllInclude()
+        private protected override IQueryable<SkinCare> GetAllInclude()
             => base.GetAllInclude()
             .Include(e => e.PatientCard)
             .Include(e => e.Type);

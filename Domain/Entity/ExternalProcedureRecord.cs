@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class ExternalProcedureRecord : TransitiveEntity<ExternalProcedureRecordType>
+    public class ExternalProcedureRecord : EntityWithTntity<ExternalProcedureRecordType>
     {
         private ExternalProcedureRecord(Guid id) : base(id) { }
         private ExternalProcedureRecord(Guid id, PatientCard patientCard, ExternalProcedureRecordType type, DateOnly? dateOnly) : base(id, type)

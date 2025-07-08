@@ -8,7 +8,8 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class UserRepository(AppDbContext dbContext) : TRepository<User>(dbContext), IUserRepository
+    public class UserRepository(AppDbContext dbContext) 
+        : TRepository<User>(dbContext), IUserRepository
     {
         public async Task<Result<User>> GetByEmailAsync(Result<Email> email, CancellationToken cancellationToken = default)
         {

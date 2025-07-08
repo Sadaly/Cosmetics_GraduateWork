@@ -7,7 +7,7 @@ namespace Domain.Entity
     /// <summary>
     /// Класс представляющий собой возрастные изменения пациента
     /// </summary>
-    public class AgeChange : TransitiveEntity<AgeChangeType>
+    public class AgeChange : EntityWithTntity<AgeChangeType>
     {
         private AgeChange(Guid id) : base(id)
         {

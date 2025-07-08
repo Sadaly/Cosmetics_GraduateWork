@@ -4,23 +4,23 @@ using Domain.Shared;
 
 namespace Persistence.Abstractions
 {
-    public abstract class EntityTypeRepository<TypeE, TransitiveE> : TRepository<TypeE>, IEntityTypeRepository<TypeE, TransitiveE> 
+    public abstract class EntityTypeRepository<TypeE, EntityWithT> : TRepository<TypeE>, IEntityTypeRepository<TypeE, EntityWithT> 
         where TypeE : TypeEntity
-        where TransitiveE : TransitiveEntity<TypeE>
+        where EntityWithT : EntityWithTntity<TypeE>
     {
-        protected readonly ITransitiveEntityRepository<TypeE, TransitiveE> _transitiveEntityRepository;
-        protected EntityTypeRepository(AppDbContext dbContext, ITransitiveEntityRepository<TypeE, TransitiveE> transitiveEntityRepository) : base(dbContext)
+        protected readonly IEntityWithTntityRepository<TypeE, EntityWithT> _EntityWithTntityRepository;
+        protected EntityTypeRepository(AppDbContext dbContext, IEntityWithTntityRepository<TypeE, EntityWithT> EntityWithTntityRepository) : base(dbContext)
         {
-            _transitiveEntityRepository = transitiveEntityRepository;
+            _EntityWithTntityRepository = EntityWithTntityRepository;
         }
 
         public override async Task<Result<TypeE>> RemoveAsync(Result<TypeE> entity, CancellationToken cancellationToken = default) 
         {
             if (entity.IsFailure) return entity;
-            var teList = await _transitiveEntityRepository.GetAllAsync(te => te.TypeId == entity.Value.Id, cancellationToken);
+            var teList = await _EntityWithTntityRepository.GetAllAsync(te => te.TypeId == entity.Value.Id, cancellationToken);
             if (teList.IsFailure) return Result.Failure<TypeE>(teList.Error);
             foreach (var te in teList.Value)
-                await _transitiveEntityRepository.RemoveAsync(te, cancellationToken);
+                await _EntityWithTntityRepository.RemoveAsync(te, cancellationToken);
             return await base.RemoveAsync(entity, cancellationToken);
         }
     }

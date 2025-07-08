@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class Procedure : TransitiveEntity<ProcedureType>
+    public class Procedure : EntityWithTntity<ProcedureType>
     {
         private Procedure(Guid id) : base(id) { }
         private Procedure(Guid id, PatientCard patientCard, ProcedureType type, DateTime? scheduledDate, int duration, Doctor? doctor) : base(id, type)

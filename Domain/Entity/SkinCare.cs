@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class SkinCare : TransitiveEntity<SkinCareType>
+    public class SkinCare : EntityWithTntity<SkinCareType>
     {
         private SkinCare(Guid id) : base(id) { }
         private SkinCare(Guid id, PatientCard patientCard, SkinCareType type) : base(id, type)
