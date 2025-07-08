@@ -21,13 +21,14 @@ namespace Persistence.Repositories
         public override async Task<Result<Procedure>> RemoveAsync(Result<Procedure> entity, CancellationToken cancellationToken = default)
         {
             if (entity.IsFailure) return entity;
-            var notific = await _notificationRepository.GetByPredicateAsync(x => x.ProcedureId == entity.Value.Id, cancellationToken);
+            if (entity.Value.Notification != null)
+            {
+                var notific = await _notificationRepository.GetByIdAsync(entity.Value.Notification.Id, cancellationToken);
+                if (notific.IsFailure) return Result.Failure<Procedure>(notific.Error);
 
-            if (notific.IsFailure) return Result.Failure<Procedure>(notific.Error);
-
-            var remove = await _notificationRepository.RemoveAsync(notific, cancellationToken);
-            if (remove.IsFailure) return Result.Failure<Procedure>(remove.Error);
-
+                var remove = await _notificationRepository.RemoveAsync(notific, cancellationToken);
+                if (remove.IsFailure) return Result.Failure<Procedure>(remove.Error);
+            }
             return await base.RemoveAsync(entity, cancellationToken);
         }
     }
