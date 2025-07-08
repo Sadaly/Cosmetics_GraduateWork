@@ -5,8 +5,8 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class ExternalProcedureRecordTypeRepository(AppDbContext dbContext, IEntityWithTntityRepository<ExternalProcedureRecordType, ExternalProcedureRecord> EntityWithTntityRepository) 
-        : EntityTypeRepository<ExternalProcedureRecordType, ExternalProcedureRecord>(dbContext, EntityWithTntityRepository), IExternalProcedureRecordTypeRepository
+    public class ExternalProcedureRecordTypeRepository(AppDbContext dbContext, IEntityWithTypeRepository<ExternalProcedureRecordType, ExternalProcedureRecord> EntityWithTypeRepository) 
+        : EntityTypeRepository<ExternalProcedureRecordType, ExternalProcedureRecord>(dbContext, EntityWithTypeRepository), IExternalProcedureRecordTypeRepository
     {
     }
 }

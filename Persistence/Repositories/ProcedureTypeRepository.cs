@@ -5,8 +5,8 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class ProcedureTypeRepository(AppDbContext dbContext, IEntityWithTntityRepository<ProcedureType, Procedure> EntityWithTntityRepository) 
-        : EntityTypeRepository<ProcedureType, Procedure>(dbContext, EntityWithTntityRepository), IProcedureTypeRepository
+    public class ProcedureTypeRepository(AppDbContext dbContext, IEntityWithTypeRepository<ProcedureType, Procedure> EntityWithTypeRepository) 
+        : EntityTypeRepository<ProcedureType, Procedure>(dbContext, EntityWithTypeRepository), IProcedureTypeRepository
     {
     }
 }

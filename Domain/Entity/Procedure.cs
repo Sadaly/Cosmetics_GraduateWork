@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class Procedure : EntityWithTntity<ProcedureType>
+    public class Procedure : EntityWithType<ProcedureType>
     {
         private Procedure(Guid id) : base(id) { }
         private Procedure(Guid id, PatientCard patientCard, ProcedureType type, DateTime? scheduledDate, int duration, Doctor? doctor) : base(id, type)
@@ -48,6 +48,12 @@ namespace Domain.Entity
             if (doctor.IsFailure) Result.Failure<Procedure>(doctor);
             Doctor = doctor.Value;
             DoctorId = doctor.Value.Id;
+            return this;
+        }
+        public Result<Procedure> RemoveDoctor()
+        {
+            Doctor = null;
+            DoctorId = null;
             return this;
         }
     }

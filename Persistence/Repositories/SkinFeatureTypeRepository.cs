@@ -5,8 +5,8 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class SkinFeatureTypeRepository(AppDbContext dbContext, IEntityWithTntityRepository<SkinFeatureType, SkinFeature> EntityWithTntityRepository) 
-        : EntityTypeRepository<SkinFeatureType, SkinFeature>(dbContext, EntityWithTntityRepository), ISkinFeatureTypeRepository
+    public class SkinFeatureTypeRepository(AppDbContext dbContext, IEntityWithTypeRepository<SkinFeatureType, SkinFeature> EntityWithTypeRepository) 
+        : EntityTypeRepository<SkinFeatureType, SkinFeature>(dbContext, EntityWithTypeRepository), ISkinFeatureTypeRepository
     {
     }
 }

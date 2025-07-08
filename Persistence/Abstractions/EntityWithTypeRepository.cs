@@ -4,9 +4,9 @@ using Domain.Shared;
 
 namespace Persistence.Abstractions
 {
-    public abstract class EntityWithTypeRepository<TypeE, EntityWithT>(AppDbContext dbContext) : TRepository<EntityWithT>(dbContext), IEntityWithTntityRepository<TypeE, EntityWithT> 
+    public abstract class EntityWithTypeRepository<TypeE, EntityWithT>(AppDbContext dbContext) : TRepository<EntityWithT>(dbContext), IEntityWithTypeRepository<TypeE, EntityWithT> 
         where TypeE : TypeEntity
-        where EntityWithT : EntityWithTntity<TypeE>
+        where EntityWithT : EntityWithType<TypeE>
     {
         public override async Task<Result<EntityWithT>> RemoveAsync(Result<EntityWithT> entity, CancellationToken cancellationToken = default) 
         {

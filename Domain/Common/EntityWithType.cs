@@ -2,10 +2,10 @@
 
 namespace Domain.Common
 {
-    public class EntityWithTntity<T> : BaseEntity where T : TypeEntity
+    public class EntityWithType<T> : BaseEntity where T : TypeEntity
     {
-        public EntityWithTntity(Guid id) : base(id) { }
-        public EntityWithTntity(Guid id, T type) : base(id)
+        public EntityWithType(Guid id) : base(id) { }
+        public EntityWithType(Guid id, T type) : base(id)
         {
             TypeId = type.Id;
             Type = type;

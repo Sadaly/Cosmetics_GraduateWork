@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entity
 {
-    public class SkinFeature : EntityWithTntity<SkinFeatureType>
+    public class SkinFeature : EntityWithType<SkinFeatureType>
     {
         private SkinFeature(Guid id) : base(id) { }
         private SkinFeature(Guid id, PatientCard patientCard, SkinFeatureType type) : base(id, type)
