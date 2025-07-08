@@ -33,7 +33,6 @@ namespace Domain.Entity
             if (email.IsFailure) return Result.Failure<User>(email.Error);
             if (email.Value == this.Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
             this.Email = email.Value;
-            this.UpdatedAt = DateTime.UtcNow;
             return this;
         }
         public Result<User> UpdateUsername(Result<Username> username)
@@ -41,7 +40,6 @@ namespace Domain.Entity
             if (username.IsFailure) return Result.Failure<User>(username.Error);
             if (username.Value == this.Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
             this.Username = username.Value;
-            this.UpdatedAt = DateTime.UtcNow;
             return this;
         }
         public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
@@ -49,7 +47,6 @@ namespace Domain.Entity
             if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
             if (passwordHashed.Value == this.PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
             this.PasswordHashed = passwordHashed.Value;
-            this.UpdatedAt = DateTime.UtcNow;
             return this;
         }
     }

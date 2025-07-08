@@ -26,7 +26,7 @@ namespace Persistence.Abstractions
         {
             var result = await VerificationBeforeUpdateAsync(entity, cancellationToken);
             if (result.IsFailure) return Result.Failure<T>(result.Error);
-
+            entity.Value.UpdatedAt = DateTime.UtcNow;
             _dbContext.Entry(entity.Value).State = EntityState.Modified;
 
             return entity;
