@@ -7,11 +7,13 @@ namespace Domain.Entity
 {
     public class Doctor : BaseEntity
     {
+        private Doctor(Guid id) : base(id) { }
         private Doctor(Guid id, Username fullname) : base(id)
         {
             Fullname = fullname;
         }
-        public Username Fullname { get; set; }
+
+        public Username Fullname { get; set; } = null!;
         [JsonIgnore]
         public List<Procedure> Procedures => _procedures;
         private readonly List<Procedure> _procedures = [];

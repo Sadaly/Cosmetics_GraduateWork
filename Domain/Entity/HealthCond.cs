@@ -6,6 +6,7 @@ namespace Domain.Entity
 {
     public class HealthCond : TransitiveEntity<HealthCondType>
     {
+        private HealthCond(Guid id) : base(id) { }
         private HealthCond(Guid id, PatientCard patientCard, HealthCondType type) : base(id, type)
         {
             PatientCardId = patientCard.Id;

@@ -6,9 +6,7 @@ namespace Domain.Entity
 {
     public class Patient : BaseEntity
     {
-        private Patient(Guid id) : base(id)
-        {
-        }
+        private Patient(Guid id) : base(id) { }
         private Patient(Guid id, Username fullname) : base(id)
         {
             this.Fullname = fullname;

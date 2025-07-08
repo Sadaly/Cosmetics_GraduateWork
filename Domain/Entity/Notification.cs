@@ -8,6 +8,7 @@ namespace Domain.Entity
 {
     public class Notification : BaseEntity
     {
+        private Notification(Guid id) : base(id) { }
         private Notification(Guid id, Procedure procedure, Text message, DateTime sendingDate) : base(id)
         {
             Procedure = procedure;

@@ -6,6 +6,7 @@ namespace Domain.Entity
 {
     public class ExternalProcedureRecord : TransitiveEntity<ExternalProcedureRecordType>
     {
+        private ExternalProcedureRecord(Guid id) : base(id) { }
         private ExternalProcedureRecord(Guid id, PatientCard patientCard, ExternalProcedureRecordType type, DateOnly? dateOnly) : base(id, type)
         {
             PatientCardId = patientCard.Id;

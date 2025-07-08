@@ -9,6 +9,10 @@ namespace Domain.Entity
     /// </summary>
     public class AgeChange : TransitiveEntity<AgeChangeType>
     {
+        private AgeChange(Guid id) : base(id)
+        {
+        }
+
         private AgeChange(Guid id, PatientCard patientCard, AgeChangeType type) : base(id, type)
         {
             PatientCardId = patientCard.Id;

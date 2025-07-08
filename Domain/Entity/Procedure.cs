@@ -8,6 +8,7 @@ namespace Domain.Entity
 {
     public class Procedure : TransitiveEntity<ProcedureType>
     {
+        private Procedure(Guid id) : base(id) { }
         private Procedure(Guid id, PatientCard patientCard, ProcedureType type, DateTime? scheduledDate, int duration, Doctor? doctor) : base(id, type)
         {
             PatientCardId = patientCard.Id;
@@ -27,6 +28,7 @@ namespace Domain.Entity
 
         public Guid? DoctorId { get; set; }
         public Doctor? Doctor { get; set; }
+        public Notification? Notification { get; set; }
         public bool IsComplete { get; set; } = false;
         public bool IsPostponded { get; set; } = false;
         public bool IsCancelled { get; set; } = false;

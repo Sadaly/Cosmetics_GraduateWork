@@ -6,6 +6,7 @@ namespace Domain.Entity
 {
     public class SkinCare : TransitiveEntity<SkinCareType>
     {
+        private SkinCare(Guid id) : base(id) { }
         private SkinCare(Guid id, PatientCard patientCard, SkinCareType type) : base(id, type)
         {
             PatientCardId = patientCard.Id;

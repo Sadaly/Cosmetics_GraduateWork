@@ -6,6 +6,7 @@ namespace Domain.Entity
 {
     public class PatientSpecifics : BaseEntity
     {
+        private PatientSpecifics(Guid id) : base(id) { }
         private PatientSpecifics(Guid id, string sleep, string diet, string sport, string workEnviroment, PatientCard patientCard) : base(id)
         {
             Sleep = sleep;

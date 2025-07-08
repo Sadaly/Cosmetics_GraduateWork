@@ -23,6 +23,256 @@ namespace Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entity.AgeChange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("AgeChange", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.AgeChangeType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.AgeChangeType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AgeChangeType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.Doctor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Fullname", "Domain.Entity.Doctor.Fullname#Username", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Doctor", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ExternalProcedureRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly?>("DateOnly")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("ExternalProcedureRecord", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ExternalProcedureRecordType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.ExternalProcedureRecordType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExternalProcedureRecordType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.HealthCond", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("HealthCond", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.HealthCondType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.HealthCondType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HealthCondType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ProcedureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SendingDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Message", "Domain.Entity.Notification.Message#Text", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProcedureId")
+                        .IsUnique();
+
+                    b.ToTable("Notification", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entity.Patient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -106,6 +356,219 @@ namespace Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("PatientCard", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.PatientSpecifics", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Diet")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Sleep")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sport")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("WorkEnviroment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId")
+                        .IsUnique();
+
+                    b.ToTable("PatientSpecifics", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.Procedure", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DoctorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPostponded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ScheduledDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Procedure", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProcedureType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("StandartDuration")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.ProcedureType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProcedureType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ReservedDate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReservedDate", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.SkinCare", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PatientCardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientCardId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("SkinCare", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.SkinCareType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.SkinCareType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SkinCareType", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.SkinFeature", b =>
@@ -214,6 +677,72 @@ namespace Persistence.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entity.AgeChange", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("AgeChanges")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.AgeChangeType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ExternalProcedureRecord", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("ExternalProcedureRecords")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.ExternalProcedureRecordType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Domain.Entity.HealthCond", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("HealthConds")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.HealthCondType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Notification", b =>
+                {
+                    b.HasOne("Domain.Entity.Procedure", "Procedure")
+                        .WithOne("Notification")
+                        .HasForeignKey("Domain.Entity.Notification", "ProcedureId");
+
+                    b.Navigation("Procedure");
+                });
+
             modelBuilder.Entity("Domain.Entity.PatientCard", b =>
                 {
                     b.HasOne("Domain.Entity.Patient", "Patient")
@@ -225,10 +754,65 @@ namespace Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Domain.Entity.PatientSpecifics", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithOne("Specifics")
+                        .HasForeignKey("Domain.Entity.PatientSpecifics", "PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Procedure", b =>
+                {
+                    b.HasOne("Domain.Entity.Doctor", "Doctor")
+                        .WithMany("Procedures")
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("Procedures")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.ProcedureType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Domain.Entity.SkinCare", b =>
+                {
+                    b.HasOne("Domain.Entity.PatientCard", "PatientCard")
+                        .WithMany("SkinCares")
+                        .HasForeignKey("PatientCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.SkinCareType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientCard");
+
+                    b.Navigation("Type");
+                });
+
             modelBuilder.Entity("Domain.Entity.SkinFeature", b =>
                 {
                     b.HasOne("Domain.Entity.PatientCard", "PatientCard")
-                        .WithMany("skinFeatures")
+                        .WithMany("SkinFeatures")
                         .HasForeignKey("PatientCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -244,6 +828,11 @@ namespace Persistence.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("Domain.Entity.Doctor", b =>
+                {
+                    b.Navigation("Procedures");
+                });
+
             modelBuilder.Entity("Domain.Entity.Patient", b =>
                 {
                     b.Navigation("Card")
@@ -252,7 +841,25 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entity.PatientCard", b =>
                 {
-                    b.Navigation("skinFeatures");
+                    b.Navigation("AgeChanges");
+
+                    b.Navigation("ExternalProcedureRecords");
+
+                    b.Navigation("HealthConds");
+
+                    b.Navigation("Procedures");
+
+                    b.Navigation("SkinCares");
+
+                    b.Navigation("SkinFeatures");
+
+                    b.Navigation("Specifics")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entity.Procedure", b =>
+                {
+                    b.Navigation("Notification");
                 });
 #pragma warning restore 612, 618
         }
