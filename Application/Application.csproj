@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
-
+ 
   <ItemGroup>
     <Folder Include="Entity\AgeChangeTypes\Commands\Create\" />
     <Folder Include="Entity\AgeChangeTypes\Commands\SoftDelete\" />
