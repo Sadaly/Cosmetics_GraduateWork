@@ -91,7 +91,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAll(
             [FromQuery] UserFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new UsersGetAllQuery(UserQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new UserGetAllQuery(UserQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("Take")]
@@ -100,7 +100,7 @@ namespace WebApi.Controllers
             int StartIndex,
             int Count,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new UsersGetAllQuery(UserQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new UserGetAllQuery(UserQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpDelete("{userId:guid}")]

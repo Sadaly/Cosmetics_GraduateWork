@@ -64,10 +64,6 @@
     <Folder Include="Entity\ProcedureTypes\Commands\SoftDelete\" />
     <Folder Include="Entity\ProcedureTypes\Queries\GetAll\" />
     <Folder Include="Entity\ProcedureTypes\Queries\Get\" />
-    <Folder Include="Entity\AgeChanges\Commands\Create\" />
-    <Folder Include="Entity\AgeChanges\Commands\SoftDelete\" />
-    <Folder Include="Entity\AgeChanges\Queries\GetAll\" />
-    <Folder Include="Entity\AgeChanges\Queries\Get\" />
     <Folder Include="Entity\PatientSpecificses\Commands\Create\" />
     <Folder Include="Entity\PatientSpecificses\Commands\SoftDelete\" />
     <Folder Include="Entity\PatientSpecificses\Queries\GetAll\" />
