@@ -15,7 +15,7 @@ namespace Application.Entity.AgeChanges.Commands.Create
             var create = AgeChange.Create(pc, acType);
 
             var add = await ageChangeRepository.AddAsync(create, cancellationToken);
-            var save = await unitOfWork.SaveChangesAsync(acType, cancellationToken);
+            var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess
                 ? save.Value.Id

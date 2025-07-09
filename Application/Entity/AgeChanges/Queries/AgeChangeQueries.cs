@@ -4,6 +4,6 @@ using System.Linq.Expressions;
 
 namespace Application.Entity.AgeChanges.Queries;
 
-public sealed record AgeChangeQuries(Expression<Func<AgeChange, bool>> Predicate) : EntityQueries<AgeChange>(Predicate)
+public sealed record AgeChangeQueries(Expression<Func<SkinFeature, bool>> Predicate) : EntityQueries<SkinFeature>(Predicate)
 {
 }
