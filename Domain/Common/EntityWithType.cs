@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Domain.Shared;
+using System.Text.Json.Serialization;
 
 namespace Domain.Common
 {
@@ -9,6 +10,14 @@ namespace Domain.Common
         {
             TypeId = type.Id;
             Type = type;
+        }
+        
+        public Result<EntityWithType<T>> ChangeType(Result<T> type)
+        {
+            if (type.IsFailure) return Result.Failure<EntityWithType<T>>(type.Error);
+            TypeId = type.Value.Id;
+            Type = type.Value;
+            return this;
         }
 
         public Guid TypeId { get; set; }

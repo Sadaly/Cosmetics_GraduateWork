@@ -1,5 +1,9 @@
 ﻿using Application.Entity.SkinFeatureTypes.Commands.Create;
 using Application.Entity.SkinFeatureTypes.Commands.SoftDelete;
+using Application.Entity.SkinFeatureTypes.Queries;
+using Application.Entity.SkinFeatureTypes.Queries.Get;
+using Application.Entity.SkinFeatureTypes.Queries.GetAll;
+using Domain.SupportData.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +25,24 @@ namespace WebApi.Controllers
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpDelete]
-        public async Task<IActionResult> GetAll(
+        public async Task<IActionResult> RemoveById(
             [FromBody] SkinFeatureTypeSoftDeleteCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] SkinFeatureTypeFilter filter,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new SkinFeatureTypeGetAllQuery(SkinFeatureTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("{skinFeatureId:guid}")]
+        public async Task<IActionResult> Get(
+            Guid skinFeatureId,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new SkinFeatureTypeGetQuery(SkinFeatureTypeQueries.GetById(skinFeatureId)), cancellationToken)).ToActionResult();
 
     }
 }
