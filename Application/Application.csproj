@@ -16,54 +16,18 @@
   </ItemGroup>
  
   <ItemGroup>
-    <Folder Include="Entity\AgeChangeTypes\Commands\Create\" />
-    <Folder Include="Entity\AgeChangeTypes\Commands\SoftDelete\" />
-    <Folder Include="Entity\AgeChangeTypes\Queries\GetAll\" />
-    <Folder Include="Entity\AgeChangeTypes\Queries\Get\" />
     <Folder Include="Entity\Doctors\Commands\Create\" />
     <Folder Include="Entity\Doctors\Commands\SoftDelete\" />
     <Folder Include="Entity\Doctors\Queries\GetAll\" />
     <Folder Include="Entity\Doctors\Queries\Get\" />
-    <Folder Include="Entity\ExternalProcedureRecords\Commands\Create\" />
-    <Folder Include="Entity\ExternalProcedureRecords\Commands\SoftDelete\" />
-    <Folder Include="Entity\ExternalProcedureRecords\Queries\GetAll\" />
-    <Folder Include="Entity\ExternalProcedureRecords\Queries\Get\" />
-    <Folder Include="Entity\ExternalProcedureRecordTypes\Commands\Create\" />
-    <Folder Include="Entity\ExternalProcedureRecordTypes\Commands\SoftDelete\" />
-    <Folder Include="Entity\ExternalProcedureRecordTypes\Queries\GetAll\" />
-    <Folder Include="Entity\ExternalProcedureRecordTypes\Queries\Get\" />
-    <Folder Include="Entity\HealthConds\Commands\Create\" />
-    <Folder Include="Entity\HealthConds\Commands\SoftDelete\" />
-    <Folder Include="Entity\HealthConds\Queries\GetAll\" />
-    <Folder Include="Entity\HealthConds\Queries\Get\" />
-    <Folder Include="Entity\HealthCondTypes\Commands\Create\" />
-    <Folder Include="Entity\HealthCondTypes\Commands\SoftDelete\" />
-    <Folder Include="Entity\HealthCondTypes\Queries\GetAll\" />
-    <Folder Include="Entity\HealthCondTypes\Queries\Get\" />
     <Folder Include="Entity\Notifications\Commands\Create\" />
     <Folder Include="Entity\Notifications\Commands\SoftDelete\" />
     <Folder Include="Entity\Notifications\Queries\GetAll\" />
     <Folder Include="Entity\Notifications\Queries\Get\" />
-    <Folder Include="Entity\Procedures\Commands\Create\" />
-    <Folder Include="Entity\Procedures\Commands\SoftDelete\" />
-    <Folder Include="Entity\Procedures\Queries\GetAll\" />
-    <Folder Include="Entity\Procedures\Queries\Get\" />
-    <Folder Include="Entity\SkinCares\Commands\Create\" />
-    <Folder Include="Entity\SkinCares\Commands\SoftDelete\" />
-    <Folder Include="Entity\SkinCares\Queries\GetAll\" />
-    <Folder Include="Entity\SkinCares\Queries\Get\" />
-    <Folder Include="Entity\SkinCareTypes\Commands\Create\" />
-    <Folder Include="Entity\SkinCareTypes\Commands\SoftDelete\" />
-    <Folder Include="Entity\SkinCareTypes\Queries\GetAll\" />
-    <Folder Include="Entity\SkinCareTypes\Queries\Get\" />
     <Folder Include="Entity\ReservedDates\Commands\Create\" />
     <Folder Include="Entity\ReservedDates\Commands\SoftDelete\" />
     <Folder Include="Entity\ReservedDates\Queries\GetAll\" />
     <Folder Include="Entity\ReservedDates\Queries\Get\" />
-    <Folder Include="Entity\ProcedureTypes\Commands\Create\" />
-    <Folder Include="Entity\ProcedureTypes\Commands\SoftDelete\" />
-    <Folder Include="Entity\ProcedureTypes\Queries\GetAll\" />
-    <Folder Include="Entity\ProcedureTypes\Queries\Get\" />
     <Folder Include="Entity\PatientSpecificses\Commands\Create\" />
     <Folder Include="Entity\PatientSpecificses\Commands\SoftDelete\" />
     <Folder Include="Entity\PatientSpecificses\Queries\GetAll\" />
@@ -73,10 +37,6 @@
     <Folder Include="Entity\PatientCards\Queries\Get\" />
     <Folder Include="Entity\PatientCards\Queries\GetAll\" />
     <Folder Include="Entity\Patients\Queries\Get\" />
-    <Folder Include="Entity\SkinFeatures\Queries\GetAll\" />
-    <Folder Include="Entity\SkinFeatures\Queries\Get\" />
-    <Folder Include="Entity\SkinFeatureTypes\Queries\GetAll\" />
-    <Folder Include="Entity\SkinFeatureTypes\Queries\Get\" />
   </ItemGroup>
 
 </Project>

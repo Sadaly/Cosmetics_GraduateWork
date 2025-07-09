@@ -6,15 +6,15 @@ using Domain.Shared;
 
 namespace Application.Entity.SkinFeatures.Commands.Create
 {
-    internal class SkinFeatureCreateCommandHandler(ISkinFeatureTypeRepository skinFeatureTypeRepository, ISkinFeatureRepository skinFeatureRepository, IPatientCardRepository patientCardRepository, IUnitOfWork unitOfWork) : ICommandHandler<SkinFeatureCreateCommand, Guid>
+    internal class SkinFeatureCreateCommandHandler(ISkinFeatureRepository skinFeatureRepository, ISkinFeatureTypeRepository skinFeatureTypeRepository, IPatientCardRepository patientCardRepository, IUnitOfWork unitOfWork) : ICommandHandler<SkinFeatureCreateCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(SkinFeatureCreateCommand request, CancellationToken cancellationToken)
         {
-            var skinFeatureType = await skinFeatureTypeRepository.GetByIdAsync(request.TypeId, cancellationToken);
-            var patientCard = await patientCardRepository.GetByIdAsync(request.PatientCardId, cancellationToken);
-            var skinFeature = SkinFeature.Create(patientCard, skinFeatureType);
+            var acType = await skinFeatureTypeRepository.GetByIdAsync(request.TypeId, cancellationToken);
+            var pc = await patientCardRepository.GetByIdAsync(request.PatientCardId, cancellationToken);
+            var create = SkinFeature.Create(pc, acType);
 
-            var add = await skinFeatureRepository.AddAsync(skinFeature, cancellationToken);
+            var add = await skinFeatureRepository.AddAsync(create, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess

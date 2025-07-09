@@ -9,16 +9,13 @@ namespace Application.Entity.SkinFeatureTypes.Commands.Create
 {
     internal class SkinFeatureTypeCreateCommandHandler(ISkinFeatureTypeRepository skinFeatureTypeRepository, IUnitOfWork unitOfWork) : ICommandHandler<SkinFeatureTypeCreateCommand, Guid>
     {
-        private readonly ISkinFeatureTypeRepository _skinFeatureTypeRepository = skinFeatureTypeRepository;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
         public async Task<Result<Guid>> Handle(SkinFeatureTypeCreateCommand request, CancellationToken cancellationToken)
         {
             var title = Title.Create(request.Title);
             var skinFeatureType = SkinFeatureType.Create(title);
 
-            var add = await _skinFeatureTypeRepository.AddAsync(skinFeatureType, cancellationToken);
-            var save = await _unitOfWork.SaveChangesAsync(add, cancellationToken);
+            var add = await skinFeatureTypeRepository.AddAsync(skinFeatureType, cancellationToken);
+            var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess
                 ? save.Value.Id
