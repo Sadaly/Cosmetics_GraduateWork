@@ -13,12 +13,8 @@ using WebApi.Policies;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class PatientsController : ApiController
+    public class PatientsController(ISender sender) : ApiController(sender)
     {
-        public PatientsController(ISender sender) : base(sender)
-        {
-        }
-
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPost]
         public async Task<IActionResult> Create(

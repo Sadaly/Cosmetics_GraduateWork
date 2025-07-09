@@ -10,13 +10,15 @@ namespace Application.Entity.AgeChanges.Commands.ChangeType
     {
         public async Task<Result<Guid>> Handle(AgeChangeChangeTypeCommand request, CancellationToken cancellationToken)
         {
-            var acType = await ageChangeTypeRepository.GetByIdAsync(request.TypeId, cancellationToken);
+            var type = await ageChangeTypeRepository.GetByIdAsync(request.TypeId, cancellationToken);
+
             var ent = await ageChangeRepository.GetByIdAsync(request.AgeChangeId, cancellationToken);
             if (ent.IsFailure) return Result.Failure<Guid>(ent.Error);
-            var update = ent.Value.ChangeType(acType);
+
+            var update = ent.Value.ChangeType(type);
             if (update.IsFailure) return Result.Failure<Guid>(update.Error);
-            var after = (AgeChange)update.Value;
-            var add = await ageChangeRepository.UpdateAsync(after, cancellationToken);
+
+            var add = await ageChangeRepository.UpdateAsync((AgeChange)update.Value, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess

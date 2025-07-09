@@ -265,6 +265,15 @@ namespace Persistence.Migrations
                                 .HasColumnType("text");
                         });
 
+                    b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "Domain.Entity.Notification.PhoneNumber#PhoneNumber", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProcedureId")
@@ -853,8 +862,7 @@ namespace Persistence.Migrations
 
                     b.Navigation("SkinFeatures");
 
-                    b.Navigation("Specifics")
-                        .IsRequired();
+                    b.Navigation("Specifics");
                 });
 
             modelBuilder.Entity("Domain.Entity.Procedure", b =>

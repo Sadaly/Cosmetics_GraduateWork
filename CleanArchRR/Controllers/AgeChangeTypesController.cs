@@ -1,5 +1,6 @@
 ﻿using Application.Entity.AgeChangeTypes.Commands.Create;
 using Application.Entity.AgeChangeTypes.Commands.SoftDelete;
+using Application.Entity.AgeChangeTypes.Commands.Update;
 using Application.Entity.AgeChangeTypes.Queries;
 using Application.Entity.AgeChangeTypes.Queries.Get;
 using Application.Entity.AgeChangeTypes.Queries.GetAll;
@@ -20,6 +21,12 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] AgeChangeTypeCreateCommand command,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpPut]
+        public async Task<IActionResult> Update(
+            [FromBody] AgeChangeTypeUpdateCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
