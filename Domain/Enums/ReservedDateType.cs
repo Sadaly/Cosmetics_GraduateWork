@@ -3,8 +3,8 @@
     public enum ReservedDateType
     {
         None,
-        EveryDayRestrict,
-        EveryWeekRestrict,
-        Holiday
+        TimeRestrict,
+        DayOfWeekRestrict,
+        HolidayRestrict
     }
 }
