@@ -26,7 +26,7 @@ namespace Domain.ValueObjects
         /// </summary>
         /// <param name="phoneNumber">Строка с номером телефона</param>
         /// <returns>Новый экземпляр <see cref="PhoneNumber"/></returns>
-        public static Result<PhoneNumber>? Create(string phoneNumber)
+        public static Result<PhoneNumber> Create(string? phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(phoneNumber))
                 return CreateDefault();

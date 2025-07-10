@@ -41,7 +41,7 @@ namespace Domain.Entity
         public List<SkinFeature> SkinFeatures => _skinFeatures;
         private readonly List<SkinFeature> _skinFeatures = [];
 
-        internal static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
+        public static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
         {
             if (adress.IsFailure) return Result.Failure<PatientCard>(adress.Error);
             if (patient.IsFailure) return Result.Failure<PatientCard>(patient.Error);

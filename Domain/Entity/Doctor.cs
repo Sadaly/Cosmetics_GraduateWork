@@ -22,5 +22,12 @@ namespace Domain.Entity
             if (fullname.IsFailure) return Result.Failure<Doctor>(fullname.Error);
             return new Doctor(Guid.NewGuid(), fullname.Value);
         }
+
+        public Result<Doctor> Update(Result<Username> name)
+        {
+            if (name.IsFailure) return Result.Failure<Doctor>(name.Error);
+            this.Fullname = name.Value;
+            return this;
+        }
     }
 }

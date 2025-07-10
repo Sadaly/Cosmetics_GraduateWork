@@ -37,5 +37,19 @@ namespace Domain.Entity
 
             return new Notification(Guid.NewGuid(), procedure.Value, message.Value, phoneNumber.Value, sendingDate);
         }
+
+        public Result<Notification> UpdateMessage(Result<Text> message)
+        {
+            if (message.IsFailure) return Result.Failure<Notification>(message.Error);
+            this.Message = message.Value;
+            return this;
+        }
+
+        public Result<Notification> UpdatePhoneNumber(Result<PhoneNumber> phoneNumber)
+        {
+            if (phoneNumber.IsFailure) return Result.Failure<Notification>(phoneNumber.Error);
+            this.PhoneNumber = phoneNumber.Value;
+            return this;
+        }
     }
 }

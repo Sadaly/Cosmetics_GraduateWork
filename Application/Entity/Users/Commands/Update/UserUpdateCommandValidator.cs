@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 using Domain.Errors;
 using Domain.ValueObjects;
-using Domain.Shared;
-using Application.Entity.Users.Commands.Update;
 
-namespace Application.Entity.Users.Commands.UserCreate
+namespace Application.Entity.Users.Commands.Update
 {
     public class UserUpdateCommandValidator : AbstractValidator<UserUpdateCommand>
     {

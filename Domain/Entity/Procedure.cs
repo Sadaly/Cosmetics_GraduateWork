@@ -56,5 +56,11 @@ namespace Domain.Entity
             DoctorId = null;
             return this;
         }
+        public Result<Procedure> UpdateDate(DateTime scheduledDate, int duration)
+        {
+            ScheduledDate = scheduledDate;
+            Duration = duration;
+            return this;
+        }
     }
 }

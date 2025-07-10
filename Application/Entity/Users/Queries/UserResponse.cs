@@ -7,7 +7,7 @@ namespace Application.Entity.Users.Queries
     string Username,
     string Email,
     DateTime RegistrationDate,
-    DateTime UpdateDate)
+    DateTime ChangeType)
     {
         internal UserResponse(User user)
             : this(user.Id, user.Username.Value, user.Email.Value,

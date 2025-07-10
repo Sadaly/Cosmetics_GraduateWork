@@ -5,7 +5,7 @@ using Domain.Shared;
 
 namespace Application.Entity.Patients.Commands.SoftDelete
 {
-    internal class PatientSoftDeleteCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository, IPatientCardRepository patientCardRepository) : ICommandHandler<PatientSoftDeleteCommand, Guid>
+    internal class PatientSoftDeleteCommandHandler(IUnitOfWork unitOfWork, IPatientRepository patientRepository) : ICommandHandler<PatientSoftDeleteCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(PatientSoftDeleteCommand request, CancellationToken cancellationToken)
         {
@@ -13,10 +13,7 @@ namespace Application.Entity.Patients.Commands.SoftDelete
             if (patient.IsFailure) return Result.Failure<Guid>(patient.Error);
             
             var deletePatient = await patientRepository.RemoveAsync(patient, cancellationToken);
-            if (deletePatient.IsFailure) return Result.Failure<Guid>(deletePatient.Error);
-
-            var deletePatientCard = await patientCardRepository.RemoveAsync(patient.Value.Card, cancellationToken);
-            var save = await unitOfWork.SaveChangesAsync(deletePatientCard, cancellationToken);
+            var save = await unitOfWork.SaveChangesAsync(deletePatient, cancellationToken);
 
             return save.IsSuccess
                 ? save.Value.Id

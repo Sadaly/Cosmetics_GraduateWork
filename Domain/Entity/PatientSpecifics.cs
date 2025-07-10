@@ -24,10 +24,19 @@ namespace Domain.Entity
         public string Sport { get; set; } = String.Empty;
         public string WorkEnviroment { get; set; } = String.Empty;
 
-        public Result<PatientSpecifics> Create(string sleep, string diet, string sport, string workEnviroment, Result<PatientCard> patientCard)
+        public static Result<PatientSpecifics> Create(string sleep, string diet, string sport, string workEnviroment, Result<PatientCard> patientCard)
         {
             if (patientCard.IsFailure) return Result.Failure<PatientSpecifics>(patientCard);
             return new PatientSpecifics(Guid.NewGuid(), sleep, diet, sport, workEnviroment, patientCard.Value);
+        }
+
+        public Result<PatientSpecifics> Update(string sleep, string diet, string sport, string workEnviroment)
+        {
+            if (!string.IsNullOrWhiteSpace(sleep)) Sleep = sleep;
+            if (!string.IsNullOrWhiteSpace(diet)) Sleep = diet;
+            if (!string.IsNullOrWhiteSpace(sport)) Sleep = sport;
+            if (!string.IsNullOrWhiteSpace(workEnviroment)) Sleep = workEnviroment;
+            return this;
         }
 
     }

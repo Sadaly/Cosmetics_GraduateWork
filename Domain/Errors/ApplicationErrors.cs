@@ -3,19 +3,25 @@ namespace Domain.Errors
 {
     public static class ApplicationErrors
     {
-        public static class UserCommandUpdate
+        public static class UserUpdateCommand
         {
             public static readonly Error NullValues = new(
-                "UserCommandUpdate.NullValues",
+                "UserUpdateCommand.NullValues",
                 "Переданные поля не содержат данных, обновить пользователя невозможно");
 
             public static readonly Error EmailAlreadyInUse = new(
-                "User.Update.EmailAlreadyInUse",
+                "UserUpdateCommand.EmailAlreadyInUse",
                 "Почта уже используется этим пользователем");
 
             public static readonly Error UsernameAlreadyInUse = new(
-                "User.Update.UsernameAlreadyInUse",
+                "UserUpdateCommand.UsernameAlreadyInUse",
                 "Это имя уже используется этим пользователем");
+        }
+        public static class ProcedureCreateCommand
+        {
+            public static readonly Error DateReserved = new(
+                "ProcedureCreateCommand.DateReserved",
+                "В указанную дату нельзя записать процедуру");
         }
     }
 }

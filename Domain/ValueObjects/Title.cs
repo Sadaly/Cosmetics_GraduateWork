@@ -25,7 +25,7 @@ namespace Domain.ValueObjects
         /// </summary>
         /// <param name="title">Строка с названием</param>
         /// <returns>Новый экземпляр <see cref="Title"/></returns>
-        public static Result<Title> Create(string title)
+        public static Result<Title> Create(string? title)
         {
             if (string.IsNullOrWhiteSpace(title))
                 return CreateDefault();

@@ -1,12 +1,11 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Entity.Users.Commands.Create;
 using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
 
-namespace Application.Entity.Users.Commands.UserCreate
+namespace Application.Entity.Users.Commands.Create
 {
     public sealed class UserCreateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserCreateCommand, Guid>
     {

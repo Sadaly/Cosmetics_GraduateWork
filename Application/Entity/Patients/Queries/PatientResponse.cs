@@ -2,12 +2,12 @@
 
 namespace Application.Entity.Patients.Queries
 {
-    public sealed record PatientResponses(
+    public sealed record PatientResponse(
     Guid PatientId,
     Guid CardtId,
     string Fullname)
     {
-        internal PatientResponses(Patient patient)
+        internal PatientResponse(Patient patient)
             : this(patient.Id, patient.Card.Id, patient.Fullname.Value)
         { }
     }

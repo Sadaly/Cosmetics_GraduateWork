@@ -14,29 +14,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
- 
-  <ItemGroup>
-    <Folder Include="Entity\Doctors\Commands\Create\" />
-    <Folder Include="Entity\Doctors\Commands\SoftDelete\" />
-    <Folder Include="Entity\Doctors\Queries\GetAll\" />
-    <Folder Include="Entity\Doctors\Queries\Get\" />
-    <Folder Include="Entity\Notifications\Commands\Create\" />
-    <Folder Include="Entity\Notifications\Commands\SoftDelete\" />
-    <Folder Include="Entity\Notifications\Queries\GetAll\" />
-    <Folder Include="Entity\Notifications\Queries\Get\" />
-    <Folder Include="Entity\ReservedDates\Commands\Create\" />
-    <Folder Include="Entity\ReservedDates\Commands\SoftDelete\" />
-    <Folder Include="Entity\ReservedDates\Queries\GetAll\" />
-    <Folder Include="Entity\ReservedDates\Queries\Get\" />
-    <Folder Include="Entity\PatientSpecificses\Commands\Create\" />
-    <Folder Include="Entity\PatientSpecificses\Commands\SoftDelete\" />
-    <Folder Include="Entity\PatientSpecificses\Queries\GetAll\" />
-    <Folder Include="Entity\PatientSpecificses\Queries\Get\" />
-    <Folder Include="Entity\PatientCards\Commands\Update\" />
-    <Folder Include="Entity\PatientCards\Commands\" />
-    <Folder Include="Entity\PatientCards\Queries\Get\" />
-    <Folder Include="Entity\PatientCards\Queries\GetAll\" />
-    <Folder Include="Entity\Patients\Queries\Get\" />
-  </ItemGroup>
 
 </Project>

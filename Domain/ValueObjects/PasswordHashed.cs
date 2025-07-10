@@ -45,16 +45,13 @@ namespace Domain.ValueObjects
         /// <returns></returns>
         private static string HashPassword(string password)
         {
-            using (SHA256 sha256 = SHA256.Create())
+            byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
+            StringBuilder builder = new();
+            for (int i = 0; i < bytes.Length; i++)
             {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2")); // Преобразуем байты в hex-строку
-                }
-                return builder.ToString();
+                builder.Append(bytes[i].ToString("x2")); // Преобразуем байты в hex-строку
             }
+            return builder.ToString();
         }
 
 

@@ -15,7 +15,7 @@ namespace Application.Entity.Users.Commands.Update
             //вызов комманды так, чтобы передавался хотя бы один параметр, поэтому если пользователь как-то
             //через интерфейс вызовет это комманду с 3 null-ми, то это можно воспринимать, как ошибку фронта)
             if (request.Email == null && request.Username == null && request.Password == null)
-                return Result.Failure<Guid>(ApplicationErrors.UserCommandUpdate.NullValues);
+                return Result.Failure<Guid>(ApplicationErrors.UserUpdateCommand.NullValues);
 
             //Получение пользователя и проверка, существует ли он вообще
             var user = await userRepository.GetByIdAsync(request.Id, cancellationToken, FetchMode.NoTracking);
