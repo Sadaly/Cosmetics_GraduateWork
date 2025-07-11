@@ -17,9 +17,9 @@ namespace Application.Entity.PatientCards.Commands.Update
             var address = Text.Create(request.Address);
             var complaints = Text.Create(request.Complaints);
             var phone = PhoneNumber.Create(request.PhoneNumber);
-            patientcard.Value.Update(request.Age, address, complaints, phone);
+            var update = patientcard.Value.Update(request.Age, address, complaints, phone);
 
-            var add = await patientcardRepository.UpdateAsync(patientcard, cancellationToken);
+            var add = await patientcardRepository.UpdateAsync(update, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
             return save.IsSuccess

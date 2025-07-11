@@ -45,7 +45,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new HealthCondTypeGetAllQuery(HealthCondTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] HealthCondTypeFilter filter,
             int StartIndex,

@@ -24,7 +24,7 @@ namespace WebApi.Controllers
             =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update(
             [FromBody] PatientUpdateCommand command,
             CancellationToken cancellationToken)
@@ -38,7 +38,14 @@ namespace WebApi.Controllers
             => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("{patientId:guid}")]
+        public async Task<IActionResult> GetAll(
+            Guid patientId,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetById(patientId)), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] PatientFilter filter,
             int StartIndex,

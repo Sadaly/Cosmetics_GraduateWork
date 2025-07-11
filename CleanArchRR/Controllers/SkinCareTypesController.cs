@@ -45,7 +45,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new SkinCareTypeGetAllQuery(SkinCareTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] SkinCareTypeFilter filter,
             int StartIndex,

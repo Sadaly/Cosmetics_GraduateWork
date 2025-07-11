@@ -23,5 +23,11 @@ namespace Domain.Errors
                 "ProcedureCreateCommand.DateReserved",
                 "В указанную дату нельзя записать процедуру");
         }
+        public static class PatientSpecificsCreateCommand
+        {
+            public static readonly Error AlreadyExists = new(
+                "PatientSpecificsCreateCommand.AlreadyExists",
+                "Особенности пациента уже записаны. Повторная запись запрещена. Обновите предыдущую");
     }
+}
 }

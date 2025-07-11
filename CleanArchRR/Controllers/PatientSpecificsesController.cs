@@ -1,5 +1,4 @@
 ﻿using Application.Entity.PatientSpecificses.Commands.Create;
-using Application.Entity.PatientSpecificses.Commands.SoftDelete;
 using Application.Entity.PatientSpecificses.Commands.Update;
 using Application.Entity.PatientSpecificses.Queries;
 using Application.Entity.PatientSpecificses.Queries.Get;
@@ -32,13 +31,6 @@ namespace WebApi.Controllers
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete("{patientspecificsId:guid}")]
-        public async Task<IActionResult> RemoveById(
-            Guid patientspecificsId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientSpecificsSoftDeleteCommand(patientspecificsId), cancellationToken)).ToActionResult();
-
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(
             [FromQuery] PatientSpecificsFilter filter,
@@ -46,7 +38,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new PatientSpecificsGetAllQuery(PatientSpecificsQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] PatientSpecificsFilter filter,
             int StartIndex,

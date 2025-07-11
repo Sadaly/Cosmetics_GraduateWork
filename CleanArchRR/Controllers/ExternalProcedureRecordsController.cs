@@ -46,7 +46,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new ExternalProcedureRecordGetAllQuery(ExternalProcedureRecordQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] ExternalProcedureRecordFilter filter,
             int StartIndex,

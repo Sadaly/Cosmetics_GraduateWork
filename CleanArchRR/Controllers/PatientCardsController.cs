@@ -30,7 +30,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new PatientCardGetAllQuery(PatientCardQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] PatientCardFilter filter,
             int StartIndex,

@@ -11,10 +11,10 @@ namespace Domain.Errors
     {
         public static readonly Error IncorrectStartIndex = new(
             "IncorrectStartIndex",
-            "Некорректный индекс старта взятых элементов. Значение параметра не может быть меньше нуля.");
+            "Некорректный индекс старта взятых элементов. Значение параметра начального индекса не может быть меньше нуля.");
         public static readonly Error IncorrectCount = new(
             "IncorrectCount",
-            "Некорректное количество взятых элементов. Значение параметра не может быть меньше единицы.");
+            "Некорректное количество взятых элементов. Значение параметра количества элементов не может быть меньше единицы.");
 
         public static class Entity<T> where T : BaseEntity
         {

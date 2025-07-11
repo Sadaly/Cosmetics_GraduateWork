@@ -55,7 +55,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new NotificationGetAllQuery(NotificationQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] NotificationFilter filter,
             int StartIndex,

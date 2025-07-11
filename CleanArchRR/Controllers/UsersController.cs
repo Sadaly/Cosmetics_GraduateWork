@@ -25,7 +25,7 @@ namespace WebApi.Controllers
     {
         //Создание пользователя
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> Create(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
@@ -45,7 +45,6 @@ namespace WebApi.Controllers
                 ClaimTypes.NameIdentifier)
                 .ToActionResult();
         }
-
 
         [HttpPost("Logout")]
         public IActionResult Logout()

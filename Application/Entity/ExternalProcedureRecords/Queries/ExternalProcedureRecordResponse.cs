@@ -2,8 +2,8 @@
 
 namespace Application.Entity.ExternalProcedureRecords.Queries;
 
-public sealed record ExternalProcedureRecordResponse(Guid PatientCardId, Guid TypeId, DateOnly? Date)
+public sealed record ExternalProcedureRecordResponse(Guid PatientCardId, Guid TypeId, string Date)
 {
-    internal ExternalProcedureRecordResponse(ExternalProcedureRecord externalProcedureRecord) : this(externalProcedureRecord.PatientCardId, externalProcedureRecord.TypeId, externalProcedureRecord.DateOnly) 
+    internal ExternalProcedureRecordResponse(ExternalProcedureRecord externalProcedureRecord) : this(externalProcedureRecord.PatientCardId, externalProcedureRecord.TypeId, externalProcedureRecord.Date) 
     { }
 }

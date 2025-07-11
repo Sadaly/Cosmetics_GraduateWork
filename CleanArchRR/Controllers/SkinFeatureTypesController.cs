@@ -45,7 +45,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new SkinFeatureTypeGetQuery(SkinFeatureTypeQueries.GetById(skinFeatureId)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] SkinFeatureTypeFilter filter,
             int StartIndex,

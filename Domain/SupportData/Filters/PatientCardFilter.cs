@@ -22,8 +22,8 @@ namespace Domain.SupportData.Filters
                 (string.IsNullOrWhiteSpace(Adress) || patientcard.Adress.Value.Contains(Adress)) &&
                 (string.IsNullOrWhiteSpace(PhoneNumber) || patientcard.PhoneNumber.Value.Contains(PhoneNumber)) &&
                 (string.IsNullOrWhiteSpace(Complaints) || patientcard.Complaints.Value.Contains(Complaints)) &&
-                (FromAge.HasValue || FromAge < patientcard.Age) &&
-                (ToAge.HasValue || patientcard.Age < ToAge) &&
+                (!FromAge.HasValue || FromAge < patientcard.Age) &&
+                (!ToAge.HasValue || patientcard.Age < ToAge) &&
                 (!CreationDateFrom.HasValue || patientcard.CreatedAt >= CreationDateFrom.Value) &&
                 (!CreationDateTo.HasValue || patientcard.CreatedAt <= CreationDateTo.Value);
         }

@@ -38,7 +38,7 @@ namespace WebApi.Controllers
             => (await Sender.Send(new ReservedDateGetAllQuery(ReservedDateQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet]
+        [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] ReservedDateFilter filter,
             int StartIndex,
