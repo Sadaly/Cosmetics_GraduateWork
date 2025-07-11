@@ -21,7 +21,7 @@ namespace Application.Entity.Patients.Commands.Create
             var save = await unitOfWork.SaveChangesAsync(addpc, cancellationToken);
 
             return save.IsSuccess
-                ? save.Value.Id
+                ? addp.Value.Id
                 : Result.Failure<Guid>(save.Error);
         }
     }

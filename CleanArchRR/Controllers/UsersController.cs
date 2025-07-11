@@ -63,10 +63,16 @@ namespace WebApi.Controllers
             //сначала нужно получить Id
             var getCurUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (getCurUserId == null) return Result.Failure(WebErrors.UserController.UpdateSelf.EmptyId).ToActionResult();
-            var command = new UserUpdateCommand(Guid.Parse(getCurUserId), request.Username, request.Email, request.Password);
-            var result = await Sender.Send(command, cancellationToken);
 
-            return result.ToActionResult();
+            var command = new UserUpdateCommand(Guid.Parse(getCurUserId), request.Username, request.Email, request.Password);
+
+            var token = await Sender.Send(command, cancellationToken);
+            if (token.IsFailure) return token.ToActionResult();
+
+            return tokenService.GetClaim(
+                tokenService.SetJwtToken(Response, token.Value),
+                ClaimTypes.NameIdentifier)
+                .ToActionResult();
         }
 
         [HttpGet("Me")]
@@ -97,7 +103,7 @@ namespace WebApi.Controllers
         [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] UserFilter filter,
-            int StartIndex,
+            int StartIndex, 
             int Count,
             CancellationToken cancellationToken)
             => (await Sender.Send(new UserGetAllQuery(UserQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();

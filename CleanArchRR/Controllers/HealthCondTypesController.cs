@@ -1,9 +1,9 @@
-﻿using Application.Entity.AgeChangeTypes.Commands.Create;
-using Application.Entity.AgeChangeTypes.Commands.SoftDelete;
-using Application.Entity.AgeChangeTypes.Commands.Update;
-using Application.Entity.AgeChangeTypes.Queries;
-using Application.Entity.AgeChangeTypes.Queries.Get;
-using Application.Entity.AgeChangeTypes.Queries.GetAll;
+﻿using Application.Entity.HealthCondTypes.Commands.Create;
+using Application.Entity.HealthCondTypes.Commands.SoftDelete;
+using Application.Entity.HealthCondTypes.Commands.Update;
+using Application.Entity.HealthCondTypes.Queries;
+using Application.Entity.HealthCondTypes.Queries.Get;
+using Application.Entity.HealthCondTypes.Queries.GetAll;
 using Domain.SupportData.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,50 +15,50 @@ using WebApi.Policies;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class AgeChangeTypesController(ISender sender) : ApiController(sender)
+    public class HealthCondTypesController(ISender sender) : ApiController(sender)
     {
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] AgeChangeTypeCreateCommand command,
+            [FromBody] HealthCondTypeCreateCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPut]
         public async Task<IActionResult> Update(
-            [FromBody] AgeChangeTypeUpdateCommand command,
+            [FromBody] HealthCondTypeUpdateCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete("{ageChangeTypeId:guid}")]
+        [HttpDelete("{healthCondTypeId:guid}")]
         public async Task<IActionResult> RemoveById(
-            Guid ageChangeTypeId,
+            Guid healthCondTypeId,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeSoftDeleteCommand(ageChangeTypeId), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new HealthCondTypeSoftDeleteCommand(healthCondTypeId), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(
-            [FromQuery] AgeChangeTypeFilter filter,
+            [FromQuery] HealthCondTypeFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new HealthCondTypeGetAllQuery(HealthCondTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet]
         public async Task<IActionResult> Take(
-            [FromQuery] AgeChangeTypeFilter filter,
+            [FromQuery] HealthCondTypeFilter filter,
             int StartIndex,
             int Count,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new HealthCondTypeGetAllQuery(HealthCondTypeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("{ageChangeTypeId:guid}")]
+        [HttpGet("{healthCondTypeId:guid}")]
         public async Task<IActionResult> Get(
-            Guid ageChangeTypeId,
+            Guid healthCondTypeId,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetQuery(AgeChangeTypeQueries.GetById(ageChangeTypeId)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new HealthCondTypeGetQuery(HealthCondTypeQueries.GetById(healthCondTypeId)), cancellationToken)).ToActionResult();
 
     }
 }

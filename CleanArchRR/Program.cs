@@ -1,3 +1,4 @@
+using Application.Abstractions;
 using Application.Behaviors;
 using Domain.Entity;
 using FluentValidation;
@@ -82,6 +83,7 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IProcedureScheduleService, ProcedureScheduleService>();
 
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 

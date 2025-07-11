@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Messaging;
+﻿using Application.Abstractions;
+using Application.Abstractions.Messaging;
 using Domain.Abstractions;
 using Domain.Errors;
 using Domain.Repositories;
@@ -7,26 +8,26 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Users.Commands.Update
 {
-    public sealed class UserUpdateCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserUpdateCommand, Guid>
+    public sealed class UserUpdateCommandHandler(IJwtProvider jwtProvider, IUserRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UserUpdateCommand, string>
     {
-        public async Task<Result<Guid>> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
         {
             //Если все поля пустые, то смысла вызывать эту комманду не было (на фронте можно настроить
             //вызов комманды так, чтобы передавался хотя бы один параметр, поэтому если пользователь как-то
             //через интерфейс вызовет это комманду с 3 null-ми, то это можно воспринимать, как ошибку фронта)
             if (request.Email == null && request.Username == null && request.Password == null)
-                return Result.Failure<Guid>(ApplicationErrors.UserUpdateCommand.NullValues);
+                return Result.Failure<string>(ApplicationErrors.UserUpdateCommand.NullValues);
 
             //Получение пользователя и проверка, существует ли он вообще
             var user = await userRepository.GetByIdAsync(request.Id, cancellationToken, FetchMode.NoTracking);
-            if (user.IsFailure) return Result.Failure<Guid>(user.Error);
+            if (user.IsFailure) return Result.Failure<string>(user.Error);
 
             //Первое условие проверяет, нужно ли обновлять поле
             //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
             if (request.Email != null) {
                 var email = Email.Create(request.Email);
                 user.Value.UpdateEmail(email);
-                if (user.IsFailure) return Result.Failure<Guid>(user.Error);
+                if (user.IsFailure) return Result.Failure<string>(user.Error);
             }
 
             //Первое условие проверяет, нужно ли обновлять поле
@@ -34,7 +35,7 @@ namespace Application.Entity.Users.Commands.Update
             if (request.Username != null) {
                 var username = Username.Create(request.Username);
                 user.Value.UpdateUsername(username);
-                if (user.IsFailure) return Result.Failure<Guid>(user.Error);
+                if (user.IsFailure) return Result.Failure<string>(user.Error);
             }
 
             //Первое условие проверяет, нужно ли обновлять поле
@@ -45,10 +46,10 @@ namespace Application.Entity.Users.Commands.Update
 
             var update = await userRepository.UpdateAsync(user, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(update, cancellationToken);
-
+            string token = jwtProvider.Generate(user.Value);
             return save.IsSuccess
-                ? save.Value.Id
-                : Result.Failure<Guid>(save.Error);
+                ? token
+                : Result.Failure<string>(save.Error);
         }
     }
 }

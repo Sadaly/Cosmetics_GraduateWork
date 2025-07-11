@@ -1,9 +1,9 @@
-﻿using Application.Entity.AgeChangeTypes.Commands.Create;
-using Application.Entity.AgeChangeTypes.Commands.SoftDelete;
-using Application.Entity.AgeChangeTypes.Commands.Update;
-using Application.Entity.AgeChangeTypes.Queries;
-using Application.Entity.AgeChangeTypes.Queries.Get;
-using Application.Entity.AgeChangeTypes.Queries.GetAll;
+﻿using Application.Entity.PatientSpecificses.Commands.Create;
+using Application.Entity.PatientSpecificses.Commands.SoftDelete;
+using Application.Entity.PatientSpecificses.Commands.Update;
+using Application.Entity.PatientSpecificses.Queries;
+using Application.Entity.PatientSpecificses.Queries.Get;
+using Application.Entity.PatientSpecificses.Queries.GetAll;
 using Domain.SupportData.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,50 +15,51 @@ using WebApi.Policies;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class AgeChangeTypesController(ISender sender) : ApiController(sender)
+    public class PatientSpecificsesController(ISender sender) : ApiController(sender)
     {
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] AgeChangeTypeCreateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPut]
-        public async Task<IActionResult> Update(
-            [FromBody] AgeChangeTypeUpdateCommand command,
+            [FromBody] PatientSpecificsCreateCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete("{ageChangeTypeId:guid}")]
-        public async Task<IActionResult> RemoveById(
-            Guid ageChangeTypeId,
+        [HttpPut]
+        public async Task<IActionResult> Update(
+            [FromBody] PatientSpecificsUpdateCommand command,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeSoftDeleteCommand(ageChangeTypeId), cancellationToken)).ToActionResult();
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpDelete("{patientspecificsId:guid}")]
+        public async Task<IActionResult> RemoveById(
+            Guid patientspecificsId,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new PatientSpecificsSoftDeleteCommand(patientspecificsId), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(
-            [FromQuery] AgeChangeTypeFilter filter,
+            [FromQuery] PatientSpecificsFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientSpecificsGetAllQuery(PatientSpecificsQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet]
         public async Task<IActionResult> Take(
-            [FromQuery] AgeChangeTypeFilter filter,
+            [FromQuery] PatientSpecificsFilter filter,
             int StartIndex,
             int Count,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientSpecificsGetAllQuery(PatientSpecificsQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("{ageChangeTypeId:guid}")]
+        [HttpGet("{patientspecificsId:guid}")]
         public async Task<IActionResult> Get(
-            Guid ageChangeTypeId,
+            Guid patientspecificsId,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetQuery(AgeChangeTypeQueries.GetById(ageChangeTypeId)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientSpecificsGetQuery(PatientSpecificsQueries.GetById(patientspecificsId)), cancellationToken)).ToActionResult();
 
     }
 }

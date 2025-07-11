@@ -1,5 +1,6 @@
 ﻿using Application.Entity.Patients.Commands.Create;
 using Application.Entity.Patients.Commands.SoftDelete;
+using Application.Entity.Patients.Commands.Update;
 using Application.Entity.Patients.Queries;
 using Application.Entity.Patients.Queries.GetAll;
 using Domain.SupportData.Filters;
@@ -23,11 +24,27 @@ namespace WebApi.Controllers
             =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpPut]
+        public async Task<IActionResult> Update(
+            [FromBody] PatientUpdateCommand command,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(
             [FromQuery] PatientFilter filter,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientsGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet]
+        public async Task<IActionResult> Take(
+            [FromQuery] PatientFilter filter,
+            int StartIndex,
+            int Count,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpDelete("{patientId:guid}")]

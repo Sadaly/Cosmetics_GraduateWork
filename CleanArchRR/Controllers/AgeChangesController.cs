@@ -46,6 +46,15 @@ namespace WebApi.Controllers
             => (await Sender.Send(new AgeChangeGetAllQuery(AgeChangeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpGet]
+        public async Task<IActionResult> Take(
+            [FromQuery] AgeChangeFilter filter,
+            int StartIndex,
+            int Count,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new AgeChangeGetAllQuery(AgeChangeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("{ageChangeId:guid}")]
         public async Task<IActionResult> Get(
             Guid ageChangeId,

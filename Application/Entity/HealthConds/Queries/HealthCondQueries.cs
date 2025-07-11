@@ -4,6 +4,6 @@ using System.Linq.Expressions;
 
 namespace Application.Entity.HealthConds.Queries;
 
-public sealed record HealthCondQueries(Expression<Func<SkinFeature, bool>> Predicate) : EntityQueries<SkinFeature>(Predicate)
+public sealed record HealthCondQueries(Expression<Func<HealthCond, bool>> Predicate) : EntityQueries<HealthCond>(Predicate)
 {
 }
