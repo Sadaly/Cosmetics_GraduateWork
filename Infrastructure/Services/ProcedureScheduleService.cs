@@ -12,9 +12,9 @@ namespace Infrastructure.Services
             var rd = await reservedDateRepository.GetByPredicateAsync(
                 x =>
                 x.Type == Domain.Enums.ReservedDateType.HolidayRestrict
-                && ((x.StartDate < EndDate && x.EndDate >= EndDate)
-                || (x.StartDate >= StartDate && x.EndDate < StartDate)
-                || (x.StartDate > StartDate && x.EndDate < EndDate)),
+                && ((x.StartDate < EndDate && x.StartDate > StartDate)
+                || (x.EndDate < EndDate && x.EndDate > StartDate)
+                || (x.StartDate <= StartDate && x.EndDate >= EndDate)),
                 cancellationToken);
 
             if (rd.IsSuccess) return true;
@@ -22,9 +22,9 @@ namespace Infrastructure.Services
             rd = await reservedDateRepository.GetByPredicateAsync(
                 x =>
                 x.Type == Domain.Enums.ReservedDateType.TimeRestrict
-                && ((x.StartDate.TimeOfDay < EndDate.TimeOfDay && x.EndDate.TimeOfDay >= EndDate.TimeOfDay)
-                || (x.StartDate.TimeOfDay >= StartDate.TimeOfDay && x.EndDate.TimeOfDay < StartDate.TimeOfDay)
-                || (x.StartDate.TimeOfDay > StartDate.TimeOfDay && x.EndDate.TimeOfDay < EndDate.TimeOfDay)),
+                && ((x.StartDate.TimeOfDay < EndDate.TimeOfDay && x.StartDate.TimeOfDay > StartDate.TimeOfDay)
+                || (x.EndDate.TimeOfDay < EndDate.TimeOfDay && x.EndDate.TimeOfDay > StartDate.TimeOfDay)
+                || (x.StartDate.TimeOfDay <= StartDate.TimeOfDay && x.EndDate.TimeOfDay >= EndDate.TimeOfDay)),
                 cancellationToken);
 
             if (rd.IsSuccess) return true; 
@@ -32,9 +32,9 @@ namespace Infrastructure.Services
             rd = await reservedDateRepository.GetByPredicateAsync(
                 x =>
                 x.Type == Domain.Enums.ReservedDateType.DayOfWeekRestrict
-                && ((x.StartDate.DayOfWeek < EndDate.DayOfWeek && x.EndDate.DayOfWeek >= EndDate.DayOfWeek)
-                || (x.StartDate.DayOfWeek >= StartDate.DayOfWeek && x.EndDate.DayOfWeek < StartDate.DayOfWeek)
-                || (x.StartDate.DayOfWeek > StartDate.DayOfWeek && x.EndDate.DayOfWeek < EndDate.DayOfWeek)),
+                && ((x.StartDate.DayOfWeek < EndDate.DayOfWeek && x.StartDate.DayOfWeek > StartDate.DayOfWeek)
+                || (x.EndDate.DayOfWeek < EndDate.DayOfWeek && x.EndDate.DayOfWeek > StartDate.DayOfWeek)
+                || (x.StartDate.DayOfWeek <= StartDate.DayOfWeek && x.EndDate.DayOfWeek >= EndDate.DayOfWeek)),
                 cancellationToken);
 
             if (rd.IsSuccess) return true;

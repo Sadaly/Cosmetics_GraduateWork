@@ -72,7 +72,7 @@ namespace Persistence.Repositories
             where T : BaseEntity
         {
             if (entity.IsFailure) return entity;
-            var eList = await _repository.GetAllAsync(predicate, cancellationToken);
+            var eList = await _repository.GetAllAsync(predicate, cancellationToken, FetchMode.Include);
             if (eList.IsFailure) return Result.Failure<PatientCard>(eList.Error);
             foreach (var e in eList.Value)
             {

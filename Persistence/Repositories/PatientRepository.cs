@@ -18,7 +18,7 @@ namespace Persistence.Repositories
             if (entity.IsFailure) return entity;
             if (entity.Value.Card != null)
             {
-                var card = await _patientCardRepository.GetByIdAsync(entity.Value.Card.Id, cancellationToken);
+                var card = await _patientCardRepository.GetByIdAsync(entity.Value.Card.Id, cancellationToken, Domain.Abstractions.FetchMode.Include);
                 if (card.IsFailure) return Result.Failure<Patient>(card.Error);
 
                 var remove = await _patientCardRepository.RemoveAsync(card, cancellationToken);

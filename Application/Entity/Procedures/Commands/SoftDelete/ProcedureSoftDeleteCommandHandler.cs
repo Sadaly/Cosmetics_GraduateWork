@@ -9,7 +9,7 @@ namespace Application.Entity.Procedures.Commands.SoftDelete
     {
         public async Task<Result<Guid>> Handle(ProcedureSoftDeleteCommand request, CancellationToken cancellationToken)
         {
-            var get = await procedureRepository.GetByIdAsync(request.Id, cancellationToken);
+            var get = await procedureRepository.GetByIdAsync(request.Id, cancellationToken, FetchMode.Include);
             var remove = await procedureRepository.RemoveAsync(get, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(remove, cancellationToken);
 

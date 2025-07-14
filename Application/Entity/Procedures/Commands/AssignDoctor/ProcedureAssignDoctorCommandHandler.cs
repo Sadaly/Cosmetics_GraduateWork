@@ -12,6 +12,8 @@ namespace Application.Entity.Procedures.Commands.AssignDoctor
         public async Task<Result<Guid>> Handle(ProcedureAssignDoctorCommand request, CancellationToken cancellationToken)
         {
             var doc = await doctorRepository.GetByIdAsync(request.DoctorId, cancellationToken);
+            if (doc.IsFailure) return Result.Failure<Guid>(doc.Error);
+
             var ent = await procedureRepository.GetByIdAsync(request.ProcedureId, cancellationToken);
             if (ent.IsFailure) return Result.Failure<Guid>(ent.Error);
 

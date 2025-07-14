@@ -52,6 +52,8 @@ namespace Domain.Entity
         }
         public Result<Procedure> RemoveDoctor()
         {
+            if (DoctorId == null)
+                return Result.Failure<Procedure>(DomainErrors.Procedure.AlreadyNoDoctor);
             Doctor = null;
             DoctorId = null;
             return this;
