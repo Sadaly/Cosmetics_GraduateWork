@@ -7,7 +7,7 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Doctors.Commands.Create
 {
-    internal class DoctorTypeCreateCommandHandler(IDoctorRepository doctorRepository, IUnitOfWork unitOfWork) : ICommandHandler<DoctorCreateCommand, Guid>
+    internal class DoctorCreateCommandHandler(IDoctorRepository doctorRepository, IUnitOfWork unitOfWork) : ICommandHandler<DoctorCreateCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(DoctorCreateCommand request, CancellationToken cancellationToken)
         {
