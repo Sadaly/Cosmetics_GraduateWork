@@ -1,16 +1,15 @@
 using Application.Entity.Doctors.Commands.Create;
+using Application.UnitTests.TheoryData;
 using Domain.Abstractions;
 using Domain.Entity;
-using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
-using Domain.ValueObjects;
 using FluentAssertions;
 using NSubstitute;
 
-namespace Application.UnitTests.Doctors
+namespace Application.UnitTests.Doctors.Commands
 {
-    public class DoctorCreateCommandTests
+    public class DoctorCreateCommandTests : TestsTheoryData
     {
         private readonly DoctorCreateCommandHandler _handler;
         private readonly IDoctorRepository _repository;
@@ -30,16 +29,9 @@ namespace Application.UnitTests.Doctors
                 .Returns(c => c.Arg<Result<Doctor>>());
         }
 
-        public static TheoryData<string, string> InvalidNameTestCases = new()
-        {
-            { "", DomainErrors.Username.Empty.Code },
-            { new string('a', Username.MAX_LENGTH + 1), DomainErrors.Username.TooLong.Code },
-            { new string('a', Username.MIN_LENGTH - 1), DomainErrors.Username.TooShort.Code }
-        };
-
         [Theory]
-        [MemberData(nameof(InvalidNameTestCases))]
-        public async Task Handle_Should_ReturnError_WhenIncorrectNameInput(string Name, string expectedErrorCode)
+        [MemberData(nameof(InvalidNameCreationTestCases))]
+        public async Task Handle_Should_ReturnError_WhenInvalidNameInput(string Name, string expectedErrorCode)
         {
             //Act
             var result = await _handler.Handle(new DoctorCreateCommand(Name), default);
@@ -48,16 +40,9 @@ namespace Application.UnitTests.Doctors
             result.Error.Code.Should().Be(expectedErrorCode);
         }
 
-        public static TheoryData<string> ValidNameTestCases = new()
-        {
-            { new string('a', Username.MAX_LENGTH - Username.MIN_LENGTH)},
-            { new string('a', Username.MAX_LENGTH) },
-            { new string('a', Username.MIN_LENGTH) }
-        };
-
         [Theory]
-        [MemberData(nameof(ValidNameTestCases))]
-        public async Task Handle_Should_ReturnSuccess_WhenCorrectNameInput(string Name)
+        [MemberData(nameof(ValidNameCreationTestCases))]
+        public async Task Handle_Should_ReturnSuccess_WhenValidNameInput(string Name)
         {
             //Act
             var result = await _handler.Handle(new DoctorCreateCommand(Name), default);

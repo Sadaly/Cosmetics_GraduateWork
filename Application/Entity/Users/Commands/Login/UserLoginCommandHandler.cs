@@ -1,12 +1,11 @@
 ﻿using Application.Abstractions;
 using Application.Abstractions.Messaging;
-using Application.Entity.Users.Commands.Login;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
 
-namespace Application.Entity.Users.Commands.UserLogin
+namespace Application.Entity.Users.Commands.Login
 {
     internal sealed class UserLoginCommandHandler : ICommandHandler<UserLoginCommand, string>
     {
