@@ -61,5 +61,12 @@ namespace Application.UnitTests.TheoryData
             { null, DateTime.UtcNow.AddHours(-1) },
             { DateTime.UtcNow.AddHours(1), null },
         };
+
+        public static TheoryData<int, int> ValidIndexesGetAllTestCases = new()
+        {
+            { 0, 1 },
+            { 0, 2 },
+            { 1, 2 },
+        };
     }
 }

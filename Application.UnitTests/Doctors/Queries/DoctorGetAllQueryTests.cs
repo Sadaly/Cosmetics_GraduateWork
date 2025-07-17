@@ -80,7 +80,7 @@ namespace Application.UnitTests.Doctors.Queries
 
         [Theory]
         [MemberData(nameof(InvalidNameGetTestCases))]
-        public async Task Handle_Should_ReturnError_WhenInvalidName(string name)
+        public async Task Handle_Should_ReturnNone_WhenInvalidName(string name)
         {
             //Act
             filter.Name = name;
@@ -105,7 +105,7 @@ namespace Application.UnitTests.Doctors.Queries
 
         [Theory]
         [MemberData(nameof(InvalidCreationDatesGetTestCases))]
-        public async Task Handle_Should_ReturnError_WhenInvalidCreationDates(DateTime? startDate, DateTime? endDate)
+        public async Task Handle_Should_ReturnNone_WhenInvalidCreationDates(DateTime? startDate, DateTime? endDate)
         {
             //Act
             filter.CreationDateFrom = startDate;
@@ -114,6 +114,21 @@ namespace Application.UnitTests.Doctors.Queries
 
             //Assert
             result.Value.Count.Should().Be(0);
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidIndexesGetAllTestCases))]
+        public async Task Handle_Should_ReturnSuccess_WhenValidIndexes(int startIndex, int count)
+        {
+            //Arrange
+            _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<Doctor, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(new List<Doctor>() { doctor1, doctor2 }.Skip(startIndex).Take(count).ToList());
+            
+            //Act
+            var result = await _handler.Handle(new DoctorGetAllQuery(DoctorQueries.GetWithoutPredicate(), startIndex, count), default);
+
+            //Assert
+            result.Value.Count.Should().Be(count - startIndex);
         }
     }
 }
