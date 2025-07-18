@@ -95,5 +95,33 @@ namespace Application.UnitTests.TheoryData
             { new string('a', Title.MAX_LENGTH) },
             { new string('a', 0) }
         };
+
+        public static TheoryData<string, string> InvalidEmailCreationTestCases = new()
+        {
+            { "", DomainErrors.Email.Empty.Code },
+            { new string('a', Email.MAX_LENGTH + 1), DomainErrors.Email.TooLong.Code },
+            { new string('a', Email.MIN_LENGTH - 1), DomainErrors.Email.TooShort.Code }
+        };
+
+        public static TheoryData<string> ValidEmailCreationTestCases = new()
+        {
+            { new string('a', Email.MAX_LENGTH - Email.MIN_LENGTH - 3) + "@" + "aa"},
+            { new string('a', Email.MAX_LENGTH - 3) + "@" + "aa" },
+            { new string('a', Email.MIN_LENGTH - 3) + "@" + "aa" }
+        };
+
+        public static TheoryData<string, string> InvalidPasswordCreationTestCases = new()
+        {
+            { "", DomainErrors.PasswordHashed.Empty.Code },
+            { new string('a', PasswordHashed.MAX_LENGTH + 1), DomainErrors.PasswordHashed.TooLong.Code },
+            { new string('a', PasswordHashed.MIN_LENGTH - 1), DomainErrors.PasswordHashed.TooShort.Code }
+        };
+
+        public static TheoryData<string> ValidPasswordCreationTestCases = new()
+        {
+            { new string('a', PasswordHashed.MAX_LENGTH - PasswordHashed.MIN_LENGTH)},
+            { new string('a', PasswordHashed.MAX_LENGTH) },
+            { new string('a', PasswordHashed.MIN_LENGTH) }
+        };
     }
 }

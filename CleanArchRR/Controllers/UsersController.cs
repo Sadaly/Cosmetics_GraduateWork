@@ -4,7 +4,7 @@ using Application.Entity.Users.Commands.SoftDelete;
 using Application.Entity.Users.Commands.Update;
 using Application.Entity.Users.Queries;
 using Application.Entity.Users.Queries.GetAll;
-using Application.Entity.Users.Queries.GetById;
+using Application.Entity.Users.Queries.Get;
 using Domain.Errors;
 using Domain.Shared;
 using Domain.SupportData.Filters;
