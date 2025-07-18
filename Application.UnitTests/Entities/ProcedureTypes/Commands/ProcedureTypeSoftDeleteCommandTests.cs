@@ -1,4 +1,4 @@
-using Application.Entity.AgeChangeTypes.Commands.SoftDelete;
+using Application.Entity.ProcedureTypes.Commands.SoftDelete;
 using Application.UnitTests.TheoryData;
 using Domain.Abstractions;
 using Domain.Entity;
@@ -9,44 +9,44 @@ using Domain.ValueObjects;
 using FluentAssertions;
 using NSubstitute;
 
-namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
+namespace Application.UnitTests.Entities.ProcedureTypes.Commands
 {
-    public class AgeChangeTypeSoftDeleteCommandTests : TestsTheoryData
+    public class ProcedureTypeSoftDeleteCommandTests : TestsTheoryData
     {
-        private readonly AgeChangeTypeSoftDeleteCommandHandler _handler;
-        private readonly IAgeChangeTypeRepository _repository;
+        private readonly ProcedureTypeSoftDeleteCommandHandler _handler;
+        private readonly IProcedureTypeRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly AgeChangeType _agechangetype;
+        private readonly ProcedureType _proceduretype;
 
-        public AgeChangeTypeSoftDeleteCommandTests()
+        public ProcedureTypeSoftDeleteCommandTests()
         {
-            _repository = Substitute.For<IAgeChangeTypeRepository>();
+            _repository = Substitute.For<IProcedureTypeRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _agechangetype = AgeChangeType.Create(Title.Create("Fullname").Value).Value;
+            _proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0).Value;
 
-            _handler = new AgeChangeTypeSoftDeleteCommandHandler(_repository, _unitOfWork);
+            _handler = new ProcedureTypeSoftDeleteCommandHandler(_repository, _unitOfWork);
 
-            _repository.RemoveAsync(Arg.Any<Result<AgeChangeType>>(), Arg.Any<CancellationToken>())
-                .Returns(c => c.Arg<Result<AgeChangeType>>());
+            _repository.RemoveAsync(Arg.Any<Result<ProcedureType>>(), Arg.Any<CancellationToken>())
+                .Returns(c => c.Arg<Result<ProcedureType>>());
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _agechangetype.Id), Arg.Any<CancellationToken>())
-                .Returns(_agechangetype);
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _proceduretype.Id), Arg.Any<CancellationToken>())
+                .Returns(_proceduretype);
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _agechangetype.Id), Arg.Any<CancellationToken>())
-                .Returns(Result.Failure<AgeChangeType>(PersistenceErrors.Entity<AgeChangeType>.NotFound));
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _proceduretype.Id), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<ProcedureType>(PersistenceErrors.Entity<ProcedureType>.NotFound));
 
-            _unitOfWork.SaveChangesAsync(Arg.Any<Result<AgeChangeType>>(), Arg.Any<CancellationToken>())
-                .Returns(c => c.Arg<Result<AgeChangeType>>());
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<ProcedureType>>(), Arg.Any<CancellationToken>())
+                .Returns(c => c.Arg<Result<ProcedureType>>());
         }
 
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenValidId()
         {
             //Act
-            var result = await _handler.Handle(new AgeChangeTypeSoftDeleteCommand(_agechangetype.Id), default);
+            var result = await _handler.Handle(new ProcedureTypeSoftDeleteCommand(_proceduretype.Id), default);
 
             //Assert
-            result.Value.Should().Be(_agechangetype.Id);
+            result.Value.Should().Be(_proceduretype.Id);
         }
 
         [Theory]
@@ -54,9 +54,9 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
         public async Task Handle_Should_ReturnError_WhenIdIsEmpty(string id)
         {
             //Act
-            var result = await _handler.Handle(new AgeChangeTypeSoftDeleteCommand(Guid.Parse(id)), default);
+            var result = await _handler.Handle(new ProcedureTypeSoftDeleteCommand(Guid.Parse(id)), default);
 
-            result.Error.Should().Be(PersistenceErrors.Entity<AgeChangeType>.NotFound);
+            result.Error.Should().Be(PersistenceErrors.Entity<ProcedureType>.NotFound);
         }
     }
 }

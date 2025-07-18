@@ -1,4 +1,4 @@
-using Application.Entity.AgeChangeTypes.Commands.Update;
+using Application.Entity.ProcedureTypes.Commands.Update;
 using Application.UnitTests.TheoryData;
 using Domain.Abstractions;
 using Domain.Entity;
@@ -9,33 +9,33 @@ using Domain.ValueObjects;
 using FluentAssertions;
 using NSubstitute;
 
-namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
+namespace Application.UnitTests.Entities.ProcedureTypes.Commands
 {
-    public class AgeChangeTypeUpdateCommandTests : TestsTheoryData
+    public class ProcedureTypeUpdateCommandTests : TestsTheoryData
     {
-        private readonly AgeChangeTypeUpdateCommandHandler _handler;
-        private readonly IAgeChangeTypeRepository _repository;
+        private readonly ProcedureTypeUpdateCommandHandler _handler;
+        private readonly IProcedureTypeRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly AgeChangeType _agechangetype;
+        private readonly ProcedureType _proceduretype;
 
-        public AgeChangeTypeUpdateCommandTests()
+        public ProcedureTypeUpdateCommandTests()
         {
-            _repository = Substitute.For<IAgeChangeTypeRepository>();
+            _repository = Substitute.For<IProcedureTypeRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _agechangetype = AgeChangeType.Create(Title.Create("Fullname").Value).Value;
+            _proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0).Value;
 
-            _handler = new AgeChangeTypeUpdateCommandHandler(_repository, _unitOfWork);
-            _repository.UpdateAsync(Arg.Any<Result<AgeChangeType>>(), Arg.Any<CancellationToken>())
-                .Returns(c => c.Arg<Result<AgeChangeType>>());
+            _handler = new ProcedureTypeUpdateCommandHandler(_repository, _unitOfWork);
+            _repository.UpdateAsync(Arg.Any<Result<ProcedureType>>(), Arg.Any<CancellationToken>())
+                .Returns(c => c.Arg<Result<ProcedureType>>());
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _agechangetype.Id), Arg.Any<CancellationToken>())
-                .Returns(_agechangetype);
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _proceduretype.Id), Arg.Any<CancellationToken>())
+                .Returns(_proceduretype);
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _agechangetype.Id), Arg.Any<CancellationToken>())
-                .Returns(Result.Failure<AgeChangeType>(PersistenceErrors.Entity<AgeChangeType>.NotFound));
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _proceduretype.Id), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<ProcedureType>(PersistenceErrors.Entity<ProcedureType>.NotFound));
 
-            _unitOfWork.SaveChangesAsync(Arg.Any<Result<AgeChangeType>>(), Arg.Any<CancellationToken>())
-                .Returns(c => c.Arg<Result<AgeChangeType>>());
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<ProcedureType>>(), Arg.Any<CancellationToken>())
+                .Returns(c => c.Arg<Result<ProcedureType>>());
         }
 
         [Theory]
@@ -43,7 +43,7 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
         public async Task Handle_Should_ReturnError_WhenInvalidNameInput(string Name, string expectedErrorCode)
         {
             //Act
-            var result = await _handler.Handle(new AgeChangeTypeUpdateCommand(_agechangetype.Id, Name), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name), default);
 
             //Assert
             result.Error.Code.Should().Be(expectedErrorCode);
@@ -54,11 +54,11 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
         public async Task Handle_Should_ReturnSuccess_WhenValidNameInput(string Name)
         {
             //Act
-            var result = await _handler.Handle(new AgeChangeTypeUpdateCommand(_agechangetype.Id, Name), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name), default);
 
             //Assert
-            result.Value.Should().Be(_agechangetype.Id);
-            _agechangetype.Title.Should().Be(Title.Create(Name).Value);
+            result.Value.Should().Be(_proceduretype.Id);
+            _proceduretype.Title.Should().Be(Title.Create(Name).Value);
         }
 
         [Theory]
@@ -66,10 +66,10 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
         public async Task Handle_Should_ReturnError_WhenIdIsEmpty(string id)
         {
             //Act
-            var result = await _handler.Handle(new AgeChangeTypeUpdateCommand(Guid.Parse(id), _agechangetype.Title.Value), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(Guid.Parse(id), _proceduretype.Title.Value), default);
 
             //Assert
-            result.Error.Should().Be(PersistenceErrors.Entity<AgeChangeType>.NotFound);
+            result.Error.Should().Be(PersistenceErrors.Entity<ProcedureType>.NotFound);
         }
     }
 }
