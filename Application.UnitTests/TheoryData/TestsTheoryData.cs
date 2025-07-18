@@ -68,5 +68,32 @@ namespace Application.UnitTests.TheoryData
             { 0, 2 },
             { 1, 2 },
         };
+
+        public static TheoryData<string, string> ValidEntityWithTypeGuidsTestCases = new()
+        {
+            { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() },
+        };
+        public static TheoryData<string, string> InvalidEntityWithTypeGuidsTestCases = new()
+        {
+            { Guid.Empty.ToString(), Guid.Empty.ToString() },
+            { Guid.NewGuid().ToString(), Guid.Empty.ToString() },
+            { Guid.Empty.ToString(), Guid.NewGuid().ToString() },
+        };
+
+        public static TheoryData<string> ValidOnlyOneTitleGetTestCases = new()
+        {
+            { "Title1" },
+            { "Title2" },
+        };
+        public static TheoryData<string, string> InvalidTitleCreationTestCases = new()
+        {
+            { new string('a', Title.MAX_LENGTH + 1), DomainErrors.Title.TooLong.Code },
+        };
+
+        public static TheoryData<string> ValidTitleCreationTestCases = new()
+        {
+            { new string('a', Title.MAX_LENGTH) },
+            { new string('a', 0) }
+        };
     }
 }

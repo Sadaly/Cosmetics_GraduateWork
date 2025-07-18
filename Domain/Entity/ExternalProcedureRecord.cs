@@ -19,7 +19,7 @@ namespace Domain.Entity
         public string Date { get; set; } = null!;
 
 
-        public static Result<ExternalProcedureRecord> Create(Result<PatientCard> patientCard, Result<ExternalProcedureRecordType> type, string date)
+        public static Result<ExternalProcedureRecord> Create(Result<PatientCard> patientCard, Result<ExternalProcedureRecordType> type, string date = "")
         {
             if (patientCard.IsFailure) return Result.Failure<ExternalProcedureRecord>(patientCard);
             if (type.IsFailure) return Result.Failure<ExternalProcedureRecord>(type);
