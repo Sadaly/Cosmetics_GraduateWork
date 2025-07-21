@@ -1,4 +1,5 @@
-﻿using Domain.Errors;
+﻿using Domain.Enums;
+using Domain.Errors;
 using Domain.ValueObjects;
 
 namespace Application.UnitTests.TheoryData
@@ -68,6 +69,12 @@ namespace Application.UnitTests.TheoryData
             { 0, 2 },
             { 1, 2 },
         };
+        public static TheoryData<int, int> InvalidIndexesGetAllTestCases = new()
+        {
+            { -1, 1 },
+            { 0, 0 },
+            { -1, 0 },
+        };
 
         public static TheoryData<string, string> ValidEntityWithTypeGuidsTestCases = new()
         {
@@ -122,6 +129,48 @@ namespace Application.UnitTests.TheoryData
             { new string('a', PasswordHashed.MAX_LENGTH - PasswordHashed.MIN_LENGTH)},
             { new string('a', PasswordHashed.MAX_LENGTH) },
             { new string('a', PasswordHashed.MIN_LENGTH) }
+        };
+
+        public static TheoryData<string, string, string, string> InvalidPatientCardUpdateTestCases = new()
+        {
+            { new string('a', Text.MAX_LENGTH + 1), "", "", DomainErrors.Text.TooLong },
+            { "", new string('a', Text.MAX_LENGTH + 1), "", DomainErrors.Text.TooLong },
+            { new string('a', Text.MAX_LENGTH + 1), new string('a', Text.MAX_LENGTH + 1), "", DomainErrors.Text.TooLong },
+            { "", "", new string('1', PhoneNumber.MAX_LENGTH + 1), DomainErrors.PhoneNumber.TooLong },
+            { "", "", new string('1', PhoneNumber.MIN_LENGTH - 1), DomainErrors.PhoneNumber.TooShort },
+            { "", "", new string('a', PhoneNumber.MAX_LENGTH), DomainErrors.PhoneNumber.Empty },
+            { "", "", new string('a', PhoneNumber.MIN_LENGTH), DomainErrors.PhoneNumber.Empty },
+        };
+
+        public static TheoryData<string, string, string> ValidPatientCardUpdateTestCases = new()
+        {
+            { "", "", "" },
+            { new string('a', Text.MAX_LENGTH), "", "" },
+            { new string('a', Text.MAX_LENGTH), new string('a', Text.MAX_LENGTH), "" },
+            { new string('a', Text.MAX_LENGTH), new string('a', Text.MAX_LENGTH), new string('1', PhoneNumber.MAX_LENGTH) },
+
+            { "", new string('a', Text.MAX_LENGTH), "" },
+            { "", new string('a', Text.MAX_LENGTH), new string('1', PhoneNumber.MAX_LENGTH) },
+            { "", new string('a', Text.MAX_LENGTH), new string('1', PhoneNumber.MIN_LENGTH) },
+            { new string('a', Text.MAX_LENGTH), new string('a', Text.MAX_LENGTH), new string('1', PhoneNumber.MIN_LENGTH) },
+        };
+
+        public static TheoryData<ReservedDateType> ValidReservedDateTypeCreationTestCases = new()
+        {
+            { ReservedDateType.None },
+            { ReservedDateType.TimeRestrict },
+            { ReservedDateType.HolidayRestrict },
+            { ReservedDateType.DayOfWeekRestrict },
+        };
+
+        public static TheoryData<string, string, string, string> ValidPatientSpecificsesUpdateTestCases = new()
+        {
+            { "", "", "", "" },
+            { "a", "", "", "" },
+            { "", "a", "", "" },
+            { "", "", "a", "" },
+            { "", "", "", "a" },
+            { "a", "a", "a", "a" },
         };
     }
 }

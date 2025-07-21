@@ -71,5 +71,18 @@ namespace Application.UnitTests.Entities.SkinFeatureTypes.Commands
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<SkinFeatureType>.NotFound);
         }
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<SkinFeatureType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<SkinFeatureType>(PersistenceErrors.Entity<SkinFeatureType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new SkinFeatureTypeUpdateCommand(_skinfeaturetype.Id, _skinfeaturetype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+        }
     }
 }

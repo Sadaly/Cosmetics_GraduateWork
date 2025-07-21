@@ -9,7 +9,7 @@ namespace Domain.ValueObjects
     public class Email : ValueObject
     {
         public const int MAX_LENGTH = 50;
-        public const int MIN_LENGTH = 5;
+        public const int MIN_LENGTH = 6;
         public const int FIRST_PART_MIN_LENGTH = 1;
         public const int SECOND_PART_MIN_LENGTH = 1;
         public const string DEFAULT_VALUE = "";

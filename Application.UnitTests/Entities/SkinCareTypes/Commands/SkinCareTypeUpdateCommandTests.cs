@@ -71,5 +71,18 @@ namespace Application.UnitTests.Entities.SkinCareTypes.Commands
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<SkinCareType>.NotFound);
         }
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<SkinCareType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<SkinCareType>(PersistenceErrors.Entity<SkinCareType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new SkinCareTypeUpdateCommand(_skincaretype.Id, _skincaretype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+        }
     }
 }

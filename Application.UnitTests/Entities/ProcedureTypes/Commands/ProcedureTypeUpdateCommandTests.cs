@@ -71,5 +71,18 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<ProcedureType>.NotFound);
         }
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<ProcedureType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<ProcedureType>(PersistenceErrors.Entity<ProcedureType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, _proceduretype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+        }
     }
 }

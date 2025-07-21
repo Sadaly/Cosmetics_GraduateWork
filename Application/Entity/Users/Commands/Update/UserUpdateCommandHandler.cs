@@ -26,24 +26,25 @@ namespace Application.Entity.Users.Commands.Update
             //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
             if (request.Email != null) {
                 var email = Email.Create(request.Email);
-                user.Value.UpdateEmail(email);
-                if (user.IsFailure) return Result.Failure<string>(user.Error);
+                var updateEmail = user.Value.UpdateEmail(email);
+                if (updateEmail.IsFailure) return Result.Failure<string>(updateEmail.Error);
             }
 
             //Первое условие проверяет, нужно ли обновлять поле
             //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
             if (request.Username != null) {
                 var username = Username.Create(request.Username);
-                user.Value.UpdateUsername(username);
-                if (user.IsFailure) return Result.Failure<string>(user.Error);
+                var updateUsername = user.Value.UpdateUsername(username);
+                if (updateUsername.IsFailure) return Result.Failure<string>(updateUsername.Error);
             }
 
             //Первое условие проверяет, нужно ли обновлять поле
-            //Проверку корректности Result можно не делать, т.к. она уже осуществляется в коммандах Add и Save и если в них поступает
-            //неверный результат то они просто передают его дальше
-            if (request.Password != null) 
-                user.Value.UpdatePassword(PasswordHashed.Create(request.Password));
-
+            //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
+            if (request.Password != null)
+            {
+                var updatePassword = user.Value.UpdatePassword(PasswordHashed.Create(request.Password));
+                if (updatePassword.IsFailure) return Result.Failure<string>(updatePassword.Error);
+            }
             var update = await userRepository.UpdateAsync(user, cancellationToken);
             var save = await unitOfWork.SaveChangesAsync(update, cancellationToken);
             string token = jwtProvider.Generate(user.Value);

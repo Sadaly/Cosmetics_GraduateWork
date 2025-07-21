@@ -2,7 +2,9 @@ using Application.Entity.ExternalProcedureRecordTypes.Queries;
 using Application.Entity.ExternalProcedureRecordTypes.Queries.GetAll;
 using Application.UnitTests.TheoryData;
 using Domain.Entity;
+using Domain.Errors;
 using Domain.Repositories;
+using Domain.Shared;
 using Domain.SupportData.Filters;
 using Domain.ValueObjects;
 using FluentAssertions;
@@ -131,6 +133,26 @@ namespace Application.UnitTests.Entities.ExternalProcedureRecordTypes.Queries
 
             //Assert
             result.Value.Count.Should().Be(count - startIndex);
+        }
+        [Theory]
+        [MemberData(nameof(InvalidIndexesGetAllTestCases))]
+        public async Task Handle_Should_ReturnError_WhenInvalidIndexes(int startIndex, int count)
+        {
+            //Arrange
+            _repository.GetAllAsync(Arg.Is<int>(x => x < 0), Arg.Is<int>(x => x < 1), Arg.Any<Expression<Func<ExternalProcedureRecordType, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<ExternalProcedureRecordType>>(PersistenceErrors.IncorrectStartIndex));
+
+            _repository.GetAllAsync(Arg.Is<int>(x => x < 0), Arg.Any<int>(), Arg.Any<Expression<Func<ExternalProcedureRecordType, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<ExternalProcedureRecordType>>(PersistenceErrors.IncorrectStartIndex));
+
+            _repository.GetAllAsync(Arg.Any<int>(), Arg.Is<int>(x => x < 1), Arg.Any<Expression<Func<ExternalProcedureRecordType, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<ExternalProcedureRecordType>>(PersistenceErrors.IncorrectCount));
+
+            //Act
+            var result = await _handler.Handle(new ExternalProcedureRecordTypeGetAllQuery(ExternalProcedureRecordTypeQueries.GetWithoutPredicate(), startIndex, count), default);
+
+            //Assert
+            result.IsFailure.Should().BeTrue();
         }
     }
 }

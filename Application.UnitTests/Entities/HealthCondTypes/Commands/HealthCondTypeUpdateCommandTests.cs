@@ -71,5 +71,18 @@ namespace Application.UnitTests.Entities.HealthCondTypes.Commands
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<HealthCondType>.NotFound);
         }
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<HealthCondType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<HealthCondType>(PersistenceErrors.Entity<HealthCondType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new HealthCondTypeUpdateCommand(_healthcondtype.Id, _healthcondtype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+        }
     }
 }

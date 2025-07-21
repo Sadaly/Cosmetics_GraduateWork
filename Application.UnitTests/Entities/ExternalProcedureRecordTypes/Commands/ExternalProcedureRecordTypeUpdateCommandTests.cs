@@ -1,3 +1,4 @@
+using Application.Entity.AgeChangeTypes.Commands.Update;
 using Application.Entity.ExternalProcedureRecordTypes.Commands.Update;
 using Application.UnitTests.TheoryData;
 using Domain.Abstractions;
@@ -70,6 +71,19 @@ namespace Application.UnitTests.Entities.ExternalProcedureRecordTypes.Commands
 
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<ExternalProcedureRecordType>.NotFound);
+        }
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<ExternalProcedureRecordType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<ExternalProcedureRecordType>(PersistenceErrors.Entity<ExternalProcedureRecordType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new ExternalProcedureRecordTypeUpdateCommand(_externalprocedurerecordtype.Id, _externalprocedurerecordtype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
         }
     }
 }

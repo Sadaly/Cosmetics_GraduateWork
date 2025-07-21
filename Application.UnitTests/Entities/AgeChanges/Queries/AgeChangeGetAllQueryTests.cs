@@ -1,9 +1,13 @@
 using Application.Entity.AgeChanges.Queries;
 using Application.Entity.AgeChanges.Queries.GetAll;
+using Application.Entity.AgeChangeTypes.Queries;
+using Application.Entity.AgeChangeTypes.Queries.GetAll;
 using Application.UnitTests.TheoryData;
 using Domain.Abstractions;
 using Domain.Entity;
+using Domain.Errors;
 using Domain.Repositories;
+using Domain.Shared;
 using Domain.SupportData.Filters;
 using Domain.ValueObjects;
 using FluentAssertions;
@@ -125,6 +129,40 @@ namespace Application.UnitTests.Entities.AgeChanges.Queries
 
             //Assert
             result.Value.Count.Should().Be(0);
+        }
+        [Theory]
+        [MemberData(nameof(ValidIndexesGetAllTestCases))]
+        public async Task Handle_Should_ReturnSuccess_WhenValidIndexes(int startIndex, int count)
+        {
+            //Arrange
+            _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<AgeChange, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(new List<AgeChange>() { _agechange1, _agechange2 }.Skip(startIndex).Take(count).ToList());
+
+            //Act
+            var result = await _handler.Handle(new AgeChangeGetAllQuery(AgeChangeQueries.GetWithoutPredicate(), startIndex, count), default);
+
+            //Assert
+            result.Value.Count.Should().Be(count - startIndex);
+        }
+        [Theory]
+        [MemberData(nameof(InvalidIndexesGetAllTestCases))]
+        public async Task Handle_Should_ReturnError_WhenInvalidIndexes(int startIndex, int count)
+        {
+            //Arrange
+            _repository.GetAllAsync(Arg.Is<int>(x => x < 0), Arg.Is<int>(x => x < 1), Arg.Any<Expression<Func<AgeChange, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<AgeChange>>(PersistenceErrors.IncorrectStartIndex));
+
+            _repository.GetAllAsync(Arg.Is<int>(x => x < 0), Arg.Any<int>(), Arg.Any<Expression<Func<AgeChange, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<AgeChange>>(PersistenceErrors.IncorrectStartIndex));
+
+            _repository.GetAllAsync(Arg.Any<int>(), Arg.Is<int>(x => x < 1), Arg.Any<Expression<Func<AgeChange, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<List<AgeChange>>(PersistenceErrors.IncorrectCount));
+
+            //Act
+            var result = await _handler.Handle(new AgeChangeGetAllQuery(AgeChangeQueries.GetWithoutPredicate(), startIndex, count), default);
+
+            //Assert
+            result.IsFailure.Should().BeTrue();
         }
     }
 }

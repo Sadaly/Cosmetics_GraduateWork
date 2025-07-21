@@ -7,7 +7,7 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Notifications.Commands.UpdatePhoneNumber
 {
-    internal class NotificationUpdateCommandHandler(INotificationRepository notificationRepository, IUnitOfWork unitOfWork) : ICommandHandler<NotificationUpdatePhoneNumberCommand, Guid>
+    internal class NotificationUpdatePhoneNumberCommandHandler(INotificationRepository notificationRepository, IUnitOfWork unitOfWork) : ICommandHandler<NotificationUpdatePhoneNumberCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(NotificationUpdatePhoneNumberCommand request, CancellationToken cancellationToken)
         {

@@ -71,5 +71,19 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Commands
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<AgeChangeType>.NotFound);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnError_WhenSaveIsFailer()
+        {
+            //Arrange
+            _unitOfWork.SaveChangesAsync(Arg.Any<Result<AgeChangeType>>(), Arg.Any<CancellationToken>())
+                .Returns(Result.Failure<AgeChangeType>(PersistenceErrors.Entity<AgeChangeType>.NotFound));
+
+            //Act
+            var result = await _handler.Handle(new AgeChangeTypeUpdateCommand(_agechangetype.Id, _agechangetype.Title.Value), default);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+        }
     }
 }
