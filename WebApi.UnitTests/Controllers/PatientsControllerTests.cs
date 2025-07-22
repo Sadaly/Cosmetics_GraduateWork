@@ -1,9 +1,9 @@
-using Application.Entity.ExternalProcedureRecordTypes.Commands.Create;
-using Application.Entity.ExternalProcedureRecordTypes.Commands.SoftDelete;
-using Application.Entity.ExternalProcedureRecordTypes.Commands.Update;
-using Application.Entity.ExternalProcedureRecordTypes.Queries;
-using Application.Entity.ExternalProcedureRecordTypes.Queries.Get;
-using Application.Entity.ExternalProcedureRecordTypes.Queries.GetAll;
+using Application.Entity.Patients.Commands.Create;
+using Application.Entity.Patients.Commands.SoftDelete;
+using Application.Entity.Patients.Commands.Update;
+using Application.Entity.Patients.Queries;
+using Application.Entity.Patients.Queries.Get;
+using Application.Entity.Patients.Queries.GetAll;
 using Domain.Shared;
 using Domain.SupportData.Filters;
 using FluentAssertions;
@@ -18,23 +18,24 @@ using WebApi.UnitTests.TheoryData;
 
 namespace WebApi.UnitTests.Controllers
 {
-    public class ExternalProcedureRecordTypesControllerTests : ExternalProcedureRecordTypesControllerTestsTheoryData
+    public class PatientsControllerTests : PatientsControllerTestsTheoryData
     {
         private readonly ISender _sender;
-        private readonly ExternalProcedureRecordTypesController _controller;
-        private readonly string _typeName;
+        private readonly PatientsController _controller;
+        private readonly string _name;
         private readonly Guid _id;
-        private readonly ExternalProcedureRecordTypeFilter _filter;
-        private readonly ExternalProcedureRecordTypeResponse _response;
-        public ExternalProcedureRecordTypesControllerTests()
-        {
+        private readonly Guid _pcId;
+        private readonly PatientFilter _filter;
+        private readonly PatientResponse _response;
+        public PatientsControllerTests()
+        {            
+            _name = "name";             
             _id = Guid.NewGuid();
-            _typeName = "type";
-            _response = new(_id, _typeName);
-            _filter = new() { Typename = _typeName, };
+            _response = new(_id, _pcId, _name);
+            _filter = new() { Fullname = _name, };
             _sender = Substitute.For<ISender>();
 
-            _controller = new ExternalProcedureRecordTypesController(_sender)
+            _controller = new PatientsController(_sender)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -47,7 +48,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenCreateCommandSucceeds()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeCreateCommand(_typeName);
+            var command = new PatientCreateCommand(_name);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -61,10 +62,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenCreateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeCreateCommand(_typeName);
+            var command = new PatientCreateCommand(_name);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -81,7 +82,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenUpdateCommandSucceeds()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeUpdateCommand(_id, _typeName);
+            var command = new PatientUpdateCommand(_id, _name);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -95,10 +96,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenUpdateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenUpdateCommandFails()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeUpdateCommand(_id, _typeName);
+            var command = new PatientUpdateCommand(_id, _name);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -115,12 +116,12 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenRemoveByIdCommandSucceeds()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeSoftDeleteCommand(_id);
+            var command = new PatientSoftDeleteCommand(_id);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
             // Act
-            var result = await _controller.RemoveById(command.Id, CancellationToken.None);
+            var result = await _controller.RemoveById(command.PatientId, CancellationToken.None);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>()
@@ -129,16 +130,16 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenRemoveByIdCommandFails()
+        public async Task Should_ReturnBadRequest_WhenRemoveByIdCommandFails()
         {
             // Arrange
-            var command = new ExternalProcedureRecordTypeSoftDeleteCommand(_id);
+            var command = new PatientSoftDeleteCommand(_id);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
 
             // Act
-            var result = await _controller.RemoveById(command.Id, CancellationToken.None);
+            var result = await _controller.RemoveById(command.PatientId, CancellationToken.None);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>()
@@ -149,8 +150,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetAllQuerySucceeds()
         {
             // Arrange
-            var list = new List<ExternalProcedureRecordTypeResponse>() { _response };
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<PatientResponse>() { _response };
+            _sender.Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -159,14 +160,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetAllQueryFails()
+        public async Task Should_ReturnBadRequest_WhenGetAllQueryFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<ExternalProcedureRecordTypeResponse>>(error));
+            _sender.Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<PatientResponse>>(error));
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -180,8 +181,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenTakeCommandSucceeds()
         {
             // Arrange
-            var list = new List<ExternalProcedureRecordTypeResponse>() { _response };
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<PatientResponse>() { _response };
+            _sender.Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -190,14 +191,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenTakeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenTakeCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<ExternalProcedureRecordTypeResponse>>(error));
+            _sender.Send(Arg.Any<PatientGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<PatientResponse>>(error));
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -211,7 +212,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetCommandSucceeds()
         {
             // Arrange
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
+            _sender.Send(Arg.Any<PatientGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -220,14 +221,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(_response);
 
-            await _sender.Received(1).Send(Arg.Any<ExternalProcedureRecordTypeGetQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<PatientGetQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetCommandFails()
+        public async Task Should_ReturnBadRequest_WhenGetCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<ExternalProcedureRecordTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<ExternalProcedureRecordTypeResponse>(error));
+            _sender.Send(Arg.Any<PatientGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<PatientResponse>(error));
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -243,7 +244,7 @@ namespace WebApi.UnitTests.Controllers
         public void Should_HaveUserOnlyAuthorization_WhenCommandCalled(string methodName)
         {
             // Arrange
-            var method = typeof(ExternalProcedureRecordTypesController).GetMethod(methodName);
+            var method = typeof(PatientsController).GetMethod(methodName);
 
             // Assert
             method.Should().BeDecoratedWith<AuthorizeAttribute>(attr =>

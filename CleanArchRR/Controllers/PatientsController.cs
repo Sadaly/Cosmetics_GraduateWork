@@ -2,6 +2,7 @@
 using Application.Entity.Patients.Commands.SoftDelete;
 using Application.Entity.Patients.Commands.Update;
 using Application.Entity.Patients.Queries;
+using Application.Entity.Patients.Queries.Get;
 using Application.Entity.Patients.Queries.GetAll;
 using Domain.SupportData.Filters;
 using MediatR;
@@ -39,10 +40,10 @@ namespace WebApi.Controllers
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("{patientId:guid}")]
-        public async Task<IActionResult> GetAll(
+        public async Task<IActionResult> Get(
             Guid patientId,
             CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetById(patientId)), cancellationToken)).ToActionResult();
+            => (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("Take")]

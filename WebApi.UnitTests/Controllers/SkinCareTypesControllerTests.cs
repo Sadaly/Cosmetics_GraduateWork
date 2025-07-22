@@ -1,9 +1,9 @@
-using Application.Entity.SkinFeatureTypes.Commands.Create;
-using Application.Entity.SkinFeatureTypes.Commands.SoftDelete;
-using Application.Entity.SkinFeatureTypes.Commands.Update;
-using Application.Entity.SkinFeatureTypes.Queries;
-using Application.Entity.SkinFeatureTypes.Queries.Get;
-using Application.Entity.SkinFeatureTypes.Queries.GetAll;
+using Application.Entity.SkinCareTypes.Commands.Create;
+using Application.Entity.SkinCareTypes.Commands.SoftDelete;
+using Application.Entity.SkinCareTypes.Commands.Update;
+using Application.Entity.SkinCareTypes.Queries;
+using Application.Entity.SkinCareTypes.Queries.Get;
+using Application.Entity.SkinCareTypes.Queries.GetAll;
 using Domain.Shared;
 using Domain.SupportData.Filters;
 using FluentAssertions;
@@ -18,15 +18,15 @@ using WebApi.UnitTests.TheoryData;
 
 namespace WebApi.UnitTests.Controllers
 {
-    public class SkinFeatureTypesControllerTests : SkinFeatureTypesControllerTestsTheoryData
+    public class SkinCareTypesControllerTests : SkinCareTypesControllerTestsTheoryData
     {
         private readonly ISender _sender;
-        private readonly SkinFeatureTypesController _controller;
+        private readonly SkinCareTypesController _controller;
         private readonly string _typeName;
         private readonly Guid _id;
-        private readonly SkinFeatureTypeFilter _filter;
-        private readonly SkinFeatureTypeResponse _response;
-        public SkinFeatureTypesControllerTests()
+        private readonly SkinCareTypeFilter _filter;
+        private readonly SkinCareTypeResponse _response;
+        public SkinCareTypesControllerTests()
         {
             _id = Guid.NewGuid();
             _typeName = "type";
@@ -34,7 +34,7 @@ namespace WebApi.UnitTests.Controllers
             _filter = new() { Typename = _typeName, };
             _sender = Substitute.For<ISender>();
 
-            _controller = new SkinFeatureTypesController(_sender)
+            _controller = new SkinCareTypesController(_sender)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -47,7 +47,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenCreateCommandSucceeds()
         {
             // Arrange
-            var command = new SkinFeatureTypeCreateCommand(_typeName);
+            var command = new SkinCareTypeCreateCommand(_typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -61,10 +61,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenCreateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
         {
             // Arrange
-            var command = new SkinFeatureTypeCreateCommand(_typeName);
+            var command = new SkinCareTypeCreateCommand(_typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -81,7 +81,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenUpdateCommandSucceeds()
         {
             // Arrange
-            var command = new SkinFeatureTypeUpdateCommand(_id, _typeName);
+            var command = new SkinCareTypeUpdateCommand(_id, _typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -95,10 +95,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenUpdateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenUpdateCommandFails()
         {
             // Arrange
-            var command = new SkinFeatureTypeUpdateCommand(_id, _typeName);
+            var command = new SkinCareTypeUpdateCommand(_id, _typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -115,7 +115,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenRemoveByIdCommandSucceeds()
         {
             // Arrange
-            var command = new SkinFeatureTypeSoftDeleteCommand(_id);
+            var command = new SkinCareTypeSoftDeleteCommand(_id);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -129,10 +129,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenRemoveByIdCommandFails()
+        public async Task Should_ReturnBadRequest_WhenRemoveByIdCommandFails()
         {
             // Arrange
-            var command = new SkinFeatureTypeSoftDeleteCommand(_id);
+            var command = new SkinCareTypeSoftDeleteCommand(_id);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -149,8 +149,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetAllQuerySucceeds()
         {
             // Arrange
-            var list = new List<SkinFeatureTypeResponse>() { _response };
-            _sender.Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<SkinCareTypeResponse>() { _response };
+            _sender.Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -159,14 +159,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetAllQueryFails()
+        public async Task Should_ReturnBadRequest_WhenGetAllQueryFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<SkinFeatureTypeResponse>>(error));
+            _sender.Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<SkinCareTypeResponse>>(error));
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -180,8 +180,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenTakeCommandSucceeds()
         {
             // Arrange
-            var list = new List<SkinFeatureTypeResponse>() { _response };
-            _sender.Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<SkinCareTypeResponse>() { _response };
+            _sender.Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -190,14 +190,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenTakeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenTakeCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<SkinFeatureTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<SkinFeatureTypeResponse>>(error));
+            _sender.Send(Arg.Any<SkinCareTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<SkinCareTypeResponse>>(error));
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -211,7 +211,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetCommandSucceeds()
         {
             // Arrange
-            _sender.Send(Arg.Any<SkinFeatureTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
+            _sender.Send(Arg.Any<SkinCareTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -220,14 +220,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(_response);
 
-            await _sender.Received(1).Send(Arg.Any<SkinFeatureTypeGetQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<SkinCareTypeGetQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetCommandFails()
+        public async Task Should_ReturnBadRequest_WhenGetCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<SkinFeatureTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<SkinFeatureTypeResponse>(error));
+            _sender.Send(Arg.Any<SkinCareTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<SkinCareTypeResponse>(error));
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -243,7 +243,7 @@ namespace WebApi.UnitTests.Controllers
         public void Should_HaveUserOnlyAuthorization_WhenCommandCalled(string methodName)
         {
             // Arrange
-            var method = typeof(SkinFeatureTypesController).GetMethod(methodName);
+            var method = typeof(SkinCareTypesController).GetMethod(methodName);
 
             // Assert
             method.Should().BeDecoratedWith<AuthorizeAttribute>(attr =>

@@ -43,7 +43,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
         public async Task Handle_Should_ReturnError_WhenInvalidNameInput(string Name, string expectedErrorCode)
         {
             //Act
-            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name, null, null), default);
 
             //Assert
             result.Error.Code.Should().Be(expectedErrorCode);
@@ -54,7 +54,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
         public async Task Handle_Should_ReturnSuccess_WhenValidNameInput(string Name)
         {
             //Act
-            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, Name, null, null), default);
 
             //Assert
             result.Value.Should().Be(_proceduretype.Id);
@@ -66,7 +66,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
         public async Task Handle_Should_ReturnError_WhenIdIsEmpty(string id)
         {
             //Act
-            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(Guid.Parse(id), _proceduretype.Title.Value), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(Guid.Parse(id), _proceduretype.Title.Value, null, null), default);
 
             //Assert
             result.Error.Should().Be(PersistenceErrors.Entity<ProcedureType>.NotFound);
@@ -79,7 +79,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
                 .Returns(Result.Failure<ProcedureType>(PersistenceErrors.Entity<ProcedureType>.NotFound));
 
             //Act
-            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, _proceduretype.Title.Value), default);
+            var result = await _handler.Handle(new ProcedureTypeUpdateCommand(_proceduretype.Id, _proceduretype.Title.Value, null, null), default);
 
             //Assert
             result.IsFailure.Should().Be(true);

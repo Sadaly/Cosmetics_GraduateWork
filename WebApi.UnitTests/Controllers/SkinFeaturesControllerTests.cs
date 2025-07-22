@@ -65,7 +65,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenCreateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
         {
             // Arrange
             var command = new SkinFeatureCreateCommand(_patientCardId, _typeId);
@@ -99,7 +99,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenChangeTypeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenChangeTypeCommandFails()
         {
             // Arrange
             var command = new SkinFeatureChangeTypeCommand(_id, _typeId);
@@ -133,7 +133,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenRemoveByIdCommandFails()
+        public async Task Should_ReturnBadRequest_WhenRemoveByIdCommandFails()
         {
             // Arrange
             var command = new SkinFeatureSoftDeleteCommand(_id);
@@ -166,7 +166,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(Arg.Any<SkinFeatureGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetAllQueryFails()
+        public async Task Should_ReturnBadRequest_WhenGetAllQueryFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
@@ -197,7 +197,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(Arg.Any<SkinFeatureGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenTakeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenTakeCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
@@ -227,7 +227,7 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(Arg.Any<SkinFeatureGetQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetCommandFails()
+        public async Task Should_ReturnBadRequest_WhenGetCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");

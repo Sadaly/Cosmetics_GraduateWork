@@ -1,9 +1,9 @@
-using Application.Entity.HealthConds.Commands.ChangeType;
-using Application.Entity.HealthConds.Commands.Create;
-using Application.Entity.HealthConds.Commands.SoftDelete;
-using Application.Entity.HealthConds.Queries;
-using Application.Entity.HealthConds.Queries.Get;
-using Application.Entity.HealthConds.Queries.GetAll;
+using Application.Entity.HealthCondTypes.Commands.Create;
+using Application.Entity.HealthCondTypes.Commands.SoftDelete;
+using Application.Entity.HealthCondTypes.Commands.Update;
+using Application.Entity.HealthCondTypes.Queries;
+using Application.Entity.HealthCondTypes.Queries.Get;
+using Application.Entity.HealthCondTypes.Queries.GetAll;
 using Domain.Shared;
 using Domain.SupportData.Filters;
 using FluentAssertions;
@@ -18,27 +18,23 @@ using WebApi.UnitTests.TheoryData;
 
 namespace WebApi.UnitTests.Controllers
 {
-    public class HealthCondsControllerTests : HealthCondsControllerTestsTheoryData
+    public class HealthCondTypesControllerTests : HealthCondTypesControllerTestsTheoryData
     {
         private readonly ISender _sender;
-        private readonly HealthCondsController _controller;
-        private readonly Guid _patientCardId;
-        private readonly Guid _typeId;
+        private readonly HealthCondTypesController _controller;
         private readonly string _typeName;
         private readonly Guid _id;
-        private readonly HealthCondFilter _filter;
-        private readonly HealthCondResponse _response;
-        public HealthCondsControllerTests()
+        private readonly HealthCondTypeFilter _filter;
+        private readonly HealthCondTypeResponse _response;
+        public HealthCondTypesControllerTests()
         {
-            _patientCardId = Guid.NewGuid();
-            _typeId = Guid.NewGuid();
             _id = Guid.NewGuid();
-            _response = new(_id, _typeId);
             _typeName = "type";
+            _response = new(_id, _typeName);
             _filter = new() { Typename = _typeName, };
             _sender = Substitute.For<ISender>();
 
-            _controller = new HealthCondsController(_sender)
+            _controller = new HealthCondTypesController(_sender)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -51,7 +47,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenCreateCommandSucceeds()
         {
             // Arrange
-            var command = new HealthCondCreateCommand(_patientCardId, _typeId);
+            var command = new HealthCondTypeCreateCommand(_typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -65,10 +61,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenCreateCommandFails()
+        public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
         {
             // Arrange
-            var command = new HealthCondCreateCommand(_patientCardId, _typeId);
+            var command = new HealthCondTypeCreateCommand(_typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -82,15 +78,15 @@ namespace WebApi.UnitTests.Controllers
                 .Which.Type.Should().Be(error.Code);
         }
         [Fact]
-        public async Task Should_ReturnOkResult_WhenChangeTypeCommandSucceeds()
+        public async Task Should_ReturnOkResult_WhenUpdateCommandSucceeds()
         {
             // Arrange
-            var command = new HealthCondChangeTypeCommand(_id, _typeId);
+            var command = new HealthCondTypeUpdateCommand(_id, _typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
             // Act
-            var result = await _controller.ChangeType(command, CancellationToken.None);
+            var result = await _controller.Update(command, CancellationToken.None);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>()
@@ -99,16 +95,16 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenChangeTypeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenUpdateCommandFails()
         {
             // Arrange
-            var command = new HealthCondChangeTypeCommand(_id, _typeId);
+            var command = new HealthCondTypeUpdateCommand(_id, _typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
 
             // Act
-            var result = await _controller.ChangeType(command, CancellationToken.None);
+            var result = await _controller.Update(command, CancellationToken.None);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>()
@@ -119,7 +115,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenRemoveByIdCommandSucceeds()
         {
             // Arrange
-            var command = new HealthCondSoftDeleteCommand(_id);
+            var command = new HealthCondTypeSoftDeleteCommand(_id);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -133,10 +129,10 @@ namespace WebApi.UnitTests.Controllers
             await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenRemoveByIdCommandFails()
+        public async Task Should_ReturnBadRequest_WhenRemoveByIdCommandFails()
         {
             // Arrange
-            var command = new HealthCondSoftDeleteCommand(_id);
+            var command = new HealthCondTypeSoftDeleteCommand(_id);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -153,8 +149,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetAllQuerySucceeds()
         {
             // Arrange
-            var list = new List<HealthCondResponse>() { _response };
-            _sender.Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<HealthCondTypeResponse>() { _response };
+            _sender.Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -163,14 +159,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetAllQueryFails()
+        public async Task Should_ReturnBadRequest_WhenGetAllQueryFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<HealthCondResponse>>(error));
+            _sender.Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<HealthCondTypeResponse>>(error));
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -184,8 +180,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenTakeCommandSucceeds()
         {
             // Arrange
-            var list = new List<HealthCondResponse>() { _response };
-            _sender.Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<HealthCondTypeResponse>() { _response };
+            _sender.Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -194,14 +190,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenTakeCommandFails()
+        public async Task Should_ReturnBadRequest_WhenTakeCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<HealthCondGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<HealthCondResponse>>(error));
+            _sender.Send(Arg.Any<HealthCondTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<HealthCondTypeResponse>>(error));
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -215,7 +211,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetCommandSucceeds()
         {
             // Arrange
-            _sender.Send(Arg.Any<HealthCondGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
+            _sender.Send(Arg.Any<HealthCondTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -224,14 +220,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(_response);
 
-            await _sender.Received(1).Send(Arg.Any<HealthCondGetQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<HealthCondTypeGetQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
-        public async Task Create_ShouldReturnBadRequest_WhenGetCommandFails()
+        public async Task Should_ReturnBadRequest_WhenGetCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<HealthCondGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<HealthCondResponse>(error));
+            _sender.Send(Arg.Any<HealthCondTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<HealthCondTypeResponse>(error));
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -247,7 +243,7 @@ namespace WebApi.UnitTests.Controllers
         public void Should_HaveUserOnlyAuthorization_WhenCommandCalled(string methodName)
         {
             // Arrange
-            var method = typeof(HealthCondsController).GetMethod(methodName);
+            var method = typeof(HealthCondTypesController).GetMethod(methodName);
 
             // Assert
             method.Should().BeDecoratedWith<AuthorizeAttribute>(attr =>

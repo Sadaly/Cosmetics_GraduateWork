@@ -21,5 +21,15 @@ namespace Domain.Entity
             if (standartDuration < 0) return Result.Failure<ProcedureType>(DomainErrors.Procedure.DurationLessThenZero);
             return new ProcedureType(Guid.NewGuid(), title.Value, description, standartDuration);
         }
+        public Result<ProcedureType> UpdateDescription(string descr)
+        {
+            if (descr != null) this.Description = descr;
+            return this;
+        }
+        public Result<ProcedureType> UpdateStandartDuration(int? dur)
+        {
+            if (dur != null) this.StandartDuration = dur.Value;
+            return this;
+        }
     }
 }

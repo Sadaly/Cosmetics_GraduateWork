@@ -1,9 +1,9 @@
-using Application.Entity.Doctors.Commands.Create;
-using Application.Entity.Doctors.Commands.SoftDelete;
-using Application.Entity.Doctors.Commands.Update;
-using Application.Entity.Doctors.Queries;
-using Application.Entity.Doctors.Queries.Get;
-using Application.Entity.Doctors.Queries.GetAll;
+using Application.Entity.AgeChangeTypes.Commands.Create;
+using Application.Entity.AgeChangeTypes.Commands.SoftDelete;
+using Application.Entity.AgeChangeTypes.Commands.Update;
+using Application.Entity.AgeChangeTypes.Queries;
+using Application.Entity.AgeChangeTypes.Queries.Get;
+using Application.Entity.AgeChangeTypes.Queries.GetAll;
 using Domain.Shared;
 using Domain.SupportData.Filters;
 using FluentAssertions;
@@ -18,23 +18,23 @@ using WebApi.UnitTests.TheoryData;
 
 namespace WebApi.UnitTests.Controllers
 {
-    public class DoctorsControllerTests : DoctorsControllerTestsTheoryData
+    public class AgeChangeTypesControllerTests : AgeChangeTypesControllerTestsTheoryData
     {
         private readonly ISender _sender;
-        private readonly DoctorsController _controller;
-        private readonly string _name;
+        private readonly AgeChangeTypesController _controller;
+        private readonly string _typeName;
         private readonly Guid _id;
-        private readonly DoctorFilter _filter;
-        private readonly DoctorResponse _response;
-        public DoctorsControllerTests()
-        {            
-            _name = "name";             
+        private readonly AgeChangeTypeFilter _filter;
+        private readonly AgeChangeTypeResponse _response;
+        public AgeChangeTypesControllerTests()
+        {
             _id = Guid.NewGuid();
-            _response = new(_id, _name);
-            _filter = new() { Name = _name, };
+            _typeName = "type";
+            _response = new(_id, _typeName);
+            _filter = new() { Typename = _typeName, };
             _sender = Substitute.For<ISender>();
 
-            _controller = new DoctorsController(_sender)
+            _controller = new AgeChangeTypesController(_sender)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -47,7 +47,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenCreateCommandSucceeds()
         {
             // Arrange
-            var command = new DoctorCreateCommand(_name);
+            var command = new AgeChangeTypeCreateCommand(_typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -64,7 +64,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
         {
             // Arrange
-            var command = new DoctorCreateCommand(_name);
+            var command = new AgeChangeTypeCreateCommand(_typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -81,7 +81,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenUpdateCommandSucceeds()
         {
             // Arrange
-            var command = new DoctorUpdateCommand(_id, _name);
+            var command = new AgeChangeTypeUpdateCommand(_id, _typeName);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -98,7 +98,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnBadRequest_WhenUpdateCommandFails()
         {
             // Arrange
-            var command = new DoctorUpdateCommand(_id, _name);
+            var command = new AgeChangeTypeUpdateCommand(_id, _typeName);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -115,7 +115,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenRemoveByIdCommandSucceeds()
         {
             // Arrange
-            var command = new DoctorSoftDeleteCommand(_id);
+            var command = new AgeChangeTypeSoftDeleteCommand(_id);
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -132,7 +132,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnBadRequest_WhenRemoveByIdCommandFails()
         {
             // Arrange
-            var command = new DoctorSoftDeleteCommand(_id);
+            var command = new AgeChangeTypeSoftDeleteCommand(_id);
             var error = new Error("Code", "Message");
 
             _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
@@ -149,8 +149,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetAllQuerySucceeds()
         {
             // Arrange
-            var list = new List<DoctorResponse>() { _response };
-            _sender.Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<AgeChangeTypeResponse>() { _response };
+            _sender.Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -159,14 +159,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
         public async Task Should_ReturnBadRequest_WhenGetAllQueryFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<DoctorResponse>>(error));
+            _sender.Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<AgeChangeTypeResponse>>(error));
 
             // Act
             var result = await _controller.GetAll(_filter, CancellationToken.None);
@@ -180,8 +180,8 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenTakeCommandSucceeds()
         {
             // Arrange
-            var list = new List<DoctorResponse>() { _response };
-            _sender.Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
+            var list = new List<AgeChangeTypeResponse>() { _response };
+            _sender.Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(list);
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -190,14 +190,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(list);
 
-            await _sender.Received(1).Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
         public async Task Should_ReturnBadRequest_WhenTakeCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<DoctorGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<DoctorResponse>>(error));
+            _sender.Send(Arg.Any<AgeChangeTypeGetAllQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<List<AgeChangeTypeResponse>>(error));
 
             // Act
             var result = await _controller.Take(_filter, 0, 1, CancellationToken.None);
@@ -211,7 +211,7 @@ namespace WebApi.UnitTests.Controllers
         public async Task Should_ReturnOkResult_WhenGetCommandSucceeds()
         {
             // Arrange
-            _sender.Send(Arg.Any<DoctorGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
+            _sender.Send(Arg.Any<AgeChangeTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(_response);
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -220,14 +220,14 @@ namespace WebApi.UnitTests.Controllers
             result.Should().BeOfType<OkObjectResult>()
                 .Which.Value.Should().Be(_response);
 
-            await _sender.Received(1).Send(Arg.Any<DoctorGetQuery>(), Arg.Any<CancellationToken>());
+            await _sender.Received(1).Send(Arg.Any<AgeChangeTypeGetQuery>(), Arg.Any<CancellationToken>());
         }
         [Fact]
         public async Task Should_ReturnBadRequest_WhenGetCommandFails()
         {
             // Arrange
             var error = new Error("Code", "Message");
-            _sender.Send(Arg.Any<DoctorGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<DoctorResponse>(error));
+            _sender.Send(Arg.Any<AgeChangeTypeGetQuery>(), Arg.Any<CancellationToken>()).Returns(Result.Failure<AgeChangeTypeResponse>(error));
 
             // Act
             var result = await _controller.Get(_id, CancellationToken.None);
@@ -243,7 +243,7 @@ namespace WebApi.UnitTests.Controllers
         public void Should_HaveUserOnlyAuthorization_WhenCommandCalled(string methodName)
         {
             // Arrange
-            var method = typeof(DoctorsController).GetMethod(methodName);
+            var method = typeof(AgeChangeTypesController).GetMethod(methodName);
 
             // Assert
             method.Should().BeDecoratedWith<AuthorizeAttribute>(attr =>
