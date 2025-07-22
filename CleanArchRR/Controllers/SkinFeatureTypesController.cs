@@ -1,5 +1,6 @@
 ﻿using Application.Entity.SkinFeatureTypes.Commands.Create;
 using Application.Entity.SkinFeatureTypes.Commands.SoftDelete;
+using Application.Entity.SkinFeatureTypes.Commands.Update;
 using Application.Entity.SkinFeatureTypes.Queries;
 using Application.Entity.SkinFeatureTypes.Queries.Get;
 using Application.Entity.SkinFeatureTypes.Queries.GetAll;
@@ -24,11 +25,18 @@ namespace WebApi.Controllers
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete]
-        public async Task<IActionResult> RemoveById(
-            [FromBody] SkinFeatureTypeSoftDeleteCommand command,
+        [HttpPut]
+        public async Task<IActionResult> Update(
+            [FromBody] SkinFeatureTypeUpdateCommand command,
             CancellationToken cancellationToken)
             => (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
+        [HttpDelete]
+        public async Task<IActionResult> RemoveById(
+            Guid id,
+            CancellationToken cancellationToken)
+            => (await Sender.Send(new SkinFeatureTypeSoftDeleteCommand(id), cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("All")]
