@@ -1,6 +1,9 @@
+using Application.Entity.Procedures.Commands.AssignDoctor;
 using Application.Entity.Procedures.Commands.ChangeType;
 using Application.Entity.Procedures.Commands.Create;
+using Application.Entity.Procedures.Commands.RemoveDoctor;
 using Application.Entity.Procedures.Commands.SoftDelete;
+using Application.Entity.Procedures.Commands.UpdateDate;
 using Application.Entity.Procedures.Queries;
 using Application.Entity.Procedures.Queries.Get;
 using Application.Entity.Procedures.Queries.GetAll;
@@ -26,6 +29,7 @@ namespace WebApi.UnitTests.Controllers
         private readonly Guid _typeId;
         private readonly string _typeName;
         private readonly Guid _id;
+        private readonly Guid _doctorId;
         private readonly ProcedureFilter _filter;
         private readonly ProcedureResponse _response;
         public ProceduresControllerTests()
@@ -33,6 +37,7 @@ namespace WebApi.UnitTests.Controllers
             _patientCardId = Guid.NewGuid();
             _typeId = Guid.NewGuid();
             _id = Guid.NewGuid();
+            _doctorId = Guid.NewGuid();
             _response = new(_id, _typeId);
             _typeName = "type";
             _filter = new() { Typename = _typeName, };
@@ -252,6 +257,109 @@ namespace WebApi.UnitTests.Controllers
             // Assert
             method.Should().BeDecoratedWith<AuthorizeAttribute>(attr =>
                 attr.Policy == AuthorizePolicy.UserOnly);
+        }
+
+        [Fact]
+        public async Task Should_ReturnOkResult_WhenAssignDoctorCommandSucceeds()
+        {
+            // Arrange
+            var command = new ProcedureAssignDoctorCommand(_id, _doctorId);
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
+
+            // Act
+            var result = await _controller.AssignDoctor(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>()
+                .Which.Value.Should().Be(_id);
+
+            await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
+        }
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenAssignDoctorCommandFails()
+        {
+            // Arrange
+            var command = new ProcedureAssignDoctorCommand(_id, _doctorId);
+            var error = new Error("Code", "Message");
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
+
+            // Act
+            var result = await _controller.AssignDoctor(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>()
+                .Which.Value.Should().BeOfType<ProblemDetails>()
+                .Which.Type.Should().Be(error.Code);
+        }
+        [Fact]
+        public async Task Should_ReturnOkResult_WhenRemoveDoctorCommandSucceeds()
+        {
+            // Arrange
+            var command = new ProcedureRemoveDoctorCommand(_id);
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
+
+            // Act
+            var result = await _controller.RemoveDoctor(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>()
+                .Which.Value.Should().Be(_id);
+
+            await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
+        }
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenRemoveDoctorCommandFails()
+        {
+            // Arrange
+            var command = new ProcedureRemoveDoctorCommand(_id);
+            var error = new Error("Code", "Message");
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
+
+            // Act
+            var result = await _controller.RemoveDoctor(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>()
+                .Which.Value.Should().BeOfType<ProblemDetails>()
+                .Which.Type.Should().Be(error.Code);
+        }
+        [Fact]
+        public async Task Should_ReturnOkResult_WhenUpdateDateCommandSucceeds()
+        {
+            // Arrange
+            var command = new ProcedureUpdateDateCommand(_id, DateTime.UtcNow, 0);
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
+
+            // Act
+            var result = await _controller.UpdateDate(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>()
+                .Which.Value.Should().Be(_id);
+
+            await _sender.Received(1).Send(command, Arg.Any<CancellationToken>());
+        }
+        [Fact]
+        public async Task Should_ReturnBadRequest_WhenUpdateDateCommandFails()
+        {
+            // Arrange
+            var command = new ProcedureUpdateDateCommand(_id, DateTime.UtcNow, 0);
+            var error = new Error("Code", "Message");
+
+            _sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));
+
+            // Act
+            var result = await _controller.UpdateDate(command, CancellationToken.None);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>()
+                .Which.Value.Should().BeOfType<ProblemDetails>()
+                .Which.Type.Should().Be(error.Code);
         }
     }
 }

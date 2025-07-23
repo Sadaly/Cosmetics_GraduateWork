@@ -53,15 +53,16 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPut("Self")]
         public async Task<IActionResult> UpdateSelf(
             [FromForm] UserUpdateRequest request,
             CancellationToken cancellationToken)
         {
             //сначала нужно получить Id
-            var getCurUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (getCurUserId == null) return Result.Failure(WebErrors.UserController.UpdateSelf.EmptyId).ToActionResult();
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim == null) return Result.Failure(WebErrors.UserController.UpdateSelf.EmptyId).ToActionResult();
+            string getCurUserId = claim.Value;
 
             var command = new UserUpdateCommand(Guid.Parse(getCurUserId), request.Username, request.Email, request.Password);
 
@@ -81,7 +82,7 @@ namespace WebApi.Controllers
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return Ok(new { userId, email, role });
+            return Ok(( userId, email, role ));
         }
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
@@ -113,7 +114,10 @@ namespace WebApi.Controllers
             Guid userId,
             CancellationToken cancellationToken)
         {
-            if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == userId.ToString())
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim == null) return Result.Failure(WebErrors.UserController.RemoveById.EmptyId).ToActionResult();
+            string getCurUserId = claim.Value;
+            if (getCurUserId == userId.ToString())
                 return Result.Failure(WebErrors.UserController.RemoveById.SelfDeleteFobbiden).ToActionResult();
             return (await Sender.Send(new UserSoftDeleteCommand(userId), cancellationToken)).ToActionResult();
         }

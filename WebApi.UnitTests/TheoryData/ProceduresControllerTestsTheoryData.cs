@@ -12,6 +12,9 @@ namespace WebApi.UnitTests.TheoryData
             { nameof(ProceduresController.Take) },
             { nameof(ProceduresController.ChangeType) },
             { nameof(ProceduresController.RemoveById) },
+            { nameof(ProceduresController.AssignDoctor) },
+            { nameof(ProceduresController.RemoveDoctor) },
+            { nameof(ProceduresController.UpdateDate) },
         };
     }
 }

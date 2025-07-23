@@ -16,6 +16,9 @@ namespace Domain.Errors
                 public static readonly Error SelfDeleteFobbiden = new(
                 "UserController.RemoveById.SelfDeleteFobbiden",
                 "Запрещено удалять самого себя из системы. Создайте нового пользователя и удалите себя через него");
+                public static readonly Error EmptyId = new(
+                "UserController.RemoveById.EmptyId",
+                "Передан пустой Id, невозможно обновить данные пользователя");
             }
         }
     }
