@@ -37,5 +37,8 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="Application.IntegrationTests"/>
+	</ItemGroup>
 
 </Project>
