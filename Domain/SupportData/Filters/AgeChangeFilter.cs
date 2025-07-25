@@ -7,7 +7,7 @@ namespace Domain.SupportData.Filters
     public class AgeChangeFilter : IEntityFilter<AgeChange>
     {
         public string? Typename { get; set; }
-        public string? PatienName{ get; set; }
+        public string? PatientName{ get; set; }
         public DateTime? CreationDateFrom { get; set; }
         public DateTime? CreationDateTo { get; set; }
 
@@ -15,7 +15,7 @@ namespace Domain.SupportData.Filters
         {
             return agechange =>
                 (string.IsNullOrWhiteSpace(Typename) || agechange.Type.Title.Value.Contains(Typename)) &&
-                (string.IsNullOrWhiteSpace(PatienName) || agechange.PatientCard.Patient.Fullname.Value.Contains(PatienName)) &&
+                (string.IsNullOrWhiteSpace(PatientName) || agechange.PatientCard.Patient.Fullname.Value.Contains(PatientName)) &&
                 (!CreationDateFrom.HasValue || agechange.CreatedAt >= CreationDateFrom.Value) &&
                 (!CreationDateTo.HasValue || agechange.CreatedAt <= CreationDateTo.Value);
         }

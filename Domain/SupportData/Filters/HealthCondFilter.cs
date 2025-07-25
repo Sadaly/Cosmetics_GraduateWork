@@ -7,7 +7,7 @@ namespace Domain.SupportData.Filters
     public class HealthCondFilter : IEntityFilter<HealthCond>
     {
         public string? Typename { get; set; }
-        public string? PatienName{ get; set; }
+        public string? PatientName{ get; set; }
         public DateTime? CreationDateFrom { get; set; }
         public DateTime? CreationDateTo { get; set; }
 
@@ -15,7 +15,7 @@ namespace Domain.SupportData.Filters
         {
             return healthcond =>
                 (string.IsNullOrWhiteSpace(Typename) || healthcond.Type.Title.Value.Contains(Typename)) &&
-                (string.IsNullOrWhiteSpace(PatienName) || healthcond.PatientCard.Patient.Fullname.Value.Contains(PatienName)) &&
+                (string.IsNullOrWhiteSpace(PatientName) || healthcond.PatientCard.Patient.Fullname.Value.Contains(PatientName)) &&
                 (!CreationDateFrom.HasValue || healthcond.CreatedAt >= CreationDateFrom.Value) &&
                 (!CreationDateTo.HasValue || healthcond.CreatedAt <= CreationDateTo.Value);
         }

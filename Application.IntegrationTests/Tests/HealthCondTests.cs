@@ -178,7 +178,7 @@ namespace Application.IntegrationTests.Tests
             {
                 CreationDateFrom = creationDateFrom,
                 CreationDateTo = creationDateTo,
-                PatienName = name,
+                PatientName = name,
             };
             var query = new HealthCondGetAllQuery(HealthCondQueries.GetByFilter(filter));
 
@@ -207,7 +207,7 @@ namespace Application.IntegrationTests.Tests
             {
                 CreationDateFrom = creationDateFrom,
                 CreationDateTo = creationDateTo,
-                PatienName = name,
+                PatientName = name,
             };
             var query = new HealthCondGetAllQuery(HealthCondQueries.GetByFilter(filter));
 

@@ -73,7 +73,7 @@ namespace Application.UnitTests.Entities.AgeChanges.Queries
         public async Task Handle_Should_ReturnSuccess_WhenValidName(string name)
         {
             //Act
-            _filter.PatienName = name;
+            _filter.PatientName = name;
             var result = await _handler.Handle(new AgeChangeGetAllQuery(AgeChangeQueries.GetByFilter(_filter)), default);
 
             //Assert
@@ -98,7 +98,7 @@ namespace Application.UnitTests.Entities.AgeChanges.Queries
         public async Task Handle_Should_ReturnError_WhenInvalidName(string name)
         {
             //Act
-            _filter.PatienName = name;
+            _filter.PatientName = name;
             var result = await _handler.Handle(new AgeChangeGetAllQuery(AgeChangeQueries.GetByFilter(_filter)), default);
 
             //Assert
