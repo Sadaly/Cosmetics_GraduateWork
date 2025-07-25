@@ -3,7 +3,6 @@ using Application.Entity.Doctors.Queries;
 using Application.Entity.Doctors.Queries.Get;
 using Application.Entity.Doctors.Queries.GetAll;
 using Domain.SupportData.Filters;
-using WebApi.Controllers;
 
 namespace Application.IntegrationTests.Tests
 {
@@ -90,6 +89,8 @@ namespace Application.IntegrationTests.Tests
             //Act
             var result = await Sender.Send(query);
 
+            Console.WriteLine(result.Value.Count);
+
             //Assert
             Assert.True(result.Value.Count == 2);
         }
@@ -106,15 +107,16 @@ namespace Application.IntegrationTests.Tests
             {
                 CreationDateFrom = creationDateFrom,
                 CreationDateTo = creationDateTo,
-                Name = _name,
+                Name = name,
             };
             var query = new DoctorGetAllQuery(DoctorQueries.GetByFilter(filter));
 
             //Act
             var result = await Sender.Send(query);
 
+            Console.WriteLine(result.Value.Count);
             //Assert
-            Assert.True(result.Value.Count == 2);
+            Assert.True(result.Value.Count == 0);
         }
         public static TheoryData<string?, DateTime?, DateTime?> CorrectFilterResults = new()
         {
@@ -127,14 +129,16 @@ namespace Application.IntegrationTests.Tests
             { _name, DateTime.UtcNow.AddDays(-1), null },
             { _name, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(1) },
         };
-        public static TheoryData<string> InCorrectFilterResults = new()
+        public static TheoryData<string?, DateTime?, DateTime?> InCorrectFilterResults = new()
         {
-            { nameof(DoctorsController.Create) },
-            { nameof(DoctorsController.Get) },
-            { nameof(DoctorsController.GetAll) },
-            { nameof(DoctorsController.Take) },
-            { nameof(DoctorsController.Update) },
-            { nameof(DoctorsController.RemoveById) },
+            { null, null, null },
+            { null, null, DateTime.UtcNow.AddDays(1) },
+            { null, DateTime.UtcNow.AddDays(-1), null },
+            { null, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(1) },
+            { _name, null, null },
+            { _name, null, DateTime.UtcNow.AddDays(1) },
+            { _name, DateTime.UtcNow.AddDays(-1), null },
+            { _name, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(1) },
         };
     }
 }

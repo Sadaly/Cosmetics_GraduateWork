@@ -11,36 +11,32 @@ namespace Application.IntegrationTests
 {
     public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        private PostgreSqlContainer _dbContainer;
+        private PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
+                .WithImage("postgres:latest")
+                .WithDatabase("postgres")
+                .WithUsername("postgres")
+                .WithPassword("123456")
+                .Build();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureTestServices(services =>
             {
                 var descriptor = services
-                    .SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<AppDbContext>));
+                    .SingleOrDefault(s => s.ServiceType == typeof(AppDbContext));
 
                 if (descriptor != null) services.Remove(descriptor);
-
+                
                 services.AddDbContext<AppDbContext>(options =>
                     options
-                        .UseNpgsql("User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=postgres;")
+                        .UseNpgsql(_dbContainer.GetConnectionString())
                 );
                 services.AddScoped<TransactionalTestDatabase>();
             });
         }
 
-        public async Task InitializeAsync() {
-            _dbContainer = new PostgreSqlBuilder()
-                .WithImage("postgres:latest")
-                .WithDatabase(Guid.NewGuid().ToString("N"))
-                .WithName(Guid.NewGuid().ToString("N"))
-                .WithUsername("postgres")
-                .WithPassword("123456")
-                .Build();
-
-            await _dbContainer.StartAsync();
-        } 
-        public new async Task DisposeAsync() => await _dbContainer.DisposeAsync();
+        public Task InitializeAsync() { return _dbContainer.StartAsync();
+        }
+        public new Task DisposeAsync() { return _dbContainer.StopAsync(); }
     }
 }
