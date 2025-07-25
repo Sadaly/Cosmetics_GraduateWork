@@ -32,36 +32,7 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ApplyConfiguration(modelBuilder);
-
-            base.OnModelCreating(modelBuilder);
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=postgres;");
-        }
-        
-        private static void ApplyConfiguration(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new Configurations.AgeChangeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.AgeChangeTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.DoctorConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ExternalProcedureRecordConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ExternalProcedureRecordTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.HealthCondConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.HealthCondTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.NotificationConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PatientCardConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PatientConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PatientSpecificsConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ProcedureConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ProcedureTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ReservedDateConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SkinCareConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SkinCareTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SkinFeatureConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SkinFeatureTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

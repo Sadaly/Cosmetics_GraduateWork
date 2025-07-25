@@ -85,9 +85,7 @@ builder.Services.AddSwaggerGen(opt =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IProcedureScheduleService, ProcedureScheduleService>();
 
-string? connectionString = builder.Configuration.GetConnectionString("Database");
-
-builder.Services.AddDbContext<AppDbContext>(optionsBuilder => optionsBuilder.UseNpgsql(connectionString));
+builder.Services.AddPersistence(builder.Configuration);
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
@@ -113,6 +111,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 app.UseCustomExceptionHandler();
 app.UseSerilogRequestLogging();
