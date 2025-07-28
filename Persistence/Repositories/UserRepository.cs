@@ -79,6 +79,7 @@ namespace Persistence.Repositories
             }
             if (newEntity.Value.PasswordHashed.Value != oldEntity.Value.PasswordHashed.Value) unique = Result.Success<bool>(true); 
             if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.UpdateChangeNothing);
+
             return newEntity;
         }
     }

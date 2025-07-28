@@ -67,7 +67,7 @@ namespace Application.IntegrationTests.Tests
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
             var typeId1 = (await Sender.Send(createType1)).Value;
-            var typeId2 = (await Sender.Send(createType1)).Value;
+            var typeId2 = (await Sender.Send(createType2)).Value;
             var create = new SkinCareCreateCommand(patientCardId, typeId1);
             var id = await Sender.Send(create);
 
@@ -168,7 +168,7 @@ namespace Application.IntegrationTests.Tests
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
             var typeId1 = (await Sender.Send(createType1)).Value;
-            var typeId2 = (await Sender.Send(createType1)).Value;
+            var typeId2 = (await Sender.Send(createType2)).Value;
             var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
             var create2 = new SkinCareCreateCommand(patientCardId, typeId2);
             var id1 = await Sender.Send(create1);
@@ -197,7 +197,7 @@ namespace Application.IntegrationTests.Tests
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
             var typeId1 = (await Sender.Send(createType1)).Value;
-            var typeId2 = (await Sender.Send(createType1)).Value;
+            var typeId2 = (await Sender.Send(createType2)).Value;
             var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
             var create2 = new SkinCareCreateCommand(patientCardId, typeId2);
             var id1 = await Sender.Send(create1);
@@ -249,7 +249,7 @@ namespace Application.IntegrationTests.Tests
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
             var typeId1 = (await Sender.Send(createType1)).Value;
-            var typeId2 = (await Sender.Send(createType1)).Value;
+            var typeId2 = (await Sender.Send(createType2)).Value;
             var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
             var create2 = new SkinCareCreateCommand(patientCardId, typeId2);
             var id1 = await Sender.Send(create1);
@@ -274,7 +274,7 @@ namespace Application.IntegrationTests.Tests
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
             var typeId1 = (await Sender.Send(createType1)).Value;
-            var typeId2 = (await Sender.Send(createType1)).Value;
+            var typeId2 = (await Sender.Send(createType2)).Value;
             var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
             var create2 = new SkinCareCreateCommand(patientCardId, typeId2);
             var id1 = await Sender.Send(create1);

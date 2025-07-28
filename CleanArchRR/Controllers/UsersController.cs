@@ -17,6 +17,7 @@ using WebApi.Abstractions;
 using WebApi.DTO.UserDTO;
 using WebApi.Extensions;
 using WebApi.Policies;
+using System.Text.Json;
 
 namespace WebApi.Controllers
 {
@@ -82,7 +83,7 @@ namespace WebApi.Controllers
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return Ok(( userId, email, role ));
+            return Ok(new { userId, email, role });
         }
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]

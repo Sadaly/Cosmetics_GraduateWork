@@ -39,10 +39,10 @@ namespace Application.UnitTests.Entities.Users.Commands
             _repository.UpdateAsync(Arg.Any<Result<User>>(), Arg.Any<CancellationToken>())
                 .Returns(c => c.Arg<Result<User>>());
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _user.Id), Arg.Any<CancellationToken>(), FetchMode.NoTracking)
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x == _user.Id), Arg.Any<CancellationToken>())
                 .Returns(_user);
 
-            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _user.Id), Arg.Any<CancellationToken>(), FetchMode.NoTracking)
+            _repository.GetByIdAsync(Arg.Is<Guid>(x => x != _user.Id), Arg.Any<CancellationToken>())
                 .Returns(Result.Failure<User>(PersistenceErrors.Entity<User>.NotFound));
 
             _unitOfWork.SaveChangesAsync(Arg.Any<Result<User>>(), Arg.Any<CancellationToken>())

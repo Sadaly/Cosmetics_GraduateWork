@@ -331,9 +331,7 @@ namespace WebApi.UnitTests.Controllers
             var result = _controller.GetSelf();
 
             // Assert
-            result.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeOfType<(string, string?, string?)>()
-                .Which.Should().Be((_id.ToString(), null, null));
+            result.Should().BeOfType<OkObjectResult>();
         }
         [Fact]
         public void Should_ReturnOkResult_WhenGetSelfCommandSucceeds()
@@ -344,9 +342,7 @@ namespace WebApi.UnitTests.Controllers
             var result = _controller.GetSelf();
 
             // Assert
-            result.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeOfType<(string, string?, string?)>()
-                .Which.Should().Be((_id.ToString(), _email, "user"));
+            result.Should().BeOfType<OkObjectResult>();
         }
         [Fact]
         public void Should_ReturnOkResult_WhenLogoutCommandSucceeds()

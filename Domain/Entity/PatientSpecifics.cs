@@ -33,9 +33,9 @@ namespace Domain.Entity
         public Result<PatientSpecifics> Update(string sleep, string diet, string sport, string workEnviroment)
         {
             if (!string.IsNullOrWhiteSpace(sleep)) Sleep = sleep;
-            if (!string.IsNullOrWhiteSpace(diet)) Sleep = diet;
-            if (!string.IsNullOrWhiteSpace(sport)) Sleep = sport;
-            if (!string.IsNullOrWhiteSpace(workEnviroment)) Sleep = workEnviroment;
+            if (!string.IsNullOrWhiteSpace(diet)) Diet = diet;
+            if (!string.IsNullOrWhiteSpace(sport)) Sport = sport;
+            if (!string.IsNullOrWhiteSpace(workEnviroment)) WorkEnviroment = workEnviroment;
             return this;
         }
 

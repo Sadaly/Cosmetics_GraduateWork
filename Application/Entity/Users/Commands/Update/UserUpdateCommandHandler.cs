@@ -19,7 +19,7 @@ namespace Application.Entity.Users.Commands.Update
                 return Result.Failure<string>(ApplicationErrors.UserUpdateCommand.NullValues);
 
             //Получение пользователя и проверка, существует ли он вообще
-            var user = await userRepository.GetByIdAsync(request.Id, cancellationToken, FetchMode.NoTracking);
+            var user = await userRepository.GetByIdAsync(request.Id, cancellationToken);
             if (user.IsFailure) return Result.Failure<string>(user.Error);
 
             //Первое условие проверяет, нужно ли обновлять поле
