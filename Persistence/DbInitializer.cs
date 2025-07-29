@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.ValueObjects;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Persistence
@@ -15,7 +16,10 @@ namespace Persistence
         }
         public static void Initialize(AppDbContext context)
         {
-            if (context.Database.EnsureCreated() && !context.Users.Any())
+            if (IsTestEnvironment())
+                return;
+
+            if (!context.Users.Any())
             {
                 string json = File.ReadAllText(_file);
                 var admin = JsonSerializer.Deserialize<Admin>(json);
@@ -27,6 +31,12 @@ namespace Persistence
                 );
                 context.SaveChanges();
             }
+        }
+        private static bool IsTestEnvironment()
+        {
+            return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Test" ||
+                   Assembly.GetEntryAssembly() == null ||
+                   AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName != null && a.FullName.Contains("Test"));
         }
     }
 }
