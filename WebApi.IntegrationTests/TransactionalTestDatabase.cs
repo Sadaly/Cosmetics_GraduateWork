@@ -10,14 +10,22 @@ namespace WebApi.IntegrationTests
 
         public TransactionalTestDatabase(AppDbContext dbContext)
         {
+            //Вызывается каждый раз при запуске теста
             _dbContext = dbContext;
             _transaction = _dbContext.Database.BeginTransaction();
-            _dbContext.Database.EnsureDeletedAsync();
         }
 
+        //Работа этого метода на результат не влияет
+        //так как для этого транзакция должна сохранятся,
+        //а в конструктуре каждый раз создается новая
         public void Dispose()
         {
-            _transaction.Rollback(); // ← Rolls back at test end
+            //эта строка может сохранить транзакцию, но при этом ничего, кроме Dispose, нельзя сделать
+            //_transaction.Commit();
+
+            //эта строка не влияет на результат
+            //_transaction.Rollback();
+            
             _transaction.Dispose();
             _dbContext.Dispose();
         }

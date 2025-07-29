@@ -315,8 +315,7 @@ namespace WebApi.IntegrationTests.Tests
 
             //Act
             var result = await Sender.Send(query);
-            var w = result.Value.Count;
-            Console.WriteLine(w);
+
             //Assert
             Assert.True(result.Value.Count == 1);
         }

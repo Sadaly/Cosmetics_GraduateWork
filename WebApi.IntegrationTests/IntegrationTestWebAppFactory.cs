@@ -20,6 +20,7 @@ namespace WebApi.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            //Вызывается единожды, 2-ым в стеке вызовов
             builder.ConfigureTestServices(services =>
             {
                 var descriptor = services
@@ -35,8 +36,10 @@ namespace WebApi.IntegrationTests
             });
         }
 
-        public Task InitializeAsync() { return _dbContainer.StartAsync();
-        }
+        //Вызывается единожды, самым 1-ым в стеке вызовов
+        public Task InitializeAsync() { return _dbContainer.StartAsync(); }
+
+        //Вызывается единожды, самым последним в стеке вызовов
         public new Task DisposeAsync() { return _dbContainer.StopAsync(); }
     }
 }
