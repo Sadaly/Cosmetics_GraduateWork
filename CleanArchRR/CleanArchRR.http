@@ -1,6 +1,0 @@
-@CleanArchRR_HostAddress = http://localhost:5090
-
-GET {{CleanArchRR_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

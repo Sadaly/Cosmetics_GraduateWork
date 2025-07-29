@@ -1,0 +1,6 @@
+@Cosmetics_GraduateWork= http://localhost:5090
+
+GET {{Cosmetics_GraduateWork_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
