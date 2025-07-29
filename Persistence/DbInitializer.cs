@@ -15,7 +15,7 @@ namespace Persistence
         }
         public static void Initialize(AppDbContext context)
         {
-            if (!context.Users.Any())
+            if (context.Database.EnsureCreated() && !context.Users.Any())
             {
                 string json = File.ReadAllText(_file);
                 var admin = JsonSerializer.Deserialize<Admin>(json);
