@@ -24,10 +24,9 @@ namespace Persistence
         public DbSet<ProcedureType> ProcedureTypes { get; set; }
         public DbSet<ReservedDate> ReservedDates { get; set; }
         public DbSet<SkinFeatureType> SkinFeatureTypes { get; set; }
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public AppDbContext()
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            DbInitializer.Initialize(this);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
