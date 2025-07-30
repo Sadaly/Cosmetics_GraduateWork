@@ -10,5 +10,5 @@ namespace Application.Entity.Users.Queries
         {
             return new UserQueries(x => x.Username.Value == Username);
         }
-    }    
+    }
 }

@@ -7,7 +7,8 @@ namespace Domain.Entity
     public class User : BaseEntity
     {
         private User(Guid id) : base(id) { }
-        private User(Guid id, Email email, Username username, PasswordHashed passwordHashed) : base(id) {
+        private User(Guid id, Email email, Username username, PasswordHashed passwordHashed) : base(id)
+        {
             Email = email;
             Username = username;
             PasswordHashed = passwordHashed;
@@ -31,22 +32,22 @@ namespace Domain.Entity
         public Result<User> UpdateEmail(Result<Email> email)
         {
             if (email.IsFailure) return Result.Failure<User>(email.Error);
-            if (email.Value == this.Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
-            this.Email = email.Value;
+            if (email.Value == Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
+            Email = email.Value;
             return this;
         }
         public Result<User> UpdateUsername(Result<Username> username)
         {
             if (username.IsFailure) return Result.Failure<User>(username.Error);
-            if (username.Value == this.Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
-            this.Username = username.Value;
+            if (username.Value == Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
+            Username = username.Value;
             return this;
         }
         public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
         {
             if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
-            if (passwordHashed.Value == this.PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
-            this.PasswordHashed = passwordHashed.Value;
+            if (passwordHashed.Value == PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
+            PasswordHashed = passwordHashed.Value;
             return this;
         }
     }

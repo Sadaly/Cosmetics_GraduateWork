@@ -7,7 +7,7 @@ namespace Persistence
 {
     public static class DbInitializer
     {
-        private static string _file = "first-admin-login.json";
+        private static readonly string _file = "first-admin-login.json";
         private class Admin
         {
             public string Email { get; set; } = null!;

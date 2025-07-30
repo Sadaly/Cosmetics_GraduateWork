@@ -7,7 +7,7 @@ using Persistence.Abstractions;
 namespace Persistence.Repositories
 {
     public class PatientRepository(AppDbContext dbContext,
-        IPatientCardRepository patientCardRepository) 
+        IPatientCardRepository patientCardRepository)
         : TRepository<Patient>(dbContext), IPatientRepository
     {
         protected readonly IPatientCardRepository _patientCardRepository = patientCardRepository;

@@ -11,7 +11,7 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class AgeChangeTypeTests : BaseIntegrationTest
     {
-        private readonly static string _name = "Title";
+        private static readonly string _name = "Title";
 
         private readonly AgeChangeTypeCreateCommand create;
         private readonly AgeChangeTypeCreateCommand create1;

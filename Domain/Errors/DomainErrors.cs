@@ -63,7 +63,7 @@ namespace Domain.Errors
                 "Email.AlreadySet",
                 "Значение совпадает с предыдущим");
         }
-        
+
         public static class PasswordHashed
         {
             public static readonly Error Empty = new(

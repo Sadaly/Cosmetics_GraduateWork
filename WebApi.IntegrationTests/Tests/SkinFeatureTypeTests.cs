@@ -11,7 +11,7 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class SkinFeatureTypeTests : BaseIntegrationTest
     {
-        private readonly static string _name = "Title";
+        private static readonly string _name = "Title";
 
         private readonly SkinFeatureTypeCreateCommand create;
         private readonly SkinFeatureTypeCreateCommand create1;

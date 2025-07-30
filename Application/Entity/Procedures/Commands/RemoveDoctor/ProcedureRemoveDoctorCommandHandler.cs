@@ -1,7 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.Abstractions;
-using Domain.Entity;
-using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
 

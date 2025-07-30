@@ -1,4 +1,3 @@
-using Application.Entity.Notifications.Commands.UpdateMessage;
 using Application.Entity.Notifications.Commands.UpdatePhoneNumber;
 using Application.UnitTests.TheoryData;
 using Domain.Abstractions;

@@ -20,7 +20,7 @@ namespace Domain.SupportData.Filters
                 (string.IsNullOrWhiteSpace(Message) || notification.Message.Value.Contains(Message)) &&
                 (string.IsNullOrWhiteSpace(Phone) || notification.PhoneNumber.Value.Contains(Phone)) &&
                 (string.IsNullOrWhiteSpace(PatientName) || notification.Procedure.PatientCard.Patient.Fullname.Value.Contains(PatientName)) &&
-                (string.IsNullOrEmpty(DoctorName) 
+                (string.IsNullOrEmpty(DoctorName)
                     || (notification.Procedure.Doctor != null && notification.Procedure.Doctor.Fullname.Value.Contains(DoctorName))
                     || (string.IsNullOrWhiteSpace(DoctorName) && notification.Procedure.Doctor != null)) &&
                 (!IsSent.HasValue || notification.IsSent == IsSent) &&

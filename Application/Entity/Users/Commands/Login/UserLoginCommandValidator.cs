@@ -1,12 +1,12 @@
-﻿using FluentValidation;
+﻿using Domain.Errors;
 using Domain.ValueObjects;
-using Domain.Errors;
+using FluentValidation;
 
 namespace Application.Entity.Users.Commands.Login
 {
     public class UserLoginCommandValidator : AbstractValidator<UserLoginCommand>
     {
-        public UserLoginCommandValidator() 
+        public UserLoginCommandValidator()
         {
             RuleFor(x => x.Email).NotEmpty().Must(email => { return Email.IsValidFormat(email); })
                 .WithMessage(DomainErrors.Email.InvalidFormat);
@@ -15,5 +15,5 @@ namespace Application.Entity.Users.Commands.Login
                 .MinimumLength(PasswordHashed.MIN_LENGTH)
                 .MaximumLength(PasswordHashed.MAX_LENGTH);
         }
-	}
+    }
 }

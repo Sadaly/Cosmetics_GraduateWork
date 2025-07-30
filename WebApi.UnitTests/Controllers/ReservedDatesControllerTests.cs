@@ -25,7 +25,7 @@ namespace WebApi.UnitTests.Controllers
         private readonly ReservedDateFilter _filter;
         private readonly ReservedDateResponse _response;
         public ReservedDatesControllerTests()
-        {            
+        {
             _id = Guid.NewGuid();
             _response = new(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateType.None);
             _filter = new() { Type = "None" };

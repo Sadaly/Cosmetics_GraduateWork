@@ -11,7 +11,7 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class PatientCardTests : BaseIntegrationTest
     {
-        private readonly static string _name = "Fullname";
+        private static readonly string _name = "Fullname";
 
         private readonly PatientCreateCommand createPatient;
         private readonly PatientCreateCommand createPatient1;

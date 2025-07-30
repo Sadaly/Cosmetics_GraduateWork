@@ -15,8 +15,8 @@ namespace Domain.Entity
 
         public Username Fullname { get; set; } = null!;
         [JsonIgnore]
-        public List<Procedure> Procedures => _procedures;
-        private readonly List<Procedure> _procedures = [];
+        public List<Procedure> Procedures { get; } = [];
+
         public static Result<Doctor> Create(Result<Username> fullname)
         {
             if (fullname.IsFailure) return Result.Failure<Doctor>(fullname.Error);
@@ -26,7 +26,7 @@ namespace Domain.Entity
         public Result<Doctor> Update(Result<Username> name)
         {
             if (name.IsFailure) return Result.Failure<Doctor>(name.Error);
-            this.Fullname = name.Value;
+            Fullname = name.Value;
             return this;
         }
     }

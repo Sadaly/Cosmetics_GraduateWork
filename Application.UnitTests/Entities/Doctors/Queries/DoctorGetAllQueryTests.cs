@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.Doctors.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Doctor, bool>>>(expr =>
                 expr.Compile()(_doctor1) == true && expr.Compile()(_doctor2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<Doctor>(){ _doctor1, _doctor2 });
+                .Returns(new List<Doctor>() { _doctor1, _doctor2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Doctor, bool>>>(expr =>
                 expr.Compile()(_doctor1) == true && expr.Compile()(_doctor2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<Doctor>(){ _doctor1 });
+                .Returns(new List<Doctor>() { _doctor1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Doctor, bool>>>(expr =>
                 expr.Compile()(_doctor2) == true && expr.Compile()(_doctor1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<Doctor>(){ _doctor2 });
-            
+                .Returns(new List<Doctor>() { _doctor2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<Doctor, bool>>>(expr =>
                 expr.Compile()(_doctor1) == false && expr.Compile()(_doctor2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<Doctor>(){});
+                .Returns(new List<Doctor>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.Doctors.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<Doctor, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<Doctor>() { _doctor1, _doctor2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new DoctorGetAllQuery(DoctorQueries.GetWithoutPredicate(), startIndex, count), default);
 

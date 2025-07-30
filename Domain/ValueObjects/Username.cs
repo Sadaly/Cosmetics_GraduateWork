@@ -18,7 +18,7 @@ namespace Domain.ValueObjects
             Value = value;
         }
 
-        public static Result<Username> Create (string value)
+        public static Result<Username> Create(string value)
         {
             // Обрабатываем логически ошибки
             if (string.IsNullOrWhiteSpace(value)) return Result.Failure<Username>(DomainErrors.Username.Empty);

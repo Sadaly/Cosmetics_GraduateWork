@@ -38,7 +38,7 @@ namespace Domain.ValueObjects
         /// </summary>
         /// <param name="email">Почта</param>
         /// <returns></returns>
-        public static bool IsValidFormat (string email)
+        public static bool IsValidFormat(string email)
         {
             var split = email.Split('@');
             if (split.Length != 2) return false;

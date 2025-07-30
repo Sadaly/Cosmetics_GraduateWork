@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.ExternalProcedureRecordTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ExternalProcedureRecordType, bool>>>(expr =>
                 expr.Compile()(_externalprocedurerecordtype1) == true && expr.Compile()(_externalprocedurerecordtype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<ExternalProcedureRecordType>(){ _externalprocedurerecordtype1, _externalprocedurerecordtype2 });
+                .Returns(new List<ExternalProcedureRecordType>() { _externalprocedurerecordtype1, _externalprocedurerecordtype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ExternalProcedureRecordType, bool>>>(expr =>
                 expr.Compile()(_externalprocedurerecordtype1) == true && expr.Compile()(_externalprocedurerecordtype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ExternalProcedureRecordType>(){ _externalprocedurerecordtype1 });
+                .Returns(new List<ExternalProcedureRecordType>() { _externalprocedurerecordtype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ExternalProcedureRecordType, bool>>>(expr =>
                 expr.Compile()(_externalprocedurerecordtype2) == true && expr.Compile()(_externalprocedurerecordtype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ExternalProcedureRecordType>(){ _externalprocedurerecordtype2 });
-            
+                .Returns(new List<ExternalProcedureRecordType>() { _externalprocedurerecordtype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<ExternalProcedureRecordType, bool>>>(expr =>
                 expr.Compile()(_externalprocedurerecordtype1) == false && expr.Compile()(_externalprocedurerecordtype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ExternalProcedureRecordType>(){});
+                .Returns(new List<ExternalProcedureRecordType>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.ExternalProcedureRecordTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<ExternalProcedureRecordType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<ExternalProcedureRecordType>() { _externalprocedurerecordtype1, _externalprocedurerecordtype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new ExternalProcedureRecordTypeGetAllQuery(ExternalProcedureRecordTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 

@@ -5,7 +5,7 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class SkinFeatureRepository(AppDbContext dbContext) 
+    public class SkinFeatureRepository(AppDbContext dbContext)
         : EntityWithTypeRepository<SkinFeatureType, SkinFeature>(dbContext), ISkinFeatureRepository
     {
         private protected override IQueryable<SkinFeature> GetAllInclude()

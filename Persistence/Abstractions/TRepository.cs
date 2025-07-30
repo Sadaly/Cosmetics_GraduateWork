@@ -3,7 +3,6 @@ using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq.Expressions;
 
 namespace Persistence.Abstractions
@@ -78,13 +77,15 @@ namespace Persistence.Abstractions
         public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
             => await GetAllByModeAsync(0, _dbSet.Count(), predicate, cancellationToken, mode);
 
-        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default) {
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
+        {
             if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
             if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
             return await GetAllByModeAsync(startIndex, count, predicate, cancellationToken, mode);
         }
 
-        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default) {
+        public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
+        {
             if (count < 1) return Result.Failure<List<T>>(PersistenceErrors.IncorrectCount);
             if (startIndex < 0) return Result.Failure<List<T>>(PersistenceErrors.IncorrectStartIndex);
             return await GetAllByModeAsync(startIndex, count, x => true, cancellationToken, mode);

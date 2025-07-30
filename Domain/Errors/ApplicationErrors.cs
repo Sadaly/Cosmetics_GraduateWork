@@ -28,6 +28,6 @@ namespace Domain.Errors
             public static readonly Error AlreadyExists = new(
                 "PatientSpecificsCreateCommand.AlreadyExists",
                 "Особенности пациента уже записаны. Повторная запись запрещена. Обновите предыдущую");
+        }
     }
-}
 }

@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.Abstractions;
-using Domain.Entity;
 using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
@@ -20,7 +19,8 @@ namespace Application.Entity.ProcedureTypes.Commands.Update
                 if (update.IsFailure) return Result.Failure<Guid>(update.Error);
             }
 
-            if (request.Descr != null) {
+            if (request.Descr != null)
+            {
                 var update = procedureType.Value.UpdateDescription(request.Descr);
                 if (update.IsFailure) return Result.Failure<Guid>(update.Error);
             }

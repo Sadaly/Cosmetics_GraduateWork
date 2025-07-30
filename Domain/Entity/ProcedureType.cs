@@ -23,12 +23,12 @@ namespace Domain.Entity
         }
         public Result<ProcedureType> UpdateDescription(string descr)
         {
-            if (descr != null) this.Description = descr;
+            if (descr != null) Description = descr;
             return this;
         }
         public Result<ProcedureType> UpdateStandartDuration(int? dur)
         {
-            if (dur != null) this.StandartDuration = dur.Value;
+            if (dur != null) StandartDuration = dur.Value;
             return this;
         }
     }

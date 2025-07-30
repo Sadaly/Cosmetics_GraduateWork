@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> UpdateMessage(
             [FromBody] NotificationUpdateMessageCommand command,
             CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult(); 
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPut("UpdatePhonenumber")]

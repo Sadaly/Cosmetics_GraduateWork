@@ -28,18 +28,13 @@ namespace Domain.Entity
         public Patient Patient { get; set; } = null!;
         public PatientSpecifics? Specifics { get; set; } = null!;
 
-        public List<AgeChange> AgeChanges => _ageChanges;
-        private readonly List<AgeChange> _ageChanges = [];
-        public List<ExternalProcedureRecord> ExternalProcedureRecords => _externalProcedureRecords;
-        private readonly List<ExternalProcedureRecord> _externalProcedureRecords = [];
-        public List<HealthCond> HealthConds => _healthConds;
-        private readonly List<HealthCond> _healthConds = [];
-        public List<Procedure> Procedures => _procedures;
-        private readonly List<Procedure> _procedures = [];
-        public List<SkinCare> SkinCares => _skinCares;
-        private readonly List<SkinCare> _skinCares = [];
-        public List<SkinFeature> SkinFeatures => _skinFeatures;
-        private readonly List<SkinFeature> _skinFeatures = [];
+        public List<AgeChange> AgeChanges { get; } = [];
+        public List<ExternalProcedureRecord> ExternalProcedureRecords { get; } = [];
+        public List<HealthCond> HealthConds { get; } = [];
+
+        public List<Procedure> Procedures { get; } = [];
+        public List<SkinCare> SkinCares { get; } = [];
+        public List<SkinFeature> SkinFeatures { get; } = [];
 
         public static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
         {

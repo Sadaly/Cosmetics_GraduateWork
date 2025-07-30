@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.Patients.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
                 expr.Compile()(_patient1) == true && expr.Compile()(_patient2) == true), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
-                .Returns(new List<Patient>(){ _patient1, _patient2 });
+                .Returns(new List<Patient>() { _patient1, _patient2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
                 expr.Compile()(_patient1) == true && expr.Compile()(_patient2) == false), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
-                .Returns(new List<Patient>(){ _patient1 });
+                .Returns(new List<Patient>() { _patient1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
                 expr.Compile()(_patient2) == true && expr.Compile()(_patient1) == false), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
-                .Returns(new List<Patient>(){ _patient2 });
-            
+                .Returns(new List<Patient>() { _patient2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
                 expr.Compile()(_patient1) == false && expr.Compile()(_patient2) == false), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
-                .Returns(new List<Patient>(){});
+                .Returns(new List<Patient>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.Patients.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<Patient, bool>>>(), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
                 .Returns(new List<Patient>() { _patient1, _patient2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new PatientGetAllQuery(PatientQueries.GetWithoutPredicate(), startIndex, count), default);
 

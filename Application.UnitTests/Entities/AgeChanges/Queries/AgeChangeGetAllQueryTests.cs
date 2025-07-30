@@ -1,9 +1,6 @@
 using Application.Entity.AgeChanges.Queries;
 using Application.Entity.AgeChanges.Queries.GetAll;
-using Application.Entity.AgeChangeTypes.Queries;
-using Application.Entity.AgeChangeTypes.Queries.GetAll;
 using Application.UnitTests.TheoryData;
-using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Repositories;

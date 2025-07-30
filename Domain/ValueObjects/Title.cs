@@ -17,7 +17,7 @@ namespace Domain.ValueObjects
         }
 
         public string Value { get; set; }
-        
+
         public static Title CreateDefault() { return new Title(); }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Domain.ValueObjects
 
             if (title.Length > MAX_LENGTH)
                 return Result.Failure<Title>(DomainErrors.Title.TooLong);
-            
+
             return new Title(title);
         }
         public override IEnumerable<object> GetAtomicValues()

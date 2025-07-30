@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ProcedureType, bool>>>(expr =>
                 expr.Compile()(_proceduretype1) == true && expr.Compile()(_proceduretype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<ProcedureType>(){ _proceduretype1, _proceduretype2 });
+                .Returns(new List<ProcedureType>() { _proceduretype1, _proceduretype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ProcedureType, bool>>>(expr =>
                 expr.Compile()(_proceduretype1) == true && expr.Compile()(_proceduretype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ProcedureType>(){ _proceduretype1 });
+                .Returns(new List<ProcedureType>() { _proceduretype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ProcedureType, bool>>>(expr =>
                 expr.Compile()(_proceduretype2) == true && expr.Compile()(_proceduretype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ProcedureType>(){ _proceduretype2 });
-            
+                .Returns(new List<ProcedureType>() { _proceduretype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<ProcedureType, bool>>>(expr =>
                 expr.Compile()(_proceduretype1) == false && expr.Compile()(_proceduretype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ProcedureType>(){});
+                .Returns(new List<ProcedureType>() { });
         }
 
         [Fact]
@@ -127,13 +127,14 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<ProcedureType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<ProcedureType>() { _proceduretype1, _proceduretype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new ProcedureTypeGetAllQuery(ProcedureTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 
             //Assert
             result.Value.Count.Should().Be(count - startIndex);
-        }[Theory]
+        }
+        [Theory]
         [MemberData(nameof(InvalidIndexesGetAllTestCases))]
         public async Task Handle_Should_ReturnError_WhenInvalidIndexes(int startIndex, int count)
         {

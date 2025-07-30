@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Create(
             [FromBody] PatientCreateCommand command,
             CancellationToken cancellationToken)
-            =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpPut("Update")]

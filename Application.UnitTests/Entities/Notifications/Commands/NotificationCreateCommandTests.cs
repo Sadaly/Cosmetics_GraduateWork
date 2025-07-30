@@ -17,7 +17,7 @@ namespace Application.UnitTests.Entities.Notifications.Commands
         private readonly INotificationRepository _repository;
         private readonly IProcedureRepository _procedureRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly Procedure _procedure; 
+        private readonly Procedure _procedure;
 
         public NotificationCreateCommandTests()
         {
@@ -28,9 +28,9 @@ namespace Application.UnitTests.Entities.Notifications.Commands
             _handler = new NotificationCreateCommandHandler(_repository, _procedureRepository, _unitOfWork);
 
             _procedure = Procedure.Create(
-                Patient.Create(Username.Create("Fullname")).Value.Card, 
-                ProcedureType.Create(Title.Create("Create"), "", 10), 
-                10, 
+                Patient.Create(Username.Create("Fullname")).Value.Card,
+                ProcedureType.Create(Title.Create("Create"), "", 10),
+                10,
                 DateTime.UtcNow.AddDays(6)).Value;
 
             _repository.AddAsync(Arg.Any<Result<Notification>>(), Arg.Any<CancellationToken>())
@@ -49,7 +49,7 @@ namespace Application.UnitTests.Entities.Notifications.Commands
         [Fact]
         public async Task Handle_Should_ReturnSuccess_WhenValidInput()
         {
-            if(_procedure.ScheduledDate == null)
+            if (_procedure.ScheduledDate == null)
                 return;
             //Act
             var result = await _handler.Handle(new NotificationCreateCommand(_procedure.Id, "", _procedure.ScheduledDate.Value.AddMinutes(-1)), default);

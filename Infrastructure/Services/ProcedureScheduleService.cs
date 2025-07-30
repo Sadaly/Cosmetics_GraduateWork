@@ -1,5 +1,5 @@
-﻿using Domain.Repositories;
-using Application.Abstractions;
+﻿using Application.Abstractions;
+using Domain.Repositories;
 
 namespace Infrastructure.Services
 {

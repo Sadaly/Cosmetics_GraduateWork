@@ -5,7 +5,7 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class NotificationRepository(AppDbContext dbContext) 
+    public class NotificationRepository(AppDbContext dbContext)
         : TRepository<Notification>(dbContext), INotificationRepository
     {
         private protected override IQueryable<Notification> GetAllInclude()

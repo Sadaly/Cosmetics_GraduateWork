@@ -14,8 +14,8 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class ExternalProcedureRecordTests : BaseIntegrationTest
     {
-        private readonly static string _typename = "Typename";
-        private readonly static string _name = "Fullname";
+        private static readonly string _typename = "Typename";
+        private static readonly string _name = "Fullname";
 
         private readonly ExternalProcedureRecordTypeCreateCommand createType;
         private readonly ExternalProcedureRecordTypeCreateCommand createType1;

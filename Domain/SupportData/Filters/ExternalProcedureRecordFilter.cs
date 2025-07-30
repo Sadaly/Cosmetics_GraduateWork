@@ -7,7 +7,7 @@ namespace Domain.SupportData.Filters
     public class ExternalProcedureRecordFilter : IEntityFilter<ExternalProcedureRecord>
     {
         public string? Typename { get; set; }
-        public string? PatientName{ get; set; }
+        public string? PatientName { get; set; }
         public DateTime? CreationDateFrom { get; set; }
         public DateTime? CreationDateTo { get; set; }
 

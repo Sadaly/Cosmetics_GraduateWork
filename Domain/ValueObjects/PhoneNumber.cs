@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Errors;
 using Domain.Shared;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {

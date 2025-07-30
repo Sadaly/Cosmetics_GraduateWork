@@ -33,7 +33,7 @@ namespace WebApi.UnitTests.Controllers
         public NotificationsControllerTests()
         {
             _message = "message";
-            _phone = "phone";             
+            _phone = "phone";
             _id = Guid.NewGuid();
             _procedureId = Guid.NewGuid();
             _sendDate = DateTime.UtcNow;

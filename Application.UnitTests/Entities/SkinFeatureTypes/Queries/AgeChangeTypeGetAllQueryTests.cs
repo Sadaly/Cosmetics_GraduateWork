@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.SkinFeatureTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinFeatureType, bool>>>(expr =>
                 expr.Compile()(_skinfeaturetype1) == true && expr.Compile()(_skinfeaturetype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinFeatureType>(){ _skinfeaturetype1, _skinfeaturetype2 });
+                .Returns(new List<SkinFeatureType>() { _skinfeaturetype1, _skinfeaturetype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinFeatureType, bool>>>(expr =>
                 expr.Compile()(_skinfeaturetype1) == true && expr.Compile()(_skinfeaturetype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinFeatureType>(){ _skinfeaturetype1 });
+                .Returns(new List<SkinFeatureType>() { _skinfeaturetype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinFeatureType, bool>>>(expr =>
                 expr.Compile()(_skinfeaturetype2) == true && expr.Compile()(_skinfeaturetype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinFeatureType>(){ _skinfeaturetype2 });
-            
+                .Returns(new List<SkinFeatureType>() { _skinfeaturetype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinFeatureType, bool>>>(expr =>
                 expr.Compile()(_skinfeaturetype1) == false && expr.Compile()(_skinfeaturetype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinFeatureType>(){});
+                .Returns(new List<SkinFeatureType>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.SkinFeatureTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<SkinFeatureType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<SkinFeatureType>() { _skinfeaturetype1, _skinfeaturetype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new SkinFeatureTypeGetAllQuery(SkinFeatureTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 

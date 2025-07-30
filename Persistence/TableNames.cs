@@ -3,7 +3,7 @@
     internal static class TableNames
     {
         internal const string User = nameof(User);
-        internal const string Patient = nameof(Patient); 
+        internal const string Patient = nameof(Patient);
         internal const string PatientCard = nameof(PatientCard);
         internal const string SkinFeature = nameof(SkinFeature);
         internal const string SkinFeatureType = nameof(SkinFeatureType);
@@ -21,7 +21,7 @@
         internal const string SkinCareType = nameof(SkinCareType);
         internal const string ExternalProcedureRecord = nameof(ExternalProcedureRecord);
         internal const string ExternalProcedureRecordType = nameof(ExternalProcedureRecordType);
-        
+
         internal static class UserTable
         {
             internal const string Id = nameof(Id);

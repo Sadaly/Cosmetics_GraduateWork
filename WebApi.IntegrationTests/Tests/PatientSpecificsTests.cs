@@ -1,18 +1,18 @@
 ﻿using Application.Entity.Patients.Commands.Create;
 using Application.Entity.Patients.Queries;
 using Application.Entity.Patients.Queries.Get;
-using Domain.SupportData.Filters;
-using Application.Entity.PatientSpecificses.Commands.Update;
-using Application.Entity.PatientSpecificses.Queries.Get;
-using Application.Entity.PatientSpecificses.Queries;
-using Application.Entity.PatientSpecificses.Queries.GetAll;
 using Application.Entity.PatientSpecificses.Commands.Create;
+using Application.Entity.PatientSpecificses.Commands.Update;
+using Application.Entity.PatientSpecificses.Queries;
+using Application.Entity.PatientSpecificses.Queries.Get;
+using Application.Entity.PatientSpecificses.Queries.GetAll;
+using Domain.SupportData.Filters;
 
 namespace WebApi.IntegrationTests.Tests
 {
     public class PatientSpecificsTests : BaseIntegrationTest
     {
-        private readonly static string _name = "Fullname";
+        private static readonly string _name = "Fullname";
 
         private readonly PatientCreateCommand createPatient;
         private readonly PatientCreateCommand createPatient1;
@@ -58,11 +58,11 @@ namespace WebApi.IntegrationTests.Tests
             //Arrange
             var patientId = (await Sender.Send(createPatient)).Value;
             var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
-            var id = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId, "", "", "", "")));
+            var id = await Sender.Send(new PatientSpecificsCreateCommand(patientCardId, "", "", "", ""));
 
             //Act
             var update = new PatientSpecificsUpdateCommand(id.Value, "asdasd", "adsas", "sadads", "asdas");
-            id = (await Sender.Send(update));
+            id = await Sender.Send(update);
 
             //Assert
             Assert.True(dbContext.PatientSpecificses.FirstOrDefault(d => d.Id == id.Value && d.Sleep == update.Sleep) != null);
@@ -72,7 +72,7 @@ namespace WebApi.IntegrationTests.Tests
         public async Task Update_ShouldReturnFailer_WhenInCorrectInput()
         {
             //Arrange
-            
+
             //Act
             var command = new PatientSpecificsUpdateCommand(Guid.NewGuid(), "", "", "", "asdasa2");
             var update = await Sender.Send(command);

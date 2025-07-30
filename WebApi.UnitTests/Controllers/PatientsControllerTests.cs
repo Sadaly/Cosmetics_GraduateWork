@@ -28,8 +28,8 @@ namespace WebApi.UnitTests.Controllers
         private readonly PatientFilter _filter;
         private readonly PatientResponse _response;
         public PatientsControllerTests()
-        {            
-            _name = "name";             
+        {
+            _name = "name";
             _id = Guid.NewGuid();
             _response = new(_id, _pcId, _name);
             _filter = new() { Fullname = _name, };

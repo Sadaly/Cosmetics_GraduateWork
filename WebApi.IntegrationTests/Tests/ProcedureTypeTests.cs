@@ -11,8 +11,8 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class ProcedureTypeTests : BaseIntegrationTest
     {
-        private readonly static string _descr = "Description";
-        private readonly static string _name = "Title";
+        private static readonly string _descr = "Description";
+        private static readonly string _name = "Title";
 
         private readonly ProcedureTypeCreateCommand create;
         private readonly ProcedureTypeCreateCommand create1;

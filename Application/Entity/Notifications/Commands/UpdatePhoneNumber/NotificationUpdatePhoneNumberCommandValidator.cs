@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using Domain.ValueObjects;
+﻿using Domain.ValueObjects;
+using FluentValidation;
 
 namespace Application.Entity.Notifications.Commands.UpdatePhoneNumber
 {

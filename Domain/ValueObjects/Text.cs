@@ -26,12 +26,12 @@ namespace Domain.ValueObjects
         /// <returns>Новый экземпляр <see cref="Text"/></returns>
         public static Result<Text> Create(string? stringText)
         {
-            if (string.IsNullOrWhiteSpace(stringText))          
+            if (string.IsNullOrWhiteSpace(stringText))
                 return CreateDefault();
-            
+
             if (stringText.Length > MAX_LENGTH)
                 return Result.Failure<Text>(DomainErrors.Text.TooLong);
-            
+
 
             return new Text(stringText);
         }

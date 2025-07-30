@@ -1,15 +1,13 @@
-﻿using Domain.Abstractions;
-using Domain.Entity;
+﻿using Domain.Entity;
 using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Abstractions;
-using System;
 
 namespace Persistence.Repositories
 {
     public class DoctorRepository(AppDbContext dbContext,
-        IProcedureRepository procedureRepository) 
+        IProcedureRepository procedureRepository)
         : TRepository<Doctor>(dbContext), IDoctorRepository
     {
         protected readonly IProcedureRepository _procedureRepository = procedureRepository;

@@ -1,8 +1,8 @@
-﻿using System.Text;
+﻿using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Infrastructure.Authentication;
+using System.Text;
 
 namespace WebApi.OptionsSetup
 {

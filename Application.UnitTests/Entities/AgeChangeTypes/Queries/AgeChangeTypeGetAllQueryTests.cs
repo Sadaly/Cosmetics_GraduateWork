@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<AgeChangeType, bool>>>(expr =>
                 expr.Compile()(_agechangetype1) == true && expr.Compile()(_agechangetype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<AgeChangeType>(){ _agechangetype1, _agechangetype2 });
+                .Returns(new List<AgeChangeType>() { _agechangetype1, _agechangetype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<AgeChangeType, bool>>>(expr =>
                 expr.Compile()(_agechangetype1) == true && expr.Compile()(_agechangetype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<AgeChangeType>(){ _agechangetype1 });
+                .Returns(new List<AgeChangeType>() { _agechangetype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<AgeChangeType, bool>>>(expr =>
                 expr.Compile()(_agechangetype2) == true && expr.Compile()(_agechangetype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<AgeChangeType>(){ _agechangetype2 });
-            
+                .Returns(new List<AgeChangeType>() { _agechangetype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<AgeChangeType, bool>>>(expr =>
                 expr.Compile()(_agechangetype1) == false && expr.Compile()(_agechangetype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<AgeChangeType>(){});
+                .Returns(new List<AgeChangeType>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.AgeChangeTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<AgeChangeType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<AgeChangeType>() { _agechangetype1, _agechangetype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 

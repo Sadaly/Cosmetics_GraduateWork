@@ -11,7 +11,7 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class HealthCondTypeTests : BaseIntegrationTest
     {
-        private readonly static string _name = "Title";
+        private static readonly string _name = "Title";
 
         private readonly HealthCondTypeCreateCommand create;
         private readonly HealthCondTypeCreateCommand create1;

@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.PatientSpecificss.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientSpecifics, bool>>>(expr =>
                 expr.Compile()(_patientspecifics1) == true && expr.Compile()(_patientspecifics2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientSpecifics>(){ _patientspecifics1, _patientspecifics2 });
+                .Returns(new List<PatientSpecifics>() { _patientspecifics1, _patientspecifics2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientSpecifics, bool>>>(expr =>
                 expr.Compile()(_patientspecifics1) == true && expr.Compile()(_patientspecifics2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientSpecifics>(){ _patientspecifics1 });
+                .Returns(new List<PatientSpecifics>() { _patientspecifics1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientSpecifics, bool>>>(expr =>
                 expr.Compile()(_patientspecifics2) == true && expr.Compile()(_patientspecifics1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientSpecifics>(){ _patientspecifics2 });
-            
+                .Returns(new List<PatientSpecifics>() { _patientspecifics2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientSpecifics, bool>>>(expr =>
                 expr.Compile()(_patientspecifics1) == false && expr.Compile()(_patientspecifics2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientSpecifics>(){});
+                .Returns(new List<PatientSpecifics>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.PatientSpecificss.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<PatientSpecifics, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<PatientSpecifics>() { _patientspecifics1, _patientspecifics2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new PatientSpecificsGetAllQuery(PatientSpecificsQueries.GetWithoutPredicate(), startIndex, count), default);
 

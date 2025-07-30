@@ -2,9 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence.Configurations;
 using Persistence.Repositories;
-using System.Reflection.Emit;
 
 namespace Persistence;
 

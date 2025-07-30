@@ -14,7 +14,7 @@ namespace Application.Entity.Users.Commands.Create
 
         public async Task<Result<Guid>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
         {
-            var email    = Email.Create(request.Email);
+            var email = Email.Create(request.Email);
             var username = Username.Create(request.Username);
             var password = PasswordHashed.Create(request.Password);
 
@@ -22,8 +22,8 @@ namespace Application.Entity.Users.Commands.Create
             var add = await _userRepository.AddAsync(user, cancellationToken);
             var save = await _unitOfWork.SaveChangesAsync(add, cancellationToken);
 
-            return save.IsSuccess 
-                ? save.Value.Id 
+            return save.IsSuccess
+                ? save.Value.Id
                 : Result.Failure<Guid>(save.Error);
         }
     }

@@ -8,7 +8,8 @@ namespace Domain.Entity
     public class ReservedDate : BaseEntity
     {
         private ReservedDate(Guid id) : base(id) { }
-        private ReservedDate(Guid id, DateTime startDate, DateTime endDate, ReservedDateType type) : base(id) {
+        private ReservedDate(Guid id, DateTime startDate, DateTime endDate, ReservedDateType type) : base(id)
+        {
             StartDate = startDate;
             EndDate = endDate;
             Type = type;

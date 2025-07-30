@@ -13,7 +13,6 @@ using Infrastructure.IService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using System.Security.Claims;
@@ -37,7 +36,7 @@ namespace WebApi.UnitTests.Controllers
         private readonly UserFilter _filter;
         private readonly UserResponse _response;
         public UsersControllerTests()
-        {            
+        {
             _name = "name";
             _email = "str@ing";
             _password = "password";

@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.SkinCareTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinCareType, bool>>>(expr =>
                 expr.Compile()(_skincaretype1) == true && expr.Compile()(_skincaretype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinCareType>(){ _skincaretype1, _skincaretype2 });
+                .Returns(new List<SkinCareType>() { _skincaretype1, _skincaretype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinCareType, bool>>>(expr =>
                 expr.Compile()(_skincaretype1) == true && expr.Compile()(_skincaretype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinCareType>(){ _skincaretype1 });
+                .Returns(new List<SkinCareType>() { _skincaretype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinCareType, bool>>>(expr =>
                 expr.Compile()(_skincaretype2) == true && expr.Compile()(_skincaretype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinCareType>(){ _skincaretype2 });
-            
+                .Returns(new List<SkinCareType>() { _skincaretype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<SkinCareType, bool>>>(expr =>
                 expr.Compile()(_skincaretype1) == false && expr.Compile()(_skincaretype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<SkinCareType>(){});
+                .Returns(new List<SkinCareType>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.SkinCareTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<SkinCareType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<SkinCareType>() { _skincaretype1, _skincaretype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new SkinCareTypeGetAllQuery(SkinCareTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 

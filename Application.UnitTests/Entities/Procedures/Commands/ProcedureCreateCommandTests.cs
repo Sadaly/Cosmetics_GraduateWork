@@ -24,7 +24,7 @@ namespace Application.UnitTests.Entities.Procedures.Commands
         private readonly Patient _patient;
         private readonly PatientCard _patientCard;
         private readonly ProcedureType _procedureType;
-        
+
         public ProcedureCreateCommandTests()
         {
             _repository = Substitute.For<IProcedureRepository>();
@@ -37,7 +37,7 @@ namespace Application.UnitTests.Entities.Procedures.Commands
             _patientCard = _patient.Card;
             _procedureType = ProcedureType.Create(Title.Create("Title"), "", 0).Value;
 
-            _handler = new ProcedureCreateCommandHandler(_procedureScheduleService, _repository, _typeRepository, _doctorRepository, _patientCardRepository,_unitOfWork);
+            _handler = new ProcedureCreateCommandHandler(_procedureScheduleService, _repository, _typeRepository, _doctorRepository, _patientCardRepository, _unitOfWork);
 
             _patientCardRepository.GetByIdAsync(Arg.Is<Guid>(x => x != Guid.Empty), Arg.Any<CancellationToken>())
                 .Returns(_patientCard);

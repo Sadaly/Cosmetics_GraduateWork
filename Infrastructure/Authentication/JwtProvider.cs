@@ -1,10 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Application.Abstractions;
+using Domain.Entity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Application.Abstractions;
-using Domain.Entity;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Infrastructure.Authentication
 {

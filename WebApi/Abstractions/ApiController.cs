@@ -1,6 +1,4 @@
-﻿using Domain.Shared;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Abstractions;

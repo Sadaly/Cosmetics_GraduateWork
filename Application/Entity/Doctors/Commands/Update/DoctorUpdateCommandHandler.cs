@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.Abstractions;
-using Domain.Entity;
 using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;

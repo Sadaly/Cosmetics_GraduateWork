@@ -1,21 +1,21 @@
-﻿using Application.Entity.SkinCares.Commands.ChangeType;
+﻿using Application.Entity.Patients.Commands.Create;
+using Application.Entity.Patients.Queries;
+using Application.Entity.Patients.Queries.Get;
+using Application.Entity.SkinCares.Commands.ChangeType;
 using Application.Entity.SkinCares.Commands.Create;
 using Application.Entity.SkinCares.Commands.SoftDelete;
 using Application.Entity.SkinCares.Queries;
 using Application.Entity.SkinCares.Queries.Get;
 using Application.Entity.SkinCares.Queries.GetAll;
 using Application.Entity.SkinCareTypes.Commands.Create;
-using Application.Entity.Patients.Commands.Create;
-using Application.Entity.Patients.Queries;
-using Application.Entity.Patients.Queries.Get;
 using Domain.SupportData.Filters;
 
 namespace WebApi.IntegrationTests.Tests
 {
     public class SkinCareTests : BaseIntegrationTest
     {
-        private readonly static string _typename = "Typename";
-        private readonly static string _name = "Fullname";
+        private static readonly string _typename = "Typename";
+        private static readonly string _name = "Fullname";
 
         private readonly SkinCareTypeCreateCommand createType;
         private readonly SkinCareTypeCreateCommand createType1;

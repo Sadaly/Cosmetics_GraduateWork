@@ -24,7 +24,8 @@ namespace Application.Entity.Users.Commands.Update
 
             //Первое условие проверяет, нужно ли обновлять поле
             //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
-            if (request.Email != null) {
+            if (request.Email != null)
+            {
                 var email = Email.Create(request.Email);
                 var updateEmail = user.Value.UpdateEmail(email);
                 if (updateEmail.IsFailure) return Result.Failure<string>(updateEmail.Error);
@@ -32,7 +33,8 @@ namespace Application.Entity.Users.Commands.Update
 
             //Первое условие проверяет, нужно ли обновлять поле
             //Второе условие проверяет нормальный ли результат работы с сущностью Юзера
-            if (request.Username != null) {
+            if (request.Username != null)
+            {
                 var username = Username.Create(request.Username);
                 var updateUsername = user.Value.UpdateUsername(username);
                 if (updateUsername.IsFailure) return Result.Failure<string>(updateUsername.Error);

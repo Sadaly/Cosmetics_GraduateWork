@@ -25,7 +25,7 @@ namespace WebApi.IntegrationTests
 
             //эта строка не влияет на результат
             //_transaction.Rollback();
-            
+
             _transaction.Dispose();
             _dbContext.Dispose();
         }

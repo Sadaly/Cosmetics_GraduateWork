@@ -1,7 +1,6 @@
 ﻿using Application.Abstractions;
 using Application.Abstractions.Messaging;
 using Domain.Abstractions;
-using Domain.Entity;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -14,7 +13,7 @@ namespace Application.Entity.Procedures.Commands.UpdateDate
         {
             var isDateReserved = await procedureScheduleService.IsDateReserved(request.ScheduledDate, request.ScheduledDate.AddMinutes(request.Duration), cancellationToken);
             if (isDateReserved) return Result.Failure<Guid>(ApplicationErrors.ProcedureCreateCommand.DateReserved);
-            
+
             var ent = await procedureRepository.GetByIdAsync(request.ProcedureId, cancellationToken);
             if (ent.IsFailure) return Result.Failure<Guid>(ent.Error);
 

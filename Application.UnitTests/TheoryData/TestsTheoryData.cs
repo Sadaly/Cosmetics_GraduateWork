@@ -11,7 +11,7 @@ namespace Application.UnitTests.TheoryData
             { Guid.NewGuid().ToString() },
             { Guid.Empty.ToString() }
         };
-        
+
         public static TheoryData<string> ValidNameGetTestCases = new()
         {
             { "Fullname" },

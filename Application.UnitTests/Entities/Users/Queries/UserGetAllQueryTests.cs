@@ -1,8 +1,6 @@
-using Application.Abstractions;
 using Application.Entity.Users.Queries;
 using Application.Entity.Users.Queries.GetAll;
 using Application.UnitTests.TheoryData;
-using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Repositories;

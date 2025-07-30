@@ -7,7 +7,6 @@ using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
 using Domain.SupportData.Filters;
-using Domain.ValueObjects;
 using FluentAssertions;
 using NSubstitute;
 using System.Linq.Expressions;
@@ -32,19 +31,19 @@ namespace Application.UnitTests.Entities.ReservedDates.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ReservedDate, bool>>>(expr =>
                 expr.Compile()(_reserveddate1) == true && expr.Compile()(_reserveddate2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<ReservedDate>(){ _reserveddate1, _reserveddate2 });
+                .Returns(new List<ReservedDate>() { _reserveddate1, _reserveddate2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ReservedDate, bool>>>(expr =>
                 expr.Compile()(_reserveddate1) == true && expr.Compile()(_reserveddate2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ReservedDate>(){ _reserveddate1 });
+                .Returns(new List<ReservedDate>() { _reserveddate1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<ReservedDate, bool>>>(expr =>
                 expr.Compile()(_reserveddate2) == true && expr.Compile()(_reserveddate1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ReservedDate>(){ _reserveddate2 });
-            
+                .Returns(new List<ReservedDate>() { _reserveddate2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<ReservedDate, bool>>>(expr =>
                 expr.Compile()(_reserveddate1) == false && expr.Compile()(_reserveddate2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<ReservedDate>(){});
+                .Returns(new List<ReservedDate>() { });
         }
 
         [Fact]
@@ -57,7 +56,7 @@ namespace Application.UnitTests.Entities.ReservedDates.Queries
             result.Value[0].Type.Should().Be(_reserveddate1.Type);
             result.Value[1].Type.Should().Be(_reserveddate2.Type);
         }
-        
+
         [Theory]
         [MemberData(nameof(ValidCreationDatesGetTestCases))]
         public async Task Handle_Should_ReturnSuccess_WhenValidCreationDates(DateTime? startDate, DateTime? endDate)
@@ -92,7 +91,7 @@ namespace Application.UnitTests.Entities.ReservedDates.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<ReservedDate, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<ReservedDate>() { _reserveddate1, _reserveddate2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new ReservedDateGetAllQuery(ReservedDateQueries.GetWithoutPredicate(), startIndex, count), default);
 

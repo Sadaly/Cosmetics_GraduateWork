@@ -9,7 +9,7 @@ namespace Domain.Entity
         private Patient(Guid id) : base(id) { }
         private Patient(Guid id, Username fullname) : base(id)
         {
-            this.Fullname = fullname;
+            Fullname = fullname;
         }
         public Username Fullname { get; set; } = null!;
 
@@ -17,7 +17,7 @@ namespace Domain.Entity
         public static Result<Patient> Create(Result<Username> fullname)
         {
             if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
-            
+
             var _id = Guid.NewGuid();
             var patient = new Patient(_id, fullname.Value);
 
@@ -26,13 +26,13 @@ namespace Domain.Entity
 
             patient.Card = card.Value;
 
-            return patient;            
+            return patient;
         }
         public Result<Patient> UpdateFullname(Result<Username> fullname)
         {
             if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
-            if (fullname.Value == this.Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
-            this.Fullname = fullname.Value;
+            if (fullname.Value == Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
+            Fullname = fullname.Value;
             return this;
         }
     }

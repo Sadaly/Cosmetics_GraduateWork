@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.HealthCondTypes.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<HealthCondType, bool>>>(expr =>
                 expr.Compile()(_healthcondtype1) == true && expr.Compile()(_healthcondtype2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<HealthCondType>(){ _healthcondtype1, _healthcondtype2 });
+                .Returns(new List<HealthCondType>() { _healthcondtype1, _healthcondtype2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<HealthCondType, bool>>>(expr =>
                 expr.Compile()(_healthcondtype1) == true && expr.Compile()(_healthcondtype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<HealthCondType>(){ _healthcondtype1 });
+                .Returns(new List<HealthCondType>() { _healthcondtype1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<HealthCondType, bool>>>(expr =>
                 expr.Compile()(_healthcondtype2) == true && expr.Compile()(_healthcondtype1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<HealthCondType>(){ _healthcondtype2 });
-            
+                .Returns(new List<HealthCondType>() { _healthcondtype2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<HealthCondType, bool>>>(expr =>
                 expr.Compile()(_healthcondtype1) == false && expr.Compile()(_healthcondtype2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<HealthCondType>(){});
+                .Returns(new List<HealthCondType>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.HealthCondTypes.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<HealthCondType, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<HealthCondType>() { _healthcondtype1, _healthcondtype2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new HealthCondTypeGetAllQuery(HealthCondTypeQueries.GetWithoutPredicate(), startIndex, count), default);
 

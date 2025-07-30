@@ -56,7 +56,7 @@ namespace Domain.Abstractions
         /// <param name="count">Количество взятых значений.</param>
         /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Возвращает часть списка элементы которого удовлетворяют условию <paramref name="predicate"/>. Если <paramref name="startIndex"/> или <paramref name="count"/> выходят за рамки БД, ошибки не будет, вернется лишь часть данных, которая находится в рамках списка записей.</returns>
-        public Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
+        Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Получение сущности типа репозитория по предикату
@@ -64,12 +64,12 @@ namespace Domain.Abstractions
         /// <param name="predicate">Условия для получения сущности.</param>
         /// <param name="mode">Указывает с каким методом должно быть получено значение из бд.</param>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        public Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
+        Task<Result<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
 
         /// <summary>
         /// Получение сущности типа репозитория по Id с учетом ошибки
         /// </summary>
         /// <returns>Если объект не найден, то будет возвращена ошибка.</returns>
-        public Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
+        Task<Result<T>> GetByIdAsync(Guid id, CancellationToken cancellationToken, FetchMode mode = FetchMode.Default);
     }
 }

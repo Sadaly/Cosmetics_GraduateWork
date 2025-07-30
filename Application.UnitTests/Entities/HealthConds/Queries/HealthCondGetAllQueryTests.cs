@@ -1,7 +1,6 @@
 using Application.Entity.HealthConds.Queries;
 using Application.Entity.HealthConds.Queries.GetAll;
 using Application.UnitTests.TheoryData;
-using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Repositories;

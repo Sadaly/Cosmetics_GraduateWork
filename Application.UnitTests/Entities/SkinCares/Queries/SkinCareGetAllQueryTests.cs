@@ -1,7 +1,6 @@
 using Application.Entity.SkinCares.Queries;
 using Application.Entity.SkinCares.Queries.GetAll;
 using Application.UnitTests.TheoryData;
-using Domain.Abstractions;
 using Domain.Entity;
 using Domain.Errors;
 using Domain.Repositories;

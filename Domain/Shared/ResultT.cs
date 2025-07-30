@@ -10,8 +10,8 @@
 
         public TValue Value => IsSuccess
             ? _value!
-            : throw new InvalidOperationException("The value of a failure result can not be accessed.", 
-                new Exception(Error.Code, 
+            : throw new InvalidOperationException("The value of a failure result can not be accessed.",
+                new Exception(Error.Code,
                     new Exception(Error.Message)));
 
         public static implicit operator Result<TValue>(TValue? value) => Create(value);

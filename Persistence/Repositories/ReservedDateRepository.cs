@@ -4,7 +4,7 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class ReservedDateRepository(AppDbContext dbContext) 
+    public class ReservedDateRepository(AppDbContext dbContext)
         : TRepository<ReservedDate>(dbContext), IReservedDateRepository
     {
     }

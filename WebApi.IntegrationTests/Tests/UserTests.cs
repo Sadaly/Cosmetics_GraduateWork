@@ -11,8 +11,8 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class UserTests : BaseIntegrationTest
     {
-        private readonly static string _name = "username";
-     
+        private static readonly string _name = "username";
+
         private readonly UserCreateCommand create;
         private readonly UserCreateCommand create1;
         private readonly UserCreateCommand create2;

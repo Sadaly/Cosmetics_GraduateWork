@@ -3,8 +3,8 @@ using Application.Entity.Users.Commands.Login;
 using Application.Entity.Users.Commands.SoftDelete;
 using Application.Entity.Users.Commands.Update;
 using Application.Entity.Users.Queries;
-using Application.Entity.Users.Queries.GetAll;
 using Application.Entity.Users.Queries.Get;
+using Application.Entity.Users.Queries.GetAll;
 using Domain.Errors;
 using Domain.Shared;
 using Domain.SupportData.Filters;
@@ -17,7 +17,6 @@ using WebApi.Abstractions;
 using WebApi.DTO.UserDTO;
 using WebApi.Extensions;
 using WebApi.Policies;
-using System.Text.Json;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +29,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Create(
             [FromBody] UserCreateCommand command,
             CancellationToken cancellationToken)
-            =>  (await Sender.Send(command, cancellationToken)).ToActionResult();
+            => (await Sender.Send(command, cancellationToken)).ToActionResult();
 
         //Вход в систему
         [HttpPost("Login")]
@@ -40,9 +39,9 @@ namespace WebApi.Controllers
         {
             Result<string> tokenResult = await Sender.Send(command, cancellationToken);
             if (tokenResult.IsFailure) return tokenResult.ToActionResult();
-            
+
             return tokenService.GetClaim(
-                tokenService.SetJwtToken(Response, tokenResult.Value), 
+                tokenService.SetJwtToken(Response, tokenResult.Value),
                 ClaimTypes.NameIdentifier)
                 .ToActionResult();
         }
@@ -89,7 +88,7 @@ namespace WebApi.Controllers
         [Authorize(Policy = AuthorizePolicy.UserOnly)]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetById(
-            Guid userId, 
+            Guid userId,
             CancellationToken cancellationToken)
             => (await Sender.Send(new UserGetQuery(UserQueries.GetById(userId)), cancellationToken)).ToActionResult();
 
@@ -104,7 +103,7 @@ namespace WebApi.Controllers
         [HttpGet("Take")]
         public async Task<IActionResult> Take(
             [FromQuery] UserFilter filter,
-            int StartIndex, 
+            int StartIndex,
             int Count,
             CancellationToken cancellationToken)
             => (await Sender.Send(new UserGetAllQuery(UserQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();

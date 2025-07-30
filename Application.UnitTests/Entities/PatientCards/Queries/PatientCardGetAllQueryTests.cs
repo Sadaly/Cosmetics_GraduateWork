@@ -31,19 +31,19 @@ namespace Application.UnitTests.Entities.PatientCards.Queries
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientCard, bool>>>(expr =>
                 expr.Compile()(_patientcard1) == true && expr.Compile()(_patientcard2) == true), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientCard>(){ _patientcard1, _patientcard2 });
+                .Returns(new List<PatientCard>() { _patientcard1, _patientcard2 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientCard, bool>>>(expr =>
                 expr.Compile()(_patientcard1) == true && expr.Compile()(_patientcard2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientCard>(){ _patientcard1 });
+                .Returns(new List<PatientCard>() { _patientcard1 });
 
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientCard, bool>>>(expr =>
                 expr.Compile()(_patientcard2) == true && expr.Compile()(_patientcard1) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientCard>(){ _patientcard2 });
-            
+                .Returns(new List<PatientCard>() { _patientcard2 });
+
             _repository.GetAllAsync(Arg.Is<Expression<Func<PatientCard, bool>>>(expr =>
                 expr.Compile()(_patientcard1) == false && expr.Compile()(_patientcard2) == false), Arg.Any<CancellationToken>())
-                .Returns(new List<PatientCard>(){});
+                .Returns(new List<PatientCard>() { });
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Application.UnitTests.Entities.PatientCards.Queries
             //Arrange
             _repository.GetAllAsync(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<Expression<Func<PatientCard, bool>>>(), Arg.Any<CancellationToken>())
                 .Returns(new List<PatientCard>() { _patientcard1, _patientcard2 }.Skip(startIndex).Take(count).ToList());
-            
+
             //Act
             var result = await _handler.Handle(new PatientCardGetAllQuery(PatientCardQueries.GetWithoutPredicate(), startIndex, count), default);
 

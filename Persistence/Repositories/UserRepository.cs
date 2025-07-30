@@ -8,7 +8,7 @@ using Persistence.Abstractions;
 
 namespace Persistence.Repositories
 {
-    public class UserRepository(AppDbContext dbContext) 
+    public class UserRepository(AppDbContext dbContext)
         : TRepository<User>(dbContext), IUserRepository
     {
         public async Task<Result<User>> GetByEmailAsync(Result<Email> email, CancellationToken cancellationToken = default)
@@ -35,7 +35,7 @@ namespace Persistence.Repositories
             return !await _dbContext.Set<User>().AnyAsync(u => u.Username == username.Value && u.IsSoftDelete == false, cancellationToken);
         }
 
-        protected async override Task<Result<User>> VerificationBeforeAddingAsync(Result<User> newUser, CancellationToken cancellationToken)
+        protected override async Task<Result<User>> VerificationBeforeAddingAsync(Result<User> newUser, CancellationToken cancellationToken)
         {
             if (newUser.IsFailure) return newUser;
 
@@ -55,7 +55,7 @@ namespace Persistence.Repositories
             return newUser;
         }
 
-        protected async override Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> newEntity, CancellationToken cancellationToken)
+        protected override async Task<Result<User>> VerificationBeforeUpdateAsync(Result<User> newEntity, CancellationToken cancellationToken)
         {
             if (newEntity.IsFailure) return newEntity;
 
@@ -77,7 +77,7 @@ namespace Persistence.Repositories
                 if (unique.IsFailure) return Result.Failure<User>(unique.Error);
                 if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.UsernameNotUnique);
             }
-            if (newEntity.Value.PasswordHashed.Value != oldEntity.Value.PasswordHashed.Value) unique = Result.Success<bool>(true); 
+            if (newEntity.Value.PasswordHashed.Value != oldEntity.Value.PasswordHashed.Value) unique = Result.Success<bool>(true);
             if (!unique.Value) return Result.Failure<User>(PersistenceErrors.User.UpdateChangeNothing);
 
             return newEntity;

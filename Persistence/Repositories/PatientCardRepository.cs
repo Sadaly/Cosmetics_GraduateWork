@@ -5,20 +5,18 @@ using Domain.Repositories;
 using Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Abstractions;
-using System;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace Persistence.Repositories
 {
     public class PatientCardRepository(AppDbContext dbContext,
-        IAgeChangeRepository ageChangeRepository, 
-        IExternalProcedureRecordRepository externalProcedureRecordRepository, 
-        IHealthCondRepository healthCondRepository, 
-        IProcedureRepository procedureRepository, 
-        ISkinCareRepository skinCareRepository, 
-        ISkinFeatureRepository skinFeatureRepository, 
-        IPatientSpecificsRepository patientSpecificsRepository) 
+        IAgeChangeRepository ageChangeRepository,
+        IExternalProcedureRecordRepository externalProcedureRecordRepository,
+        IHealthCondRepository healthCondRepository,
+        IProcedureRepository procedureRepository,
+        ISkinCareRepository skinCareRepository,
+        ISkinFeatureRepository skinFeatureRepository,
+        IPatientSpecificsRepository patientSpecificsRepository)
         : TRepository<PatientCard>(dbContext), IPatientCardRepository
     {
         protected readonly IAgeChangeRepository _ageChangeRepository = ageChangeRepository;
@@ -64,7 +62,7 @@ namespace Persistence.Repositories
 
             remove = await RemoveInnerListAsync<PatientSpecifics>(entity, _patientSpecificsRepository, x => x.PatientCardId == entity.Value.Id, cancellationToken);
             if (remove.IsFailure) return remove;
-            
+
             return await base.RemoveAsync(entity, cancellationToken);
         }
 

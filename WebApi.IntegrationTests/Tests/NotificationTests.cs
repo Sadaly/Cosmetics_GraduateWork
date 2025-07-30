@@ -16,10 +16,10 @@ namespace WebApi.IntegrationTests.Tests
 {
     public class NotificationTests : BaseIntegrationTest
     {
-        private readonly static string _typename = "Typename";
-        private readonly static string _typeDesr = "Description";
-        private readonly static string _message = "Message";
-        private readonly static string _name = "Fullname";
+        private static readonly string _typename = "Typename";
+        private static readonly string _typeDesr = "Description";
+        private static readonly string _message = "Message";
+        private static readonly string _name = "Fullname";
 
         private readonly ProcedureTypeCreateCommand createType;
         private readonly ProcedureTypeCreateCommand createType1;
