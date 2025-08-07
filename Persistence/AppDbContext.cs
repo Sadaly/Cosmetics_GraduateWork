@@ -26,7 +26,6 @@ namespace Persistence
         public DbSet<SkinFeatureType> SkinFeatureTypes { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            DbInitializer.Initialize(this);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
