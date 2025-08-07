@@ -1,9 +1,11 @@
 ﻿using Domain.Entity;
 using Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 using System.Reflection;
 using System.Text.Json;
 
-namespace Persistence
+namespace WebApi.Extensions
 {
     public static class DbInitializer
     {
@@ -14,11 +16,17 @@ namespace Persistence
             public string Username { get; set; } = null!;
             public string Password { get; set; } = null!;
         }
-        public static void Initialize(AppDbContext context)
+        public static void InitializeDb(this WebApplication app)
         {
             if (IsTestEnvironment())
                 return;
 
+            using var scope = app.Services.CreateScope();
+
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            context.Database.Migrate();
+            context.SaveChanges();  
             if (!context.Users.Any())
             {
                 string json = File.ReadAllText(_file);
