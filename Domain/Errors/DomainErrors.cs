@@ -3,7 +3,19 @@ namespace Domain.Errors
 {
     public static class DomainErrors
     {
-        public static class Notification
+		public static class SessionToken
+		{
+			public static readonly Error ExpirationDateTimeLessThenCurrentDateTime = new(
+				"SessionToken.ExpirationDateTimeLessThenCurrentDateTime",
+				"Невозможно установить дату и время окончания токена ниже текущей даты и времени");
+			public static readonly Error ExpirationParametersIncorrectWhenNull = new(
+				"SessionToken.ExpirationParametersIncorrectWhenNull",
+				"Одно из значений равно null, но второе почему-то имеет вещественное значение");
+			public static readonly Error BigError = new(
+				"SessionToken.BigError",
+				"Что-то пошло не так");
+		}
+		public static class Notification
         {
             public static readonly Error Late = new(
                 "Notification.Late",
@@ -17,7 +29,7 @@ namespace Domain.Errors
         {
             public static readonly Error DurationLessThenZero = new(
                 "Procedure.DurationLessThenZero",
-                "Длительность процедуры не может быть ниже 0 минут");
+                "Длительность процедуры не может быть ниже 0");
             public static readonly Error AlreadyNoDoctor = new(
                 "Procedure.AlreadyNoDoctor",
                 "На процедуру и так не назначен доктор");
@@ -38,7 +50,7 @@ namespace Domain.Errors
 
             public static readonly Error AlreadySet = new(
                 "Username.AlreadySet",
-                "Имя пользовтеля совпадает с предыдущим");
+                "Имя пользователя совпадает с предыдущим");
         }
 
         public static class Email
@@ -57,7 +69,7 @@ namespace Domain.Errors
 
             public static readonly Error InvalidFormat = new(
                 "Email.InvalidFormat",
-                $"Поле имеет неправльный формат. Верный формат: example@gmail.com");
+                $"Поле имеет неправильный формат. Верный формат: example@mail.com");
 
             public static readonly Error AlreadySet = new(
                 "Email.AlreadySet",

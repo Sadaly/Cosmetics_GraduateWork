@@ -1,6 +1,6 @@
-@Cosmetics_GraduateWork= http://localhost:5090
+@Cosmetics_GraduateWork_HostAddress = http://localhost:5090/api
 
-GET {{Cosmetics_GraduateWork_HostAddress}}/weatherforecast/
+GET {{Cosmetics_GraduateWork_HostAddress}}/Users/All
 Accept: application/json
 
 ###
