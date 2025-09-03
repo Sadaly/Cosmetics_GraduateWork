@@ -3,7 +3,7 @@
 namespace Application.Entity.Users.Commands.Update;
 
 public sealed record UserUpdateCommand(
-    Guid Id,
-    string? Username,
-    string? Email,
-    string? Password) : ICommand<string>;
+	Guid Id,
+	string? Username,
+	string? Email,
+	string? Password) : ICommand<string>;

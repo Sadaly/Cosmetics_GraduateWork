@@ -4,51 +4,51 @@ using Domain.ValueObjects;
 
 namespace Domain.Entity
 {
-    public class User : BaseEntity
-    {
-        private User(Guid id) : base(id) { }
-        private User(Guid id, Email email, Username username, PasswordHashed passwordHashed) : base(id)
-        {
-            Email = email;
-            Username = username;
-            PasswordHashed = passwordHashed;
-        }
+	public class User : BaseEntity
+	{
+		private User(Guid id) : base(id) { }
+		private User(Guid id, Email email, Username username, PasswordHashed passwordHashed) : base(id)
+		{
+			Email = email;
+			Username = username;
+			PasswordHashed = passwordHashed;
+		}
 
-        public Email Email { get; set; } = null!;
-        public Username Username { get; set; } = null!;
-        public PasswordHashed PasswordHashed { get; set; } = null!;
+		public Email Email { get; set; } = null!;
+		public Username Username { get; set; } = null!;
+		public PasswordHashed PasswordHashed { get; set; } = null!;
 
 
-        public static Result<User> Create(Result<Email> email, Result<Username> username, Result<PasswordHashed> passwordHashed)
-        {
-            if (email.IsFailure) return Result.Failure<User>(email.Error);
-            if (username.IsFailure) return Result.Failure<User>(username.Error);
-            if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
-            var _id = Guid.NewGuid();
+		public static Result<User> Create(Result<Email> email, Result<Username> username, Result<PasswordHashed> passwordHashed)
+		{
+			if (email.IsFailure) return Result.Failure<User>(email.Error);
+			if (username.IsFailure) return Result.Failure<User>(username.Error);
+			if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
+			var _id = Guid.NewGuid();
 
-            return new User(_id, email.Value, username.Value, passwordHashed.Value);
-        }
+			return new User(_id, email.Value, username.Value, passwordHashed.Value);
+		}
 
-        public Result<User> UpdateEmail(Result<Email> email)
-        {
-            if (email.IsFailure) return Result.Failure<User>(email.Error);
-            if (email.Value == Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
-            Email = email.Value;
-            return this;
-        }
-        public Result<User> UpdateUsername(Result<Username> username)
-        {
-            if (username.IsFailure) return Result.Failure<User>(username.Error);
-            if (username.Value == Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
-            Username = username.Value;
-            return this;
-        }
-        public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
-        {
-            if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
-            if (passwordHashed.Value == PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
-            PasswordHashed = passwordHashed.Value;
-            return this;
-        }
-    }
+		public Result<User> UpdateEmail(Result<Email> email)
+		{
+			if (email.IsFailure) return Result.Failure<User>(email.Error);
+			if (email.Value == Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
+			Email = email.Value;
+			return this;
+		}
+		public Result<User> UpdateUsername(Result<Username> username)
+		{
+			if (username.IsFailure) return Result.Failure<User>(username.Error);
+			if (username.Value == Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
+			Username = username.Value;
+			return this;
+		}
+		public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
+		{
+			if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
+			if (passwordHashed.Value == PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
+			PasswordHashed = passwordHashed.Value;
+			return this;
+		}
+	}
 }

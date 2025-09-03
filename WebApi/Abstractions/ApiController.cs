@@ -6,10 +6,10 @@ namespace WebApi.Abstractions;
 [ApiController]
 public abstract class ApiController : ControllerBase
 {
-    protected readonly ISender Sender;
+	protected readonly ISender Sender;
 
-    protected ApiController(ISender sender)
-    {
-        Sender = sender;
-    }
+	protected ApiController(ISender sender)
+	{
+		Sender = sender;
+	}
 }

@@ -3,7 +3,7 @@ using Domain.Entity;
 
 namespace Domain.Repositories
 {
-    public interface IHealthCondRepository : IRepository<HealthCond>
-    {
-    }
+	public interface IHealthCondRepository : IRepository<HealthCond>
+	{
+	}
 }

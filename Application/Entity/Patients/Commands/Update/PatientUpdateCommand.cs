@@ -2,4 +2,4 @@
 
 namespace Application.Entity.Patients.Commands.Update;
 public sealed record PatientUpdateCommand(Guid Id,
-    string FullName) : ICommand<Guid>;
+	string FullName) : ICommand<Guid>;

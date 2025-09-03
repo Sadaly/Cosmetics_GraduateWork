@@ -5,39 +5,39 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.ValueObjects
 {
-    [ComplexType]
-    public class Username : ValueObject
-    {
-        public const int MAX_LENGTH = 60;
-        public const int MIN_LENGTH = 3;
+	[ComplexType]
+	public class Username : ValueObject
+	{
+		public const int MAX_LENGTH = 60;
+		public const int MIN_LENGTH = 3;
 
-        public string Value { get; set; }
+		public string Value { get; set; }
 
-        private Username(string value)
-        {
-            Value = value;
-        }
+		private Username(string value)
+		{
+			Value = value;
+		}
 
-        public static Result<Username> Create(string value)
-        {
-            // Обрабатываем логически ошибки
-            if (string.IsNullOrWhiteSpace(value)) return Result.Failure<Username>(DomainErrors.Username.Empty);
-            if (value.Length > MAX_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooLong);
-            if (value.Length < MIN_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooShort);
+		public static Result<Username> Create(string value)
+		{
+			// Обрабатываем логически ошибки
+			if (string.IsNullOrWhiteSpace(value)) return Result.Failure<Username>(DomainErrors.Username.Empty);
+			if (value.Length > MAX_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooLong);
+			if (value.Length < MIN_LENGTH) return Result.Failure<Username>(DomainErrors.Username.TooShort);
 
-            return new Username(value);
-        }
+			return new Username(value);
+		}
 
-        public override IEnumerable<object> GetAtomicValues()
-        {
-            yield return Value;
-        }
+		public override IEnumerable<object> GetAtomicValues()
+		{
+			yield return Value;
+		}
 
 
-        /// <summary>
-        /// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
-        /// тогда Value объекты остаются null и этот конструктор решает эту проблему
-        /// </summary>
-        private Username() { Value = ""; }
-    }
+		/// <summary>
+		/// Это просто заглушка для компилятора. Т.к. для EF нужен конструктор без параметров,
+		/// тогда Value объекты остаются null и этот конструктор решает эту проблему
+		/// </summary>
+		private Username() { Value = ""; }
+	}
 }

@@ -3,7 +3,7 @@ using Domain.Entity;
 
 namespace Domain.Repositories
 {
-    public interface ISkinFeatureRepository : IRepository<SkinFeature>
-    {
-    }
+	public interface ISkinFeatureRepository : IRepository<SkinFeature>
+	{
+	}
 }

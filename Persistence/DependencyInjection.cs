@@ -8,52 +8,52 @@ namespace Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistence(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddDbContext<AppDbContext>(options =>
-            options
-                .UseNpgsql(configuration.GetConnectionString("Database")));
+	public static IServiceCollection AddPersistence(
+		this IServiceCollection services,
+		IConfiguration configuration)
+	{
+		services.AddDbContext<AppDbContext>(options =>
+			options
+				.UseNpgsql(configuration.GetConnectionString("Database")));
 
-        services.AddScoped<IAgeChangeRepository, AgeChangeRepository>();
+		services.AddScoped<IAgeChangeRepository, AgeChangeRepository>();
 
-        services.AddScoped<IAgeChangeTypeRepository, AgeChangeTypeRepository>();
+		services.AddScoped<IAgeChangeTypeRepository, AgeChangeTypeRepository>();
 
-        services.AddScoped<IDoctorRepository, DoctorRepository>();
+		services.AddScoped<IDoctorRepository, DoctorRepository>();
 
-        services.AddScoped<IExternalProcedureRecordRepository, ExternalProcedureRecordRepository>();
+		services.AddScoped<IExternalProcedureRecordRepository, ExternalProcedureRecordRepository>();
 
-        services.AddScoped<IExternalProcedureRecordTypeRepository, ExternalProcedureRecordTypeRepository>();
+		services.AddScoped<IExternalProcedureRecordTypeRepository, ExternalProcedureRecordTypeRepository>();
 
-        services.AddScoped<IHealthCondRepository, HealthCondRepository>();
+		services.AddScoped<IHealthCondRepository, HealthCondRepository>();
 
-        services.AddScoped<IHealthCondTypeRepository, HealthCondTypeRepository>();
+		services.AddScoped<IHealthCondTypeRepository, HealthCondTypeRepository>();
 
-        services.AddScoped<INotificationRepository, NotificationRepository>();
+		services.AddScoped<INotificationRepository, NotificationRepository>();
 
-        services.AddScoped<IPatientCardRepository, PatientCardRepository>();
+		services.AddScoped<IPatientCardRepository, PatientCardRepository>();
 
-        services.AddScoped<IPatientRepository, PatientRepository>();
+		services.AddScoped<IPatientRepository, PatientRepository>();
 
-        services.AddScoped<IPatientSpecificsRepository, PatientSpecificsRepository>();
+		services.AddScoped<IPatientSpecificsRepository, PatientSpecificsRepository>();
 
-        services.AddScoped<IProcedureRepository, ProcedureRepository>();
+		services.AddScoped<IProcedureRepository, ProcedureRepository>();
 
-        services.AddScoped<IProcedureTypeRepository, ProcedureTypeRepository>();
+		services.AddScoped<IProcedureTypeRepository, ProcedureTypeRepository>();
 
-        services.AddScoped<IReservedDateRepository, ReservedDateRepository>();
+		services.AddScoped<IReservedDateRepository, ReservedDateRepository>();
 
-        services.AddScoped<ISkinCareRepository, SkinCareRepository>();
+		services.AddScoped<ISkinCareRepository, SkinCareRepository>();
 
-        services.AddScoped<ISkinCareTypeRepository, SkinCareTypeRepository>();
+		services.AddScoped<ISkinCareTypeRepository, SkinCareTypeRepository>();
 
-        services.AddScoped<ISkinFeatureRepository, SkinFeatureRepository>();
+		services.AddScoped<ISkinFeatureRepository, SkinFeatureRepository>();
 
-        services.AddScoped<ISkinFeatureTypeRepository, SkinFeatureTypeRepository>();
+		services.AddScoped<ISkinFeatureTypeRepository, SkinFeatureTypeRepository>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
 
-        return services;
-    }
+		return services;
+	}
 }

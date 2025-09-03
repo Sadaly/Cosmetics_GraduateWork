@@ -4,20 +4,20 @@ using System.Linq.Expressions;
 
 namespace Domain.SupportData.Filters
 {
-    public class HealthCondFilter : IEntityFilter<HealthCond>
-    {
-        public string? Typename { get; set; }
-        public string? PatientName { get; set; }
-        public DateTime? CreationDateFrom { get; set; }
-        public DateTime? CreationDateTo { get; set; }
+	public class HealthCondFilter : IEntityFilter<HealthCond>
+	{
+		public string? Typename { get; set; }
+		public string? PatientName { get; set; }
+		public DateTime? CreationDateFrom { get; set; }
+		public DateTime? CreationDateTo { get; set; }
 
-        public Expression<Func<HealthCond, bool>> ToPredicate()
-        {
-            return healthcond =>
-                (string.IsNullOrWhiteSpace(Typename) || healthcond.Type.Title.Value.Contains(Typename)) &&
-                (string.IsNullOrWhiteSpace(PatientName) || healthcond.PatientCard.Patient.Fullname.Value.Contains(PatientName)) &&
-                (!CreationDateFrom.HasValue || healthcond.CreatedAt >= CreationDateFrom.Value) &&
-                (!CreationDateTo.HasValue || healthcond.CreatedAt <= CreationDateTo.Value);
-        }
-    }
+		public Expression<Func<HealthCond, bool>> ToPredicate()
+		{
+			return healthcond =>
+				(string.IsNullOrWhiteSpace(Typename) || healthcond.Type.Title.Value.Contains(Typename)) &&
+				(string.IsNullOrWhiteSpace(PatientName) || healthcond.PatientCard.Patient.Fullname.Value.Contains(PatientName)) &&
+				(!CreationDateFrom.HasValue || healthcond.CreatedAt >= CreationDateFrom.Value) &&
+				(!CreationDateTo.HasValue || healthcond.CreatedAt <= CreationDateTo.Value);
+		}
+	}
 }

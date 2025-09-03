@@ -1,7 +1,7 @@
 ﻿namespace WebApi.DTO.UserDTO
 {
-    public record UserUpdateRequest(
-        string? Username,
-        string? Email,
-        string? Password);
+	public record UserUpdateRequest(
+		string? Username,
+		string? Email,
+		string? Password);
 }

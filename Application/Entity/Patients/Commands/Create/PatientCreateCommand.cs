@@ -2,4 +2,4 @@
 
 namespace Application.Entity.Patients.Commands.Create;
 public sealed record PatientCreateCommand(
-    string FullName) : ICommand<Guid>;
+	string FullName) : ICommand<Guid>;

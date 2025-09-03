@@ -1,6 +1,5 @@
 ﻿using Domain.Errors;
 using Domain.Shared;
-using System.Reflection;
 
 namespace Domain.Entity
 {

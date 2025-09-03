@@ -2,8 +2,8 @@
 
 namespace Application.Abstractions
 {
-    public interface IJwtProvider
-    {
-        string Generate(User user);
-    }
+	public interface IJwtProvider
+	{
+		string Generate(User user);
+	}
 }

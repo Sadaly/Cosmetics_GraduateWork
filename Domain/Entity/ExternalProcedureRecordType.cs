@@ -3,16 +3,16 @@ using Domain.Shared;
 using Domain.ValueObjects;
 namespace Domain.Entity
 {
-    public class ExternalProcedureRecordType : TypeEntity
-    {
-        private ExternalProcedureRecordType(Guid id) : base(id) { }
-        private ExternalProcedureRecordType(Guid id, Title title) : base(id, title)
-        {
-        }
-        public static Result<ExternalProcedureRecordType> Create(Result<Title> title)
-        {
-            if (title.IsFailure) return Result.Failure<ExternalProcedureRecordType>(title);
-            return new ExternalProcedureRecordType(Guid.NewGuid(), title.Value);
-        }
-    }
+	public class ExternalProcedureRecordType : TypeEntity
+	{
+		private ExternalProcedureRecordType(Guid id) : base(id) { }
+		private ExternalProcedureRecordType(Guid id, Title title) : base(id, title)
+		{
+		}
+		public static Result<ExternalProcedureRecordType> Create(Result<Title> title)
+		{
+			if (title.IsFailure) return Result.Failure<ExternalProcedureRecordType>(title);
+			return new ExternalProcedureRecordType(Guid.NewGuid(), title.Value);
+		}
+	}
 }

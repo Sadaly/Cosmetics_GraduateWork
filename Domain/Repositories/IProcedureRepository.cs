@@ -3,7 +3,7 @@ using Domain.Entity;
 
 namespace Domain.Repositories
 {
-    public interface IProcedureRepository : IRepository<Procedure>
-    {
-    }
+	public interface IProcedureRepository : IRepository<Procedure>
+	{
+	}
 }

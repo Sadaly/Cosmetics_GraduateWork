@@ -4,36 +4,36 @@ using Domain.ValueObjects;
 
 namespace Domain.Entity
 {
-    public class Patient : BaseEntity
-    {
-        private Patient(Guid id) : base(id) { }
-        private Patient(Guid id, Username fullname) : base(id)
-        {
-            Fullname = fullname;
-        }
-        public Username Fullname { get; set; } = null!;
+	public class Patient : BaseEntity
+	{
+		private Patient(Guid id) : base(id) { }
+		private Patient(Guid id, Username fullname) : base(id)
+		{
+			Fullname = fullname;
+		}
+		public Username Fullname { get; set; } = null!;
 
-        public virtual PatientCard Card { get; set; } = null!;
-        public static Result<Patient> Create(Result<Username> fullname)
-        {
-            if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
+		public virtual PatientCard Card { get; set; } = null!;
+		public static Result<Patient> Create(Result<Username> fullname)
+		{
+			if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
 
-            var _id = Guid.NewGuid();
-            var patient = new Patient(_id, fullname.Value);
+			var _id = Guid.NewGuid();
+			var patient = new Patient(_id, fullname.Value);
 
-            var card = PatientCard.Create(0, Text.CreateDefault(), Text.CreateDefault(), PhoneNumber.CreateDefault(), patient);
-            if (card.IsFailure) return Result.Failure<Patient>(card.Error);
+			var card = PatientCard.Create(0, Text.CreateDefault(), Text.CreateDefault(), PhoneNumber.CreateDefault(), patient);
+			if (card.IsFailure) return Result.Failure<Patient>(card.Error);
 
-            patient.Card = card.Value;
+			patient.Card = card.Value;
 
-            return patient;
-        }
-        public Result<Patient> UpdateFullname(Result<Username> fullname)
-        {
-            if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
-            if (fullname.Value == Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
-            Fullname = fullname.Value;
-            return this;
-        }
-    }
+			return patient;
+		}
+		public Result<Patient> UpdateFullname(Result<Username> fullname)
+		{
+			if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
+			if (fullname.Value == Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
+			Fullname = fullname.Value;
+			return this;
+		}
+	}
 }

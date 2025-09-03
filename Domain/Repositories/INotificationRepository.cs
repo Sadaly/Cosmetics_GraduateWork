@@ -3,7 +3,7 @@ using Domain.Entity;
 
 namespace Domain.Repositories
 {
-    public interface INotificationRepository : IRepository<Notification>
-    {
-    }
+	public interface INotificationRepository : IRepository<Notification>
+	{
+	}
 }

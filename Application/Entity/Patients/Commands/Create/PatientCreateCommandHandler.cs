@@ -7,22 +7,22 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Patients.Commands.Create
 {
-    internal class PatientCreateCommandHandler(IPatientRepository patientRepository, IUnitOfWork unitOfWork, IPatientCardRepository patientCardRepository) : ICommandHandler<PatientCreateCommand, Guid>
-    {
-        public async Task<Result<Guid>> Handle(PatientCreateCommand request, CancellationToken cancellationToken)
-        {
-            var fullname = Username.Create(request.FullName);
-            var patient = Patient.Create(fullname);
+	internal class PatientCreateCommandHandler(IPatientRepository patientRepository, IUnitOfWork unitOfWork, IPatientCardRepository patientCardRepository) : ICommandHandler<PatientCreateCommand, Guid>
+	{
+		public async Task<Result<Guid>> Handle(PatientCreateCommand request, CancellationToken cancellationToken)
+		{
+			var fullname = Username.Create(request.FullName);
+			var patient = Patient.Create(fullname);
 
-            var addp = await patientRepository.AddAsync(patient, cancellationToken);
-            if (addp.IsFailure) return Result.Failure<Guid>(addp.Error);
+			var addp = await patientRepository.AddAsync(patient, cancellationToken);
+			if (addp.IsFailure) return Result.Failure<Guid>(addp.Error);
 
-            var addpc = await patientCardRepository.AddAsync(patient.Value.Card, cancellationToken);
-            var save = await unitOfWork.SaveChangesAsync(addpc, cancellationToken);
+			var addpc = await patientCardRepository.AddAsync(patient.Value.Card, cancellationToken);
+			var save = await unitOfWork.SaveChangesAsync(addpc, cancellationToken);
 
-            return save.IsSuccess
-                ? addp.Value.Id
-                : Result.Failure<Guid>(save.Error);
-        }
-    }
+			return save.IsSuccess
+				? addp.Value.Id
+				: Result.Failure<Guid>(save.Error);
+		}
+	}
 }

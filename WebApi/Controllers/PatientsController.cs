@@ -14,51 +14,51 @@ using WebApi.Policies;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class PatientsController(ISender sender) : ApiController(sender)
-    {
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPost]
-        public async Task<IActionResult> Create(
-            [FromBody] PatientCreateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+	[Route("api/[controller]")]
+	public class PatientsController(ISender sender) : ApiController(sender)
+	{
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPost]
+		public async Task<IActionResult> Create(
+			[FromBody] PatientCreateCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update(
-            [FromBody] PatientUpdateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut("Update")]
+		public async Task<IActionResult> Update(
+			[FromBody] PatientUpdateCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] PatientFilter filter,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("All")]
+		public async Task<IActionResult> GetAll(
+			[FromQuery] PatientFilter filter,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("{patientId:guid}")]
-        public async Task<IActionResult> Get(
-            Guid patientId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("{patientId:guid}")]
+		public async Task<IActionResult> Get(
+			Guid patientId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("Take")]
-        public async Task<IActionResult> Take(
-            [FromQuery] PatientFilter filter,
-            int StartIndex,
-            int Count,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("Take")]
+		public async Task<IActionResult> Take(
+			[FromQuery] PatientFilter filter,
+			int StartIndex,
+			int Count,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientGetAllQuery(PatientQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete("{patientId:guid}")]
-        public async Task<IActionResult> RemoveById(
-            Guid patientId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientSoftDeleteCommand(patientId), cancellationToken)).ToActionResult();
-    }
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpDelete("{patientId:guid}")]
+		public async Task<IActionResult> RemoveById(
+			Guid patientId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientSoftDeleteCommand(patientId), cancellationToken)).ToActionResult();
+	}
 }

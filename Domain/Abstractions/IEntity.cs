@@ -1,7 +1,7 @@
 ﻿namespace Domain.Abstractions
 {
-    internal interface IEntity
-    {
+	internal interface IEntity
+	{
 
-    }
+	}
 }

@@ -6,21 +6,21 @@ using Domain.ValueObjects;
 
 namespace Application.Entity.Notifications.Commands.UpdatePhoneNumber
 {
-    internal class NotificationUpdatePhoneNumberCommandHandler(INotificationRepository notificationRepository, IUnitOfWork unitOfWork) : ICommandHandler<NotificationUpdatePhoneNumberCommand, Guid>
-    {
-        public async Task<Result<Guid>> Handle(NotificationUpdatePhoneNumberCommand request, CancellationToken cancellationToken)
-        {
-            var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
-            var notification = await notificationRepository.GetByIdAsync(request.NotificationId, cancellationToken);
-            if (notification.IsFailure) return Result.Failure<Guid>(notification.Error);
+	internal class NotificationUpdatePhoneNumberCommandHandler(INotificationRepository notificationRepository, IUnitOfWork unitOfWork) : ICommandHandler<NotificationUpdatePhoneNumberCommand, Guid>
+	{
+		public async Task<Result<Guid>> Handle(NotificationUpdatePhoneNumberCommand request, CancellationToken cancellationToken)
+		{
+			var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
+			var notification = await notificationRepository.GetByIdAsync(request.NotificationId, cancellationToken);
+			if (notification.IsFailure) return Result.Failure<Guid>(notification.Error);
 
-            var update = notification.Value.UpdatePhoneNumber(phoneNumber);
-            var add = await notificationRepository.UpdateAsync(update, cancellationToken);
-            var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
+			var update = notification.Value.UpdatePhoneNumber(phoneNumber);
+			var add = await notificationRepository.UpdateAsync(update, cancellationToken);
+			var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 
-            return save.IsSuccess
-                ? save.Value.Id
-                : Result.Failure<Guid>(save.Error);
-        }
-    }
+			return save.IsSuccess
+				? save.Value.Id
+				: Result.Failure<Guid>(save.Error);
+		}
+	}
 }

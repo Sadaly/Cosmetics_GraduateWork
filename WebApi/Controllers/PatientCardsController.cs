@@ -12,38 +12,38 @@ using WebApi.Policies;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class PatientCardsController(ISender sender) : ApiController(sender)
-    {
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPut]
-        public async Task<IActionResult> Update(
-            [FromBody] PatientCardUpdateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+	[Route("api/[controller]")]
+	public class PatientCardsController(ISender sender) : ApiController(sender)
+	{
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut]
+		public async Task<IActionResult> Update(
+			[FromBody] PatientCardUpdateCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] PatientCardFilter filter,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientCardGetAllQuery(PatientCardQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("All")]
+		public async Task<IActionResult> GetAll(
+			[FromQuery] PatientCardFilter filter,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientCardGetAllQuery(PatientCardQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("Take")]
-        public async Task<IActionResult> Take(
-            [FromQuery] PatientCardFilter filter,
-            int StartIndex,
-            int Count,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientCardGetAllQuery(PatientCardQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("Take")]
+		public async Task<IActionResult> Take(
+			[FromQuery] PatientCardFilter filter,
+			int StartIndex,
+			int Count,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientCardGetAllQuery(PatientCardQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("{patientcardId:guid}")]
-        public async Task<IActionResult> Get(
-            Guid patientcardId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new PatientCardGetQuery(PatientCardQueries.GetById(patientcardId)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("{patientcardId:guid}")]
+		public async Task<IActionResult> Get(
+			Guid patientcardId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientCardGetQuery(PatientCardQueries.GetById(patientcardId)), cancellationToken)).ToActionResult();
 
-    }
+	}
 }

@@ -3,7 +3,7 @@ using Domain.Entity;
 
 namespace Domain.Repositories
 {
-    public interface IExternalProcedureRecordTypeRepository : IRepository<ExternalProcedureRecordType>
-    {
-    }
+	public interface IExternalProcedureRecordTypeRepository : IRepository<ExternalProcedureRecordType>
+	{
+	}
 }

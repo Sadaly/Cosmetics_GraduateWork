@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Application.Entity.Patients.Queries
 {
-    public sealed record PatientQueries(Expression<Func<Patient, bool>> Predicate) : EntityQueries<Patient>(Predicate)
-    {
-    }
+	public sealed record PatientQueries(Expression<Func<Patient, bool>> Predicate) : EntityQueries<Patient>(Predicate)
+	{
+	}
 }

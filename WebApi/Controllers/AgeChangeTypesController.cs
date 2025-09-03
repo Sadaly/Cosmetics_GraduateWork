@@ -14,51 +14,51 @@ using WebApi.Policies;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class AgeChangeTypesController(ISender sender) : ApiController(sender)
-    {
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPost]
-        public async Task<IActionResult> Create(
-            [FromBody] AgeChangeTypeCreateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpPut]
-        public async Task<IActionResult> Update(
-            [FromBody] AgeChangeTypeUpdateCommand command,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(command, cancellationToken)).ToActionResult();
+	[Route("api/[controller]")]
+	public class AgeChangeTypesController(ISender sender) : ApiController(sender)
+	{
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPost]
+		public async Task<IActionResult> Create(
+			[FromBody] AgeChangeTypeCreateCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut]
+		public async Task<IActionResult> Update(
+			[FromBody] AgeChangeTypeUpdateCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpDelete("{ageChangeTypeId:guid}")]
-        public async Task<IActionResult> RemoveById(
-            Guid ageChangeTypeId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeSoftDeleteCommand(ageChangeTypeId), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpDelete("{ageChangeTypeId:guid}")]
+		public async Task<IActionResult> RemoveById(
+			Guid ageChangeTypeId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new AgeChangeTypeSoftDeleteCommand(ageChangeTypeId), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] AgeChangeTypeFilter filter,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("All")]
+		public async Task<IActionResult> GetAll(
+			[FromQuery] AgeChangeTypeFilter filter,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter)), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("Take")]
-        public async Task<IActionResult> Take(
-            [FromQuery] AgeChangeTypeFilter filter,
-            int StartIndex,
-            int Count,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("Take")]
+		public async Task<IActionResult> Take(
+			[FromQuery] AgeChangeTypeFilter filter,
+			int StartIndex,
+			int Count,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new AgeChangeTypeGetAllQuery(AgeChangeTypeQueries.GetByFilter(filter), StartIndex, Count), cancellationToken)).ToActionResult();
 
-        [Authorize(Policy = AuthorizePolicy.UserOnly)]
-        [HttpGet("{ageChangeTypeId:guid}")]
-        public async Task<IActionResult> Get(
-            Guid ageChangeTypeId,
-            CancellationToken cancellationToken)
-            => (await Sender.Send(new AgeChangeTypeGetQuery(AgeChangeTypeQueries.GetById(ageChangeTypeId)), cancellationToken)).ToActionResult();
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("{ageChangeTypeId:guid}")]
+		public async Task<IActionResult> Get(
+			Guid ageChangeTypeId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new AgeChangeTypeGetQuery(AgeChangeTypeQueries.GetById(ageChangeTypeId)), cancellationToken)).ToActionResult();
 
-    }
+	}
 }
