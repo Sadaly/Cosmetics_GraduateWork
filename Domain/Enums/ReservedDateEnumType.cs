@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-	public enum ReservedDateType
+	public enum ReservedDateEnumType
 	{
 		None,
 		TimeRestrict,

@@ -155,12 +155,12 @@ namespace Application.UnitTests.TheoryData
 			{ new string('a', Text.MAX_LENGTH), new string('a', Text.MAX_LENGTH), new string('1', PhoneNumber.MIN_LENGTH) },
 		};
 
-		public static TheoryData<ReservedDateType> ValidReservedDateTypeCreationTestCases = new()
+		public static TheoryData<ReservedDateEnumType> ValidReservedDateTypeCreationTestCases = new()
 		{
-			{ ReservedDateType.None },
-			{ ReservedDateType.TimeRestrict },
-			{ ReservedDateType.HolidayRestrict },
-			{ ReservedDateType.DayOfWeekRestrict },
+			{ ReservedDateEnumType.None },
+			{ ReservedDateEnumType.TimeRestrict },
+			{ ReservedDateEnumType.HolidayRestrict },
+			{ ReservedDateEnumType.DayOfWeekRestrict },
 		};
 
 		public static TheoryData<string, string, string, string> ValidPatientSpecificsesUpdateTestCases = new()

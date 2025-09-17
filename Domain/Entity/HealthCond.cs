@@ -19,8 +19,8 @@ namespace Domain.Entity
 
 		public static Result<HealthCond> Create(Result<PatientCard> patientCard, Result<HealthCondType> type)
 		{
-			if (patientCard.IsFailure) return Result.Failure<HealthCond>(patientCard);
-			if (type.IsFailure) return Result.Failure<HealthCond>(type);
+			if (patientCard.IsFailure) return patientCard.Error;
+			if (type.IsFailure) return type.Error;
 
 			return new HealthCond(Guid.NewGuid(), patientCard.Value, type.Value);
 		}

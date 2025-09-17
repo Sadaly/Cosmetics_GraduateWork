@@ -1,4 +1,6 @@
-﻿namespace Domain.Shared
+﻿using Domain.Common;
+
+namespace Domain.Shared
 {
 	/// <summary>
 	/// Класс для представления результата операции.
@@ -101,5 +103,7 @@
 		/// <param name="value">Значение.</param>
 		/// <returns>Результат с значением или ошибкой.</returns>
 		public static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+
+		public static implicit operator Result(Error error) => Failure(error);
 	}
 }

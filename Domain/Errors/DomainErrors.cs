@@ -1,8 +1,25 @@
 ﻿using Domain.Shared;
+
 namespace Domain.Errors
 {
 	public static class DomainErrors
 	{
+		public static class Resource
+		{
+			public static readonly Error AmountAddZero = new(
+				"Resource.AmountAddZero",
+				"Операция не имеет смысла. Нельзя добавить 0 ресурсов");
+			public static readonly Error AmountAddOverflow = new(
+				"Resource.AmountAddOverflow",
+				$"Невозможно добавить данное количество ресурсов из-за ограничений программы. Максимально допустимое значение {uint.MaxValue}." +
+				$"Если вам нужно превысить лимит, создайте копию ресурса с уникальным названием");
+			public static readonly Error AmountTakeMoreThenHave = new(
+				"Resource.AmountTakeMoreThenHave",
+				"Желаемое количество больше имеющегося");
+			public static readonly Error AmountTakeZero = new(
+				"Resource.AmountTakeZero",
+				"Операция не имеет смысла. Нельзя взять 0 ресурсов");
+		}
 		public static class SessionToken
 		{
 			public static readonly Error ExpirationDateTimeLessThenCurrentDateTime = new(

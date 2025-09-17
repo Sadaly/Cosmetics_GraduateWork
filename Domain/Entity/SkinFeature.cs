@@ -19,8 +19,8 @@ namespace Domain.Entity
 
 		public static Result<SkinFeature> Create(Result<PatientCard> patientCard, Result<SkinFeatureType> type)
 		{
-			if (patientCard.IsFailure) return Result.Failure<SkinFeature>(patientCard);
-			if (type.IsFailure) return Result.Failure<SkinFeature>(type);
+			if (patientCard.IsFailure) return patientCard.Error;
+			if (type.IsFailure) return type.Error;
 
 			return new SkinFeature(Guid.NewGuid(), patientCard.Value, type.Value);
 		}

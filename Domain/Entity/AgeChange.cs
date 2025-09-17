@@ -25,8 +25,8 @@ namespace Domain.Entity
 
 		public static Result<AgeChange> Create(Result<PatientCard> patientCard, Result<AgeChangeType> type)
 		{
-			if (patientCard.IsFailure) return Result.Failure<AgeChange>(patientCard);
-			if (type.IsFailure) return Result.Failure<AgeChange>(type);
+			if (patientCard.IsFailure) return patientCard.Error;
+			if (type.IsFailure) return type.Error;
 
 			return new AgeChange(Guid.NewGuid(), patientCard.Value, type.Value);
 		}

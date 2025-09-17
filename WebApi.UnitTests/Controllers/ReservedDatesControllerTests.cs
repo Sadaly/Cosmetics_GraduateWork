@@ -27,7 +27,7 @@ namespace WebApi.UnitTests.Controllers
 		public ReservedDatesControllerTests()
 		{
 			_id = Guid.NewGuid();
-			_response = new(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateType.None);
+			_response = new(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateEnumType.None);
 			_filter = new() { Type = "None" };
 			_sender = Substitute.For<ISender>();
 
@@ -44,7 +44,7 @@ namespace WebApi.UnitTests.Controllers
 		public async Task Should_ReturnOkResult_WhenCreateCommandSucceeds()
 		{
 			// Arrange
-			var command = new ReservedDateCreateCommand(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateType.None);
+			var command = new ReservedDateCreateCommand(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateEnumType.None);
 
 			_sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -61,7 +61,7 @@ namespace WebApi.UnitTests.Controllers
 		public async Task Should_ReturnBadRequest_WhenCreateCommandFails()
 		{
 			// Arrange
-			var command = new ReservedDateCreateCommand(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateType.None);
+			var command = new ReservedDateCreateCommand(DateTime.UtcNow, DateTime.UtcNow.AddDays(1), Domain.Enums.ReservedDateEnumType.None);
 			var error = new Error("Code", "Message");
 
 			_sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));

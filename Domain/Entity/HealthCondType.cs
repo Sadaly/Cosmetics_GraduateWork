@@ -12,7 +12,7 @@ namespace Domain.Entity
 		}
 		public static Result<HealthCondType> Create(Result<Title> title)
 		{
-			if (title.IsFailure) return Result.Failure<HealthCondType>(title);
+			if (title.IsFailure) return title.Error;
 			return new HealthCondType(Guid.NewGuid(), title.Value);
 		}
 	}

@@ -12,7 +12,7 @@ namespace Domain.Entity
 		}
 		public static Result<SkinFeatureType> Create(Result<Title> title)
 		{
-			if (title.IsFailure) return Result.Failure<SkinFeatureType>(title);
+			if (title.IsFailure) return title.Error;
 			return new SkinFeatureType(Guid.NewGuid(), title.Value);
 		}
 	}

@@ -44,17 +44,17 @@ namespace Domain.Entity
 		{
 			if (user.IsFailure) return Result.Failure<SessionToken>(user.Error);
 
-			if (expirationType == ExpirationType.Unlimited && expirationValue != null) return Result.Failure<SessionToken>(DomainErrors.SessionToken.ExpirationParametersIncorrectWhenNull);
-			if (expirationType != ExpirationType.Unlimited && expirationValue == null) return Result.Failure<SessionToken>(DomainErrors.SessionToken.ExpirationParametersIncorrectWhenNull);
+			if (expirationType == ExpirationType.Unlimited && expirationValue != null) return DomainErrors.SessionToken.ExpirationParametersIncorrectWhenNull;
+			if (expirationType != ExpirationType.Unlimited && expirationValue == null) return DomainErrors.SessionToken.ExpirationParametersIncorrectWhenNull;
 			if (expirationType == ExpirationType.Unlimited && expirationValue == null) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value);
 
-			if (expirationType == ExpirationType.Minutes) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddMinutes(expirationValue!.Value));
-			if (expirationType == ExpirationType.Hours) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddHours(expirationValue!.Value));
-			if (expirationType == ExpirationType.Days) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddDays(expirationValue!.Value));
-			if (expirationType == ExpirationType.Months) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddMonths(expirationValue!.Value));
-			if (expirationType == ExpirationType.Years) return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddYears(expirationValue!.Value));
+			if (expirationType == ExpirationType.Minutes)	return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddMinutes(expirationValue!.Value));
+			if (expirationType == ExpirationType.Hours)		return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddHours(expirationValue!.Value));
+			if (expirationType == ExpirationType.Days)		return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddDays(expirationValue!.Value));
+			if (expirationType == ExpirationType.Months)	return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddMonths(expirationValue!.Value));
+			if (expirationType == ExpirationType.Years)		return new SessionToken(Guid.NewGuid(), user.Value.Id, user.Value.Username.Value, DateTime.UtcNow.AddYears(expirationValue!.Value));
 
-			return Result.Failure<SessionToken>(DomainErrors.SessionToken.BigError);
+			return DomainErrors.SessionToken.BigError;
 		}
 	}
 }

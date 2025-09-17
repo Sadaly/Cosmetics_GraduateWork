@@ -24,8 +24,8 @@ namespace Application.UnitTests.Entities.ReservedDates.Queries
 		public ReservedDateGetAllQueryTests()
 		{
 			_repository = Substitute.For<IReservedDateRepository>();
-			_reserveddate1 = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateType.HolidayRestrict).Value;
-			_reserveddate2 = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateType.DayOfWeekRestrict).Value;
+			_reserveddate1 = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateEnumType.HolidayRestrict).Value;
+			_reserveddate2 = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateEnumType.DayOfWeekRestrict).Value;
 			_filter = new ReservedDateFilter();
 			_handler = new ReservedDateGetAllQueryHandler(_repository);
 

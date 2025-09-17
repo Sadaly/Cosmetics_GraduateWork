@@ -29,25 +29,25 @@ namespace Domain.Entity
 
 		public static Result<Notification> Create(Result<Procedure> procedure, Result<Text> message, DateTime sendingDate, Result<PhoneNumber> phoneNumber)
 		{
-			if (procedure.IsFailure) return Result.Failure<Notification>(procedure);
-			if (phoneNumber.IsFailure) return Result.Failure<Notification>(phoneNumber);
-			if (message.IsFailure) return Result.Failure<Notification>(message);
-			if (procedure.Value.ScheduledDate == null) return Result.Failure<Notification>(DomainErrors.Notification.ProcedureNotScheduled);
-			if (sendingDate > procedure.Value.ScheduledDate) return Result.Failure<Notification>(DomainErrors.Notification.Late);
+			if (procedure.IsFailure) return procedure.Error;
+			if (phoneNumber.IsFailure) return phoneNumber.Error;
+			if (message.IsFailure) return message.Error;
+			if (procedure.Value.ScheduledDate == null) return DomainErrors.Notification.ProcedureNotScheduled;
+			if (sendingDate > procedure.Value.ScheduledDate) return DomainErrors.Notification.Late;
 
 			return new Notification(Guid.NewGuid(), procedure.Value, message.Value, phoneNumber.Value, sendingDate);
 		}
 
 		public Result<Notification> UpdateMessage(Result<Text> message)
 		{
-			if (message.IsFailure) return Result.Failure<Notification>(message.Error);
+			if (message.IsFailure) return message.Error;
 			Message = message.Value;
 			return this;
 		}
 
 		public Result<Notification> UpdatePhoneNumber(Result<PhoneNumber> phoneNumber)
 		{
-			if (phoneNumber.IsFailure) return Result.Failure<Notification>(phoneNumber.Error);
+			if (phoneNumber.IsFailure) return phoneNumber.Error;
 			PhoneNumber = phoneNumber.Value;
 			return this;
 		}

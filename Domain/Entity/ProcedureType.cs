@@ -15,10 +15,12 @@ namespace Domain.Entity
 		}
 		public int StandartDuration { get; set; }
 		public string Description { get; set; } = string.Empty;
+		public List<ProcedureTypeResourceType> ResourceTypes { get; } = [];
+
 		public static Result<ProcedureType> Create(Result<Title> title, string description, int standartDuration)
 		{
-			if (title.IsFailure) return Result.Failure<ProcedureType>(title);
-			if (standartDuration < 0) return Result.Failure<ProcedureType>(DomainErrors.Procedure.DurationLessThenZero);
+			if (title.IsFailure) return title.Error;
+			if (standartDuration < 0) return DomainErrors.Procedure.DurationLessThenZero;
 			return new ProcedureType(Guid.NewGuid(), title.Value, description, standartDuration);
 		}
 		public Result<ProcedureType> UpdateDescription(string descr)

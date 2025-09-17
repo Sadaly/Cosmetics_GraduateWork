@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-	public enum SourceTypes
+	public enum SourceEnumType
 	{
 		None = 0,
 		Server = 1,

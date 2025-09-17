@@ -22,7 +22,7 @@ namespace Application.UnitTests.Entities.ReservedDates.Commands
 		{
 			_repository = Substitute.For<IReservedDateRepository>();
 			_unitOfWork = Substitute.For<IUnitOfWork>();
-			_reserveddate = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateType.None).Value;
+			_reserveddate = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateEnumType.None).Value;
 
 			_handler = new ReservedDateSoftDeleteCommandHandler(_repository, _unitOfWork);
 

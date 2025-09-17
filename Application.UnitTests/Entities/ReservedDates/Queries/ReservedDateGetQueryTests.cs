@@ -23,7 +23,7 @@ namespace Application.UnitTests.Entities.ReservedDates.Queries
 		public ReservedDateGetQueryTests()
 		{
 			_repository = Substitute.For<IReservedDateRepository>();
-			_reserveddate = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateType.None).Value;
+			_reserveddate = ReservedDate.Create(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1), ReservedDateEnumType.None).Value;
 			_filter = new ReservedDateFilter();
 			_handler = new ReservedDateGetQueryHandler(_repository);
 

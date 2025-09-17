@@ -38,19 +38,19 @@ namespace Domain.Entity
 
 		public static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
 		{
-			if (adress.IsFailure) return Result.Failure<PatientCard>(adress.Error);
-			if (patient.IsFailure) return Result.Failure<PatientCard>(patient.Error);
-			if (complaints.IsFailure) return Result.Failure<PatientCard>(complaints.Error);
-			if (phoneNumber.IsFailure) return Result.Failure<PatientCard>(phoneNumber.Error);
+			if (adress.IsFailure) return adress.Error;
+			if (patient.IsFailure) return patient.Error;
+			if (complaints.IsFailure) return complaints.Error;
+			if (phoneNumber.IsFailure) return phoneNumber.Error;
 			var id = Guid.NewGuid();
 			return new PatientCard(id, age, adress.Value, complaints.Value, phoneNumber.Value, patient.Value);
 		}
 
 		public Result<PatientCard> Update(byte? age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber)
 		{
-			if (adress.IsFailure) return Result.Failure<PatientCard>(adress.Error);
-			if (complaints.IsFailure) return Result.Failure<PatientCard>(complaints.Error);
-			if (phoneNumber.IsFailure) return Result.Failure<PatientCard>(phoneNumber.Error);
+			if (adress.IsFailure) return adress.Error;
+			if (complaints.IsFailure) return complaints.Error;
+			if (phoneNumber.IsFailure) return phoneNumber.Error;
 
 			if (age != null) Age = age.Value;
 			if (adress.Value.Value != Text.DEFAULT_VALUE) Adress = adress.Value;

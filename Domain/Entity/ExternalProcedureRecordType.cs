@@ -11,7 +11,7 @@ namespace Domain.Entity
 		}
 		public static Result<ExternalProcedureRecordType> Create(Result<Title> title)
 		{
-			if (title.IsFailure) return Result.Failure<ExternalProcedureRecordType>(title);
+			if (title.IsFailure) return title.Error;
 			return new ExternalProcedureRecordType(Guid.NewGuid(), title.Value);
 		}
 	}

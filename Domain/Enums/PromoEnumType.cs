@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-	public enum PromoTypes
+	public enum PromoEnumType
 	{
 		None = 0,
 		WelcomeDiscount,

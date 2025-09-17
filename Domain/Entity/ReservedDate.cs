@@ -8,7 +8,7 @@ namespace Domain.Entity
 	public class ReservedDate : BaseEntity
 	{
 		private ReservedDate(Guid id) : base(id) { }
-		private ReservedDate(Guid id, DateTime startDate, DateTime endDate, ReservedDateType type) : base(id)
+		private ReservedDate(Guid id, DateTime startDate, DateTime endDate, ReservedDateEnumType type) : base(id)
 		{
 			StartDate = startDate;
 			EndDate = endDate;
@@ -24,8 +24,8 @@ namespace Domain.Entity
 		public int StartDateHour => StartDate.Hour;
 		[NotMapped]
 		public int EndDateHour => EndDate.Hour;
-		public ReservedDateType Type { get; set; }
-		public static Result<ReservedDate> Create(DateTime StartDate, DateTime EndDate, ReservedDateType Type)
+		public ReservedDateEnumType Type { get; set; }
+		public static Result<ReservedDate> Create(DateTime StartDate, DateTime EndDate, ReservedDateEnumType Type)
 		{
 			return new ReservedDate(Guid.NewGuid(), StartDate, EndDate, Type);
 		}

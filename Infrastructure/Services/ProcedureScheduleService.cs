@@ -30,7 +30,7 @@ namespace Infrastructure.Services
 			//т.к. ИП само решает в какие дни работать), представляет единовременно резервированную дату
 			var rd = await reservedDateRepository.GetByPredicateAsync(
 				x =>
-				x.Type == Domain.Enums.ReservedDateType.HolidayRestrict
+				x.Type == Domain.Enums.ReservedDateEnumType.HolidayRestrict
 				&& ((x.StartDate < EndDate && x.StartDate > StartDate)
 				|| (x.EndDate < EndDate && x.EndDate > StartDate)
 				|| (x.StartDate <= StartDate && x.EndDate >= EndDate)),
@@ -41,7 +41,7 @@ namespace Infrastructure.Services
 			//циклическая, представляет собой ежедневное ограничение по времени, например: рабочие часы.
 			rd = await reservedDateRepository.GetByPredicateAsync(
 				x =>
-				x.Type == Domain.Enums.ReservedDateType.TimeRestrict
+				x.Type == Domain.Enums.ReservedDateEnumType.TimeRestrict
 				&& ((x.StartDate.TimeOfDay < EndDate.TimeOfDay && x.StartDate.TimeOfDay > StartDate.TimeOfDay)
 				|| (x.EndDate.TimeOfDay < EndDate.TimeOfDay && x.EndDate.TimeOfDay > StartDate.TimeOfDay)
 				|| (x.StartDate.TimeOfDay <= StartDate.TimeOfDay && x.EndDate.TimeOfDay >= EndDate.TimeOfDay)),
@@ -52,7 +52,7 @@ namespace Infrastructure.Services
 			//циклическая, представляет собой еженедельные ограничение по времени, например: рабочие дни.
 			rd = await reservedDateRepository.GetByPredicateAsync(
 				x =>
-				x.Type == Domain.Enums.ReservedDateType.DayOfWeekRestrict
+				x.Type == Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict
 				&& ((x.StartDate.DayOfWeek < EndDate.DayOfWeek && x.StartDate.DayOfWeek > StartDate.DayOfWeek)
 				|| (x.EndDate.DayOfWeek < EndDate.DayOfWeek && x.EndDate.DayOfWeek > StartDate.DayOfWeek)
 				|| (x.StartDate.DayOfWeek <= StartDate.DayOfWeek && x.EndDate.DayOfWeek >= EndDate.DayOfWeek)),

@@ -12,7 +12,7 @@ namespace Domain.Entity
 		}
 		public static Result<AgeChangeType> Create(Result<Title> title)
 		{
-			if (title.IsFailure) return Result.Failure<AgeChangeType>(title);
+			if (title.IsFailure) return title.Error;
 			return new AgeChangeType(Guid.NewGuid(), title.Value);
 		}
 	}

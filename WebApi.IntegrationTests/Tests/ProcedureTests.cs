@@ -210,7 +210,7 @@ namespace WebApi.IntegrationTests.Tests
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
-			await Sender.Send(new ReservedDateCreateCommand(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateType.DayOfWeekRestrict));
+			await Sender.Send(new ReservedDateCreateCommand(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict));
 
 			//Act
 			var updateDate = new ProcedureUpdateDateCommand(id.Value, DateTime.UtcNow.AddDays(1), 30);

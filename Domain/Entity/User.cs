@@ -21,9 +21,9 @@ namespace Domain.Entity
 
 		public static Result<User> Create(Result<Email> email, Result<Username> username, Result<PasswordHashed> passwordHashed)
 		{
-			if (email.IsFailure) return Result.Failure<User>(email.Error);
-			if (username.IsFailure) return Result.Failure<User>(username.Error);
-			if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
+			if (email.IsFailure) return email.Error;
+			if (username.IsFailure) return username.Error;
+			if (passwordHashed.IsFailure) return passwordHashed.Error;
 			var _id = Guid.NewGuid();
 
 			return new User(_id, email.Value, username.Value, passwordHashed.Value);
@@ -31,22 +31,22 @@ namespace Domain.Entity
 
 		public Result<User> UpdateEmail(Result<Email> email)
 		{
-			if (email.IsFailure) return Result.Failure<User>(email.Error);
-			if (email.Value == Email) return Result.Failure<User>(Domain.Errors.DomainErrors.Email.AlreadySet);
+			if (email.IsFailure) return email.Error;
+			if (email.Value == Email) return Domain.Errors.DomainErrors.Email.AlreadySet;
 			Email = email.Value;
 			return this;
 		}
 		public Result<User> UpdateUsername(Result<Username> username)
 		{
-			if (username.IsFailure) return Result.Failure<User>(username.Error);
-			if (username.Value == Username) return Result.Failure<User>(Domain.Errors.DomainErrors.Username.AlreadySet);
+			if (username.IsFailure) return username.Error;
+			if (username.Value == Username) return Domain.Errors.DomainErrors.Username.AlreadySet;
 			Username = username.Value;
 			return this;
 		}
 		public Result<User> UpdatePassword(Result<PasswordHashed> passwordHashed)
 		{
-			if (passwordHashed.IsFailure) return Result.Failure<User>(passwordHashed.Error);
-			if (passwordHashed.Value == PasswordHashed) return Result.Failure<User>(Domain.Errors.DomainErrors.PasswordHashed.AlreadySet);
+			if (passwordHashed.IsFailure) return passwordHashed.Error;
+			if (passwordHashed.Value == PasswordHashed) return Domain.Errors.DomainErrors.PasswordHashed.AlreadySet;
 			PasswordHashed = passwordHashed.Value;
 			return this;
 		}

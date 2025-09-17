@@ -14,9 +14,9 @@ namespace WebApi.IntegrationTests.Tests
 		private readonly ReservedDateCreateCommand create2;
 		public ReservedDateTests(IntegrationTestWebAppFactory factory) : base(factory)
 		{
-			create = new(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateType.HolidayRestrict);
-			create1 = new(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateType.DayOfWeekRestrict);
-			create2 = new(DateTime.UtcNow.AddDays(2), DateTime.UtcNow.AddDays(3), Domain.Enums.ReservedDateType.DayOfWeekRestrict);
+			create = new(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateEnumType.HolidayRestrict);
+			create1 = new(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2), Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict);
+			create2 = new(DateTime.UtcNow.AddDays(2), DateTime.UtcNow.AddDays(3), Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict);
 		}
 
 		[Fact]

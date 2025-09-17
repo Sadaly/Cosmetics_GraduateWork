@@ -19,13 +19,13 @@ namespace Domain.Entity
 
 		public static Result<Doctor> Create(Result<Username> fullname)
 		{
-			if (fullname.IsFailure) return Result.Failure<Doctor>(fullname.Error);
+			if (fullname.IsFailure) return fullname.Error;
 			return new Doctor(Guid.NewGuid(), fullname.Value);
 		}
 
 		public Result<Doctor> Update(Result<Username> name)
 		{
-			if (name.IsFailure) return Result.Failure<Doctor>(name.Error);
+			if (name.IsFailure) return name.Error;
 			Fullname = name.Value;
 			return this;
 		}

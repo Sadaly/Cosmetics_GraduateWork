@@ -16,13 +16,13 @@ namespace Domain.Entity
 		public virtual PatientCard Card { get; set; } = null!;
 		public static Result<Patient> Create(Result<Username> fullname)
 		{
-			if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
+			if (fullname.IsFailure) return fullname.Error;
 
 			var _id = Guid.NewGuid();
 			var patient = new Patient(_id, fullname.Value);
 
 			var card = PatientCard.Create(0, Text.CreateDefault(), Text.CreateDefault(), PhoneNumber.CreateDefault(), patient);
-			if (card.IsFailure) return Result.Failure<Patient>(card.Error);
+			if (card.IsFailure) return card.Error;
 
 			patient.Card = card.Value;
 
@@ -30,8 +30,8 @@ namespace Domain.Entity
 		}
 		public Result<Patient> UpdateFullname(Result<Username> fullname)
 		{
-			if (fullname.IsFailure) return Result.Failure<Patient>(fullname.Error);
-			if (fullname.Value == Fullname) return Result.Failure<Patient>(Domain.Errors.DomainErrors.Username.AlreadySet);
+			if (fullname.IsFailure) return fullname.Error;
+			if (fullname.Value == Fullname) return Domain.Errors.DomainErrors.Username.AlreadySet;
 			Fullname = fullname.Value;
 			return this;
 		}

@@ -26,7 +26,7 @@ namespace Domain.Entity
 
 		public static Result<PatientSpecifics> Create(string sleep, string diet, string sport, string workEnviroment, Result<PatientCard> patientCard)
 		{
-			if (patientCard.IsFailure) return Result.Failure<PatientSpecifics>(patientCard);
+			if (patientCard.IsFailure) return patientCard.Error;
 			return new PatientSpecifics(Guid.NewGuid(), sleep, diet, sport, workEnviroment, patientCard.Value);
 		}
 

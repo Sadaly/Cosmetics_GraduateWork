@@ -21,8 +21,8 @@ namespace Domain.Entity
 
 		public static Result<ExternalProcedureRecord> Create(Result<PatientCard> patientCard, Result<ExternalProcedureRecordType> type, string date = "")
 		{
-			if (patientCard.IsFailure) return Result.Failure<ExternalProcedureRecord>(patientCard);
-			if (type.IsFailure) return Result.Failure<ExternalProcedureRecord>(type);
+			if (patientCard.IsFailure) return patientCard.Error;
+			if (type.IsFailure) return type.Error;
 
 			return new ExternalProcedureRecord(Guid.NewGuid(), patientCard.Value, type.Value, date);
 		}

@@ -31,7 +31,7 @@ namespace Application.UnitTests.Entities.ReservedDates.Commands
 
 		[Theory]
 		[MemberData(nameof(ValidReservedDateTypeCreationTestCases))]
-		public async Task Handle_Should_ReturnSuccess_WhenValidInput(Domain.Enums.ReservedDateType ReservedDateType)
+		public async Task Handle_Should_ReturnSuccess_WhenValidInput(Domain.Enums.ReservedDateEnumType ReservedDateType)
 		{
 			//Act
 			var result = await _handler.Handle(new ReservedDateCreateCommand(

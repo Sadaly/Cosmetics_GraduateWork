@@ -14,7 +14,7 @@ namespace Domain.Common
 
 		public Result<EntityWithType<T>> ChangeType(Result<T> type)
 		{
-			if (type.IsFailure) return Result.Failure<EntityWithType<T>>(type.Error);
+			if (type.IsFailure) return type.Error;
 			TypeId = type.Value.Id;
 			Type = type.Value;
 			return this;

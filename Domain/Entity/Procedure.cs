@@ -36,24 +36,23 @@ namespace Domain.Entity
 
 		public static Result<Procedure> Create(Result<PatientCard> patientCard, Result<ProcedureType> type, int duration, DateTime? scheduledDate = null, Doctor? doctor = null)
 		{
-			if (patientCard.IsFailure) return Result.Failure<Procedure>(patientCard);
-			if (type.IsFailure) return Result.Failure<Procedure>(type);
-			if (duration < 0) return Result.Failure<Procedure>(DomainErrors.Procedure.DurationLessThenZero);
+			if (patientCard.IsFailure) return patientCard.Error;
+			if (type.IsFailure) return type.Error;
+			if (duration < 0) return DomainErrors.Procedure.DurationLessThenZero;
 
 			return new Procedure(Guid.NewGuid(), patientCard.Value, type.Value, scheduledDate, duration, doctor);
 		}
 
 		public Result<Procedure> AssignDoctor(Result<Doctor> doctor)
 		{
-			if (doctor.IsFailure) Result.Failure<Procedure>(doctor);
+			if (doctor.IsFailure) return doctor.Error;
 			Doctor = doctor.Value;
 			DoctorId = doctor.Value.Id;
 			return this;
 		}
 		public Result<Procedure> RemoveDoctor()
 		{
-			if (DoctorId == null)
-				return Result.Failure<Procedure>(DomainErrors.Procedure.AlreadyNoDoctor);
+			if (DoctorId == null) return DomainErrors.Procedure.AlreadyNoDoctor;
 			Doctor = null;
 			DoctorId = null;
 			return this;
