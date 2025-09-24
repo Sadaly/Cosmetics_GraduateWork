@@ -23,7 +23,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Queries
 		public ProcedureTypeGetQueryTests()
 		{
 			_repository = Substitute.For<IProcedureTypeRepository>();
-			_proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0).Value;
+			_proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0, 0).Value;
 			_filter = new ProcedureTypeFilter();
 			_handler = new ProcedureTypeGetQueryHandler(_repository);
 

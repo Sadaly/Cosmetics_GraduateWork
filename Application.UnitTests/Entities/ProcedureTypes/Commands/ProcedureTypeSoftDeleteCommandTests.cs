@@ -22,7 +22,7 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Commands
 		{
 			_repository = Substitute.For<IProcedureTypeRepository>();
 			_unitOfWork = Substitute.For<IUnitOfWork>();
-			_proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0).Value;
+			_proceduretype = ProcedureType.Create(Title.Create("Fullname").Value, "", 0, 0).Value;
 
 			_handler = new ProcedureTypeSoftDeleteCommandHandler(_repository, _unitOfWork);
 

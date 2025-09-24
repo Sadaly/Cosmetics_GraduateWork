@@ -27,8 +27,8 @@ namespace Application.UnitTests.Entities.Procedures.Commands
 			_unitOfWork = Substitute.For<IUnitOfWork>();
 			_patient = Patient.Create(Username.Create("Fullname")).Value;
 			_patientCard = _patient.Card;
-			_procedureType = ProcedureType.Create(Title.Create("Title1"), "", 0).Value;
-			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration).Value;
+			_procedureType = ProcedureType.Create(Title.Create("Title1"), "", 0, 0).Value;
+			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration, _procedureType.StandartPrice).Value;
 			_handler = new ProcedureSoftDeleteCommandHandler(_repository, _unitOfWork);
 
 			_repository.RemoveAsync(Arg.Any<Result<Procedure>>(), Arg.Any<CancellationToken>())

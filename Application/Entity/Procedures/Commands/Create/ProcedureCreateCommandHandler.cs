@@ -22,7 +22,7 @@ namespace Application.Entity.Procedures.Commands.Create
 			var doctor = request.DoctorId != null ?
 				await doctorRepository.GetByIdAsync(request.DoctorId.Value, cancellationToken)
 				: null;
-			var create = Procedure.Create(pc, acType, request.Duration, request.ScheduledDate, doctor?.Value);
+			var create = Procedure.Create(pc, acType, request.Duration, request.Price, request.ScheduledDate, doctor?.Value);
 
 			var add = await procedureRepository.AddAsync(create, cancellationToken);
 			var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);

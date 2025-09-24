@@ -22,6 +22,11 @@ namespace Persistence.Configurations
 				.WithOne(n => n.Procedure)
 				.HasForeignKey<Notification>(n => n.ProcedureId)
 				.IsRequired(false);
+
+			builder.
+				HasMany(p => p.UsedResources)
+				.WithMany(p => p.Procedures)
+				.UsingEntity<ProcedureResource>();
 		}
 	}
 }

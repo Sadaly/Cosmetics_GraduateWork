@@ -15,12 +15,13 @@ namespace Domain.Entity
 		{
 		}
 
-		public ResourceOperation(Guid id, ResourceOperationEnumType enumType, uint changeAmount, uint resourcePrice, Guid? relatedOperationId) : base(id)
+		public ResourceOperation(Guid id, ResourceOperationEnumType enumType, uint changeAmount, uint resourcePrice, Resource? resource) : base(id)
 		{
 			ChangeAmount = changeAmount;
 			ResourcePrice = resourcePrice;
 			EnumType = enumType;
-			RelatedOperationId = relatedOperationId;
+			Resource = resource;
+			ResourceId = resource?.Id;
 		}
 
 		public uint ChangeAmount { get; set; }
@@ -30,11 +31,12 @@ namespace Domain.Entity
 		[NotMapped]
 		public uint TotalPrice => ChangeAmount * ResourcePrice;
 
-		public Guid? RelatedOperationId { get; set; }
+		public Guid? ResourceId { get; set; }
+		public Resource? Resource { get; set; } = null!;
 
-		public static Result<ResourceOperation> Create(ResourceOperationEnumType enumType, uint changeAmount, uint resourcePrice, Guid? relatedOperationId = null)
+		public static Result<ResourceOperation> Create(ResourceOperationEnumType enumType, uint changeAmount, uint resourcePrice, Resource? resource = null)
 		{
-			return new ResourceOperation(Guid.NewGuid(), enumType, changeAmount, resourcePrice, relatedOperationId);
+			return new ResourceOperation(Guid.NewGuid(), enumType, changeAmount, resourcePrice, resource);
 		}
 	}
 }

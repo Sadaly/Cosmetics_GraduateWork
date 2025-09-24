@@ -31,9 +31,9 @@ namespace Application.UnitTests.Entities.Procedures.Commands
 			_unitOfWork = Substitute.For<IUnitOfWork>();
 			_patient = Patient.Create(Username.Create("Fullname")).Value;
 			_patientCard = _patient.Card;
-			_procedureType = ProcedureType.Create(Title.Create("Title"), "", 0).Value;
-			_procedureTypeUpdated = ProcedureType.Create(Title.Create("Updated"), "", 0).Value;
-			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration).Value;
+			_procedureType = ProcedureType.Create(Title.Create("Title"), "", 0, 0).Value;
+			_procedureTypeUpdated = ProcedureType.Create(Title.Create("Updated"), "", 0, 0).Value;
+			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration, _procedureType.StandartPrice).Value;
 			_handler = new ProcedureChangeTypeCommandHandler(_repository, _typeRepository, _unitOfWork);
 
 			_repository.UpdateAsync(Arg.Any<Result<Procedure>>(), Arg.Any<CancellationToken>())

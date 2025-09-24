@@ -30,10 +30,10 @@ namespace Application.UnitTests.Entities.Procedures.Queries
 			_repository = Substitute.For<IProcedureRepository>();
 			_patient = Patient.Create(Username.Create("Fullname")).Value;
 			_patientCard = _patient.Card;
-			_procedureType1 = ProcedureType.Create(Title.Create("Title1"), "", 0).Value;
-			_procedureType2 = ProcedureType.Create(Title.Create("Title2"), "", 0).Value;
-			_procedure1 = Procedure.Create(_patientCard, _procedureType1, _procedureType1.StandartDuration).Value;
-			_procedure2 = Procedure.Create(_patientCard, _procedureType2, _procedureType2.StandartDuration).Value;
+			_procedureType1 = ProcedureType.Create(Title.Create("Title1"), "", 0, 0).Value;
+			_procedureType2 = ProcedureType.Create(Title.Create("Title2"), "", 0, 0).Value;
+			_procedure1 = Procedure.Create(_patientCard, _procedureType1, _procedureType1.StandartDuration, _procedureType1.StandartPrice).Value;
+			_procedure2 = Procedure.Create(_patientCard, _procedureType2, _procedureType2.StandartDuration, _procedureType2.StandartPrice).Value;
 			_filter = new ProcedureFilter();
 			_handler = new ProcedureGetAllQueryHandler(_repository);
 

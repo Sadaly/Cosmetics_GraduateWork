@@ -47,6 +47,9 @@ namespace Domain.Errors
 			public static readonly Error DurationLessThenZero = new(
 				"Procedure.DurationLessThenZero",
 				"Длительность процедуры не может быть ниже 0");
+			public static readonly Error PriceLessThenZero = new(
+				"Procedure.PriceLessThenZero",
+				"Стоимость процедуры не может быть ниже 0");
 			public static readonly Error AlreadyNoDoctor = new(
 				"Procedure.AlreadyNoDoctor",
 				"На процедуру и так не назначен доктор");

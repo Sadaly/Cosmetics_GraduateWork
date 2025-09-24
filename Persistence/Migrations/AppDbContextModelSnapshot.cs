@@ -440,6 +440,9 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PatientCardId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("ScheduledDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -460,6 +463,44 @@ namespace Persistence.Migrations
                     b.ToTable("Procedure", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entity.ProcedureResource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ProcedureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProceduresId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProcedureId");
+
+                    b.HasIndex("ProceduresId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("ProcedureResource", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entity.ProcedureType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -469,14 +510,17 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsSoftDelete")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("StandartDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("StandartDuration")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StandartPrice")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -494,6 +538,39 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProcedureType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProcedureTypeResourceType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ProcedureTypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("RequeredAmount")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("ResourceTypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProcedureTypeId");
+
+                    b.HasIndex("ResourceTypeId");
+
+                    b.ToTable("ProcedureTypeResourceType");
                 });
 
             modelBuilder.Entity("Domain.Entity.ReservedDate", b =>
@@ -523,6 +600,100 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ReservedDate", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.Resource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Resource", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ResourceOperation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("ChangeAmount")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EnumType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("ResourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("ResourcePrice")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("ResourceOperation", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entity.ResourceType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsSoftDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Title", "Domain.Entity.ResourceType.Title#Title", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ResourceType", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.SkinCare", b =>
@@ -803,6 +974,70 @@ namespace Persistence.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("Domain.Entity.ProcedureResource", b =>
+                {
+                    b.HasOne("Domain.Entity.Procedure", "Procedure")
+                        .WithMany()
+                        .HasForeignKey("ProcedureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.Procedure", null)
+                        .WithMany()
+                        .HasForeignKey("ProceduresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.Resource", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Procedure");
+
+                    b.Navigation("Resource");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProcedureTypeResourceType", b =>
+                {
+                    b.HasOne("Domain.Entity.ProcedureType", "ProcedureType")
+                        .WithMany("ResourceTypes")
+                        .HasForeignKey("ProcedureTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.ResourceType", "ResourceType")
+                        .WithMany()
+                        .HasForeignKey("ResourceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProcedureType");
+
+                    b.Navigation("ResourceType");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Resource", b =>
+                {
+                    b.HasOne("Domain.Entity.ResourceType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ResourceOperation", b =>
+                {
+                    b.HasOne("Domain.Entity.Resource", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId");
+
+                    b.Navigation("Resource");
+                });
+
             modelBuilder.Entity("Domain.Entity.SkinCare", b =>
                 {
                     b.HasOne("Domain.Entity.PatientCard", "PatientCard")
@@ -872,6 +1107,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.Procedure", b =>
                 {
                     b.Navigation("Notification");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ProcedureType", b =>
+                {
+                    b.Navigation("ResourceTypes");
                 });
 #pragma warning restore 612, 618
         }

@@ -42,7 +42,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 
 			//Act
@@ -72,7 +72,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -91,7 +91,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -110,7 +110,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -129,7 +129,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -148,7 +148,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -182,7 +182,7 @@ namespace WebApi.IntegrationTests.Tests
 			var patientId = (await Sender.Send(createPatient)).Value;
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId = (await Sender.Send(createType)).Value;
-			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, null, DateTime.UtcNow))).Value;
+			var procedureId = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId, 100, 10, null, DateTime.UtcNow))).Value;
 			var create = new NotificationCreateCommand(procedureId, _message, DateTime.UtcNow.AddDays(-1));
 			var id = await Sender.Send(create);
 
@@ -217,8 +217,8 @@ namespace WebApi.IntegrationTests.Tests
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
-			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, null, DateTime.UtcNow))).Value;
-			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, null, DateTime.UtcNow))).Value;
+			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, 10, null, DateTime.UtcNow))).Value;
+			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, 10, null, DateTime.UtcNow))).Value;
 			var create1 = new NotificationCreateCommand(procedureId1, _message, DateTime.UtcNow.AddDays(-1));
 			var create2 = new NotificationCreateCommand(procedureId2, _message, DateTime.UtcNow.AddDays(-1));
 			var id1 = await Sender.Send(create1);
@@ -248,8 +248,8 @@ namespace WebApi.IntegrationTests.Tests
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
-			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, null, DateTime.UtcNow))).Value;
-			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, null, DateTime.UtcNow))).Value;
+			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, 10, null, DateTime.UtcNow))).Value;
+			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, 10, null, DateTime.UtcNow))).Value;
 			var create1 = new NotificationCreateCommand(procedureId1, _message, DateTime.UtcNow.AddHours(-1));
 			var create2 = new NotificationCreateCommand(procedureId2, _message, DateTime.UtcNow.AddHours(-1));
 			var id1 = await Sender.Send(create1);
@@ -302,8 +302,8 @@ namespace WebApi.IntegrationTests.Tests
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
-			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, null, DateTime.UtcNow))).Value;
-			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, null, DateTime.UtcNow))).Value;
+			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, 10, null, DateTime.UtcNow))).Value;
+			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, 10, null, DateTime.UtcNow))).Value;
 			var create1 = new NotificationCreateCommand(procedureId1, _message, DateTime.UtcNow.AddDays(-1));
 			var create2 = new NotificationCreateCommand(procedureId2, _message, DateTime.UtcNow.AddDays(-1));
 			var id1 = await Sender.Send(create1);
@@ -329,8 +329,8 @@ namespace WebApi.IntegrationTests.Tests
 			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
-			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, null, DateTime.UtcNow))).Value;
-			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, null, DateTime.UtcNow))).Value;
+			var procedureId1 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId1, 100, 10, null, DateTime.UtcNow))).Value;
+			var procedureId2 = (await Sender.Send(new ProcedureCreateCommand(patientCardId, typeId2, 100, 10, null, DateTime.UtcNow))).Value;
 			var create1 = new NotificationCreateCommand(procedureId1, _message, DateTime.UtcNow.AddDays(-1));
 			var create2 = new NotificationCreateCommand(procedureId2, _message, DateTime.UtcNow.AddDays(-1));
 			var id1 = await Sender.Send(create1);

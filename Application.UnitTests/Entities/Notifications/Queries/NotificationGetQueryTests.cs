@@ -26,7 +26,8 @@ namespace Application.UnitTests.Entities.Notifications.Queries
 			_repository = Substitute.For<INotificationRepository>();
 			_procedure = Procedure.Create(
 				Patient.Create(Username.Create("Fullname")).Value.Card,
-				ProcedureType.Create(Title.Create("Create"), "", 10),
+				ProcedureType.Create(Title.Create("Create"), "", 10, 10),
+				10,
 				10,
 				DateTime.UtcNow.AddDays(6)).Value;
 			_notification = Notification.Create(_procedure, Text.Create(""), DateTime.UtcNow.AddMinutes(200), PhoneNumber.Create("")).Value;

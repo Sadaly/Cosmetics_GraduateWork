@@ -24,8 +24,8 @@ namespace Application.UnitTests.Entities.ProcedureTypes.Queries
 		public ProcedureTypeGetAllQueryTests()
 		{
 			_repository = Substitute.For<IProcedureTypeRepository>();
-			_proceduretype1 = ProcedureType.Create(Title.Create("Fullname1").Value, "", 0).Value;
-			_proceduretype2 = ProcedureType.Create(Title.Create("Fullname2").Value, "", 0).Value;
+			_proceduretype1 = ProcedureType.Create(Title.Create("Fullname1").Value, "", 0, 0).Value;
+			_proceduretype2 = ProcedureType.Create(Title.Create("Fullname2").Value, "", 0, 0).Value;
 			_filter = new ProcedureTypeFilter();
 			_handler = new ProcedureTypeGetAllQueryHandler(_repository);
 

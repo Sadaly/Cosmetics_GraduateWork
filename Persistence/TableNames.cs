@@ -21,6 +21,11 @@
 		internal const string SkinCareType = nameof(SkinCareType);
 		internal const string ExternalProcedureRecord = nameof(ExternalProcedureRecord);
 		internal const string ExternalProcedureRecordType = nameof(ExternalProcedureRecordType);
+		internal const string ResourceType = nameof(ResourceType);
+		internal const string Resource = nameof(Resource);
+		internal const string ResourceOperation = nameof(ResourceOperation);
+		internal const string ProcedureTypeResourceType = nameof(ProcedureTypeResourceType);
+		internal const string ProcedureResource = nameof(ProcedureResource);
 
 		internal static class UserTable
 		{

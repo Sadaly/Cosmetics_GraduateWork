@@ -29,7 +29,8 @@ namespace Application.UnitTests.Entities.Notifications.Commands
 
 			_procedure = Procedure.Create(
 				Patient.Create(Username.Create("Fullname")).Value.Card,
-				ProcedureType.Create(Title.Create("Create"), "", 10),
+				ProcedureType.Create(Title.Create("Create"), "", 10, 10),
+				10,
 				10,
 				DateTime.UtcNow.AddDays(6)).Value;
 

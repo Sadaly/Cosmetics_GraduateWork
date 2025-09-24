@@ -12,7 +12,7 @@ namespace Application.Entity.ProcedureTypes.Commands.Create
 		public async Task<Result<Guid>> Handle(ProcedureTypeCreateCommand request, CancellationToken cancellationToken)
 		{
 			var title = Title.Create(request.Title);
-			var procedureType = ProcedureType.Create(title, request.Description, request.StandartDur);
+			var procedureType = ProcedureType.Create(title, request.Description, request.StandartDur, request.StandartDur);
 
 			var add = await procedureTypeRepository.AddAsync(procedureType, cancellationToken);
 			var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);

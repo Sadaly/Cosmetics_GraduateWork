@@ -9,7 +9,7 @@ namespace Domain.Entity
 	public class Procedure : EntityWithType<ProcedureType>
 	{
 		private Procedure(Guid id) : base(id) { }
-		private Procedure(Guid id, PatientCard patientCard, ProcedureType type, DateTime? scheduledDate, int duration, Doctor? doctor) : base(id, type)
+		private Procedure(Guid id, PatientCard patientCard, ProcedureType type, DateTime? scheduledDate, int duration, int price, Doctor? doctor) : base(id, type)
 		{
 			PatientCardId = patientCard.Id;
 			PatientCard = patientCard;
@@ -17,6 +17,7 @@ namespace Domain.Entity
 			Duration = duration;
 			Doctor = doctor;
 			DoctorId = doctor?.Id;
+			Price = price;
 		}
 		[JsonIgnore]
 		public PatientCard PatientCard { get; set; } = null!;
@@ -32,15 +33,17 @@ namespace Domain.Entity
 		public bool IsComplete { get; set; } = false;
 		public bool IsPostponded { get; set; } = false;
 		public bool IsCancelled { get; set; } = false;
+		public int Price { get; set; }
+		public List<Resource> UsedResources { get; set; } = [];
 
-
-		public static Result<Procedure> Create(Result<PatientCard> patientCard, Result<ProcedureType> type, int duration, DateTime? scheduledDate = null, Doctor? doctor = null)
+		public static Result<Procedure> Create(Result<PatientCard> patientCard, Result<ProcedureType> type, int duration, int price, DateTime? scheduledDate = null, Doctor? doctor = null)
 		{
 			if (patientCard.IsFailure) return patientCard.Error;
 			if (type.IsFailure) return type.Error;
 			if (duration < 0) return DomainErrors.Procedure.DurationLessThenZero;
+			if (price < 0) return DomainErrors.Procedure.PriceLessThenZero;
 
-			return new Procedure(Guid.NewGuid(), patientCard.Value, type.Value, scheduledDate, duration, doctor);
+			return new Procedure(Guid.NewGuid(), patientCard.Value, type.Value, scheduledDate, duration , price, doctor);
 		}
 
 		public Result<Procedure> AssignDoctor(Result<Doctor> doctor)

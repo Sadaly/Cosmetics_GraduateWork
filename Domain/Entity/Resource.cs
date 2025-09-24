@@ -18,6 +18,7 @@ namespace Domain.Entity
 
 		public uint Price { get; set; }
 		public uint Amount { get; set; }
+		public List<Procedure> Procedures { get; set; } = [];
 
 
 		public static Result<Resource> Create(Result<ResourceType> type, uint price, uint amount)

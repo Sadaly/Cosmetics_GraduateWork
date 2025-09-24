@@ -28,8 +28,8 @@ namespace Application.UnitTests.Entities.Procedures.Queries
 			_repository = Substitute.For<IProcedureRepository>();
 			_patient = Patient.Create(Username.Create("Fullname")).Value;
 			_patientCard = _patient.Card;
-			_procedureType = ProcedureType.Create(Title.Create("Title1"), "", 0).Value;
-			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration).Value;
+			_procedureType = ProcedureType.Create(Title.Create("Title1"), "", 0, 0).Value;
+			_procedure = Procedure.Create(_patientCard, _procedureType, _procedureType.StandartDuration, _procedureType.StandartPrice).Value;
 			_filter = new ProcedureFilter();
 			_handler = new ProcedureGetQueryHandler(_repository);
 

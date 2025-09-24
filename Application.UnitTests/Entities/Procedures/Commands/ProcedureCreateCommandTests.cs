@@ -35,7 +35,7 @@ namespace Application.UnitTests.Entities.Procedures.Commands
 			_procedureScheduleService = Substitute.For<IProcedureScheduleService>();
 			_patient = Patient.Create(Username.Create("Fullname")).Value;
 			_patientCard = _patient.Card;
-			_procedureType = ProcedureType.Create(Title.Create("Title"), "", 0).Value;
+			_procedureType = ProcedureType.Create(Title.Create("Title"), "", 0, 0).Value;
 
 			_handler = new ProcedureCreateCommandHandler(_procedureScheduleService, _repository, _typeRepository, _doctorRepository, _patientCardRepository, _unitOfWork);
 
