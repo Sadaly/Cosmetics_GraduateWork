@@ -24,6 +24,11 @@ namespace Persistence
 		public DbSet<ProcedureType> ProcedureTypes { get; set; }
 		public DbSet<ReservedDate> ReservedDates { get; set; }
 		public DbSet<SkinFeatureType> SkinFeatureTypes { get; set; }
+		public DbSet<ProcedureResource> ProcedureResource { get; set; }
+		public DbSet<Resource> Resource { get; set; }
+		public DbSet<ResourceOperation> ResourceOperation { get; set; }
+		public DbSet<ResourceType> ResourceType { get; set; }
+		public DbSet<ProcedureTypeResourceType> ProcedureTypeResourceType { get; set; }
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
 		{
 		}

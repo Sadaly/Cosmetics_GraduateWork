@@ -3,11 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 type Patient = {
-    id: string;
-    fullName: string;
-    phone?: string;
-    email?: string;
+    patientId: string;
+    cardtId: string;
+    fullname: string;
 };
+
+type PatientCard = {
+
+}
 
 const PatientsPage: React.FC = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -19,7 +22,7 @@ const PatientsPage: React.FC = () => {
         const fetchPatients = async () => {
             try {
                 const response = await axios.get("https://localhost:7135/api/Patients/All", { withCredentials: true });
-                setPatients(response.data); // ⚡️ предполагаем, что API возвращает массив пациентов
+                setPatients(response.data);
             } catch (err: any) {
                 console.error("Ошибка загрузки пациентов", err);
                 setError("Не удалось загрузить пациентов");
@@ -36,7 +39,7 @@ const PatientsPage: React.FC = () => {
 
         try {
             await axios.delete(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
-            setPatients((prev) => prev.filter((p) => p.id !== id));
+            setPatients((prev) => prev.filter((p) => p.patientId !== id));
         } catch (err) {
             console.error("Ошибка удаления пациента", err);
             alert("Ошибка при удалении");
@@ -90,19 +93,13 @@ const PatientsPage: React.FC = () => {
                     </thead>
                     <tbody>
                         {patients.map((p) => (
-                            <tr key={p.id}>
+                            <tr key={p.patientId}>
                                 <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                    {p.fullName}
-                                </td>
-                                <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                    {p.phone || "-"}
-                                </td>
-                                <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                    {p.email || "-"}
+                                    {p.fullname}
                                 </td>
                                 <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
                                     <button
-                                        onClick={() => navigate(`/patients/${p.id}`)}
+                                        onClick={() => navigate(`/patients/${p.patientId}`)}
                                         style={{
                                             marginRight: "10px",
                                             padding: "4px 8px",
@@ -116,7 +113,7 @@ const PatientsPage: React.FC = () => {
                                         Открыть
                                     </button>
                                     <button
-                                        onClick={() => handleDelete(p.id)}
+                                        onClick={() => handleDelete(p.patientId)}
                                         style={{
                                             padding: "4px 8px",
                                             border: "none",

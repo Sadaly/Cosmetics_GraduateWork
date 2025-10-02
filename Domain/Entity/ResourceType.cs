@@ -12,6 +12,7 @@ namespace Domain.Entity
 		private ResourceType(Guid id, Title title) : base(id, title)
 		{
 		}
+		public List<ProcedureTypeResourceType> ProcedureTypes { get; } = [];
 		public static Result<ResourceType> Create(Result<Title> title)
 		{
 			if (title.IsFailure) return title.Error;

@@ -481,9 +481,6 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ProcedureId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ProceduresId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ResourceId")
                         .HasColumnType("uuid");
 
@@ -493,8 +490,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProcedureId");
-
-                    b.HasIndex("ProceduresId");
 
                     b.HasIndex("ResourceId");
 
@@ -570,7 +565,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ResourceTypeId");
 
-                    b.ToTable("ProcedureTypeResourceType");
+                    b.ToTable("ProcedureTypeResourceType", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entity.ReservedDate", b =>
@@ -982,12 +977,6 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entity.Procedure", null)
-                        .WithMany()
-                        .HasForeignKey("ProceduresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entity.Resource", "Resource")
                         .WithMany()
                         .HasForeignKey("ResourceId")
@@ -1008,7 +997,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entity.ResourceType", "ResourceType")
-                        .WithMany()
+                        .WithMany("ProcedureTypes")
                         .HasForeignKey("ResourceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1112,6 +1101,11 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entity.ProcedureType", b =>
                 {
                     b.Navigation("ResourceTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entity.ResourceType", b =>
+                {
+                    b.Navigation("ProcedureTypes");
                 });
 #pragma warning restore 612, 618
         }

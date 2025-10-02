@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using Domain.Common;
+using Domain.Errors;
 using Domain.Shared;
 
 namespace Persistence.Abstractions
@@ -19,6 +20,30 @@ namespace Persistence.Abstractions
 			foreach (var te in teList.Value)
 				await _EntityWithTypeRepository.RemoveAsync(te, cancellationToken);
 			return await base.RemoveAsync(entity, cancellationToken);
+		}
+
+		protected override async Task<Result<TypeE>> VerificationBeforeAddingAsync(Result<TypeE> entity, CancellationToken cancellationToken = default)
+		{
+			var base_verific = await base.VerificationBeforeAddingAsync(entity, cancellationToken);
+			if (base_verific.IsFailure) return base_verific;
+
+			//Запрещаем создавать сущности с уже используемыми названиями
+			var exists = await GetByPredicateAsync(title => title.Title == entity.Value.Title, cancellationToken);
+			if (!exists.IsFailure) return PersistenceErrors.TypeEntity<TypeE>.TitleAlreadyInUse;
+
+			return entity.Value;
+		}
+
+		protected override async Task<Result<TypeE>> VerificationBeforeUpdateAsync(Result<TypeE> entity, CancellationToken cancellationToken = default)
+		{
+			var base_verific = await base.VerificationBeforeUpdateAsync(entity, cancellationToken);
+			if (base_verific.IsFailure) return base_verific;
+
+			//Запрещаем создавать сущности с уже используемыми названиями
+			var exists = await GetByPredicateAsync(title => title.Title == entity.Value.Title, cancellationToken, FetchMode.NoTracking);
+			if (!exists.IsFailure) return PersistenceErrors.TypeEntity<TypeE>.TitleAlreadyInUse;
+
+			return entity.Value;
 		}
 	}
 }

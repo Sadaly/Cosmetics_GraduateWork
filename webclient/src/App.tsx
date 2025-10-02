@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-import PatientsPage from "./pages/PatientsPage";
-import SchedulePage from "./pages/SchedulePage";
-import MainLayout from "./layouts/MainLayout";
-import PatientForm from "./pages/PatientForm";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
+import MainLayout from "./Layouts/MainLayout";
+import PatientForm from "./Pages/PatientForm";
+import PatientsPage from "./Pages/PatientsPage";
+import SchedulePage from "./Pages/SchedulePage";
 
 
 const App: React.FC = () => {

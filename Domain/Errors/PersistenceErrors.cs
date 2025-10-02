@@ -35,6 +35,13 @@ namespace Domain.Errors
 				$"Сущность типа '{typeof(T).Name}' уже существует");
 		}
 
+		public static class TypeEntity<T> where T: TypeEntity
+		{
+			public static readonly Error TitleAlreadyInUse = new(
+				$"{typeof(T).Name}.TitleAlreadyInUse",
+				"Название типа сущности уже используется этой или другой сущностью");
+		}
+
 		public static class User
 		{
 			public static readonly Error EmailAlreadyInUse = new(
