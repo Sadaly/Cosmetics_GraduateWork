@@ -30,7 +30,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 
 			//Act
 			var id = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId, "", "", "", ""))).Value;
@@ -57,7 +57,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var id = await Sender.Send(new PatientSpecificsCreateCommand(patientCardId, "", "", "", ""));
 
 			//Act
@@ -86,7 +86,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var id = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId, "", "", "", ""))).Value;
 			var query = new PatientSpecificsGetQuery(PatientSpecificsQueries.GetById(id));
 
@@ -116,11 +116,11 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId1 = (await Sender.Send(createPatient1)).Value;
-			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardtId;
+			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardId;
 			var id1 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId1, "", "", "", ""))).Value;
 
 			var patientId2 = (await Sender.Send(createPatient2)).Value;
-			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardtId;
+			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardId;
 			var id2 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId2, "", "", "", ""))).Value;
 
 			var filter = new PatientSpecificsFilter()
@@ -144,11 +144,11 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId1 = (await Sender.Send(createPatient1)).Value;
-			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardtId;
+			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardId;
 			var id1 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId1, "", "", "", ""))).Value;
 
 			var patientId2 = (await Sender.Send(createPatient2)).Value;
-			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardtId;
+			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardId;
 			var id2 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId2, "", "", "", ""))).Value;
 
 
@@ -196,11 +196,11 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId1 = (await Sender.Send(createPatient1)).Value;
-			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardtId;
+			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardId;
 			var id1 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId1, "", "", "", ""))).Value;
 
 			var patientId2 = (await Sender.Send(createPatient2)).Value;
-			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardtId;
+			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardId;
 			var id2 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId2, "", "", "", ""))).Value;
 
 			var filter = new PatientSpecificsFilter();
@@ -220,11 +220,11 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId1 = (await Sender.Send(createPatient1)).Value;
-			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardtId;
+			var patientCardId1 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId1)))).Value.CardId;
 			var id1 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId1, "", "", "", ""))).Value;
 
 			var patientId2 = (await Sender.Send(createPatient2)).Value;
-			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardtId;
+			var patientCardId2 = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId2)))).Value.CardId;
 			var id2 = (await Sender.Send(new PatientSpecificsCreateCommand(patientCardId2, "", "", "", ""))).Value;
 
 			var filter = new PatientSpecificsFilter();

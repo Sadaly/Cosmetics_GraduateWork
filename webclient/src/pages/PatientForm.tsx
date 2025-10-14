@@ -1,152 +1,161 @@
 ﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import type { Patient } from "../TypesFromServer/Patient";
+import type { PatientCard } from "../TypesFromServer/PatientCard";
 
-type Patient = {
-    id?: string;
-    fullName: string;
-    phone?: string;
-    email?: string;
-};
+const PatientProfilePage: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const [patient, setPatient] = useState<Patient>({} as Patient);
+    const [patientId, setPatientId] = useState("");
+    const [card, setCard] = useState<PatientCard>({} as PatientCard);
+    const [loadingPatient, setLoadingPatient] = useState(false);
+    const [loadingCard, setLoadingCard] = useState(false);
 
-const PatientForm: React.FC = () => {
-    const { id } = useParams(); // если id есть → редактирование
-    const navigate = useNavigate();
-
-    const [form, setForm] = useState<Patient>({
-        fullName: "",
-        phone: "",
-        email: "",
-    });
-
-    const [loading, setLoading] = useState(false);
-
-    // Загружаем данные, если редактируем
+    // Загружаем данные пациента
     useEffect(() => {
         if (!id) return;
 
         const fetchPatient = async () => {
             try {
-                setLoading(true);
-                const response = await axios.get(`https://localhost:7135/api/Patients/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-                    },
-                        withCredentials: true
-                });
-                setForm(response.data);
+                setLoadingPatient(true);
+                const res = await axios.get(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
+                setPatient(res.data);
             } catch (err) {
                 console.error("Ошибка загрузки пациента", err);
                 alert("Не удалось загрузить данные пациента");
             } finally {
-                setLoading(false);
+                setLoadingPatient(false);
+            }
+        };
+        const fetchPatientCard = async () => {
+            try {
+                const responsePC = await axios.get(`https://localhost:7135/api/PatientCards/${patient.cardId}`, { withCredentials: true });
+                setCard(responsePC.data);
+            } catch (err) {
+                console.error("Ошибка загрузки пациента", err);
+                alert("Не удалось загрузить данные пациента");
+            } finally {
+                setLoadingPatient(false);
             }
         };
 
         fetchPatient();
-    }, [id]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
+
+    }, [id]);
+    
+    const handlePatientChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setPatient(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
+    const handleCardChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setCard(prev => ({
+            ...prev,
+            id: patient.cardId,
+            [name]: name === "age" ? Number(value) : value,
+        }));
+    };
 
+
+    // Сохранить данные пациента
+    const savePatient = async () => {
         try {
-            if (id) {
-                // обновление
-                await axios.put(
-                    "https://localhost:7135/api/Patients/Update",
-                    form,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-                        },
-                        withCredentials: true
-                    }
-                );
-                alert("Пациент обновлён");
-            } else {
-                // создание
-                await axios.post(
-                    "https://localhost:7135/api/Patients",
-                    form,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-                        },
-                        withCredentials: true
-                    }
-                );
-                alert("Пациент создан");
-            }
+            setLoadingPatient(true);
+            const patientId = setPatientId( await axios.post("https://localhost:7135/api/Patients", {
+                fullName: patient.fullname,
+            }, { withCredentials: true }));
+            const res = await axios.get(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
+            setPatient(res.data);
 
-            navigate("/patients");
+            const responsePC = await axios.get(`https://localhost:7135/api/PatientCards/${patient.cardId}`, { withCredentials: true });
+            setCard(responsePC.data);
+            alert("Данные пациента обновлены");
         } catch (err) {
-            console.error("Ошибка сохранения пациента", err);
-            alert("Не удалось сохранить данные");
+            console.error(err);
+            alert("Не удалось сохранить данные пациента");
         } finally {
-            setLoading(false);
+            setLoadingPatient(false);
         }
     };
 
+    // Сохранить данные карточки
+    const saveCard = async () => {
+        try {
+            setLoadingCard(true);
+            await axios.put("https://localhost:7135/api/PatientCards", card, { withCredentials: true });
+            alert("Карточка пациента обновлена");
+        } catch (err) {
+            console.error(err);
+            alert("Не удалось сохранить карточку");
+        } finally {
+            setLoadingCard(false);
+        }
+    };
+
+    const saveData = async () => {
+        
+    }
+
     return (
         <div style={{ padding: "2rem" }}>
-            <h1>{id ? "Редактировать пациента" : "Создать пациента"}</h1>
+            <h1>Профиль пациента</h1>
 
-            <form
-                onSubmit={handleSubmit}
-                style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}
-            >
+            <section style={{ marginBottom: "2rem" }}>
+                <h2>Информация о пациенте</h2>
                 <input
                     type="text"
-                    name="fullName"
+                    name="fullname"
                     placeholder="ФИО"
-                    value={form.fullName}
-                    onChange={handleChange}
-                    required
+                    value={patient.fullname}
+                    onChange={handlePatientChange}
+                    style={{ display: "block", marginBottom: "10px", width: "300px" }}
                 />
-
-                <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Телефон"
-                    value={form.phone}
-                    onChange={handleChange}
-                />
-
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                />
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                        padding: "8px",
-                        backgroundColor: "#0275d8",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: loading ? "wait" : "pointer",
-                    }}
-                >
-                    {loading ? "Сохранение..." : "Сохранить"}
+                <button onClick={savePatient} disabled={loadingPatient}>
+                    {loadingPatient ? "Сохранение..." : "Сохранить пациента"}
                 </button>
-            </form>
+            </section>
+
+            <section>
+                <h2>Карточка пациента</h2>
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Возраст"
+                    value={card.age || 0}
+                    onChange={handleCardChange}
+                    style={{ display: "block", marginBottom: "10px", width: "300px" }}
+                />
+                <input
+                    name="address"
+                    placeholder="Адрес"
+                    value={card.address || ""}
+                    onChange={handleCardChange}
+                    style={{ display: "block", marginBottom: "10px", width: "300px" }}
+                />
+                <textarea
+                    name="complaints"
+                    placeholder="Жалобы"
+                    value={card.complaints || ""}
+                    rows={6}
+                    onChange={handleCardChange}
+                    style={{ display: "block", marginBottom: "10px", width: "300px" }}
+                />
+                <input
+                    name="phoneNumber"
+                    placeholder="Телефон карточки"
+                    value={card.phoneNumber || ""}
+                    onChange={handleCardChange}
+                    style={{ display: "block", marginBottom: "10px", width: "300px" }}
+                />
+                <button onClick={saveCard} disabled={loadingCard}>
+                    {loadingCard ? "Сохранение..." : "Сохранить карточку"}
+                </button>
+            </section>
         </div>
     );
 };
 
-export default PatientForm;
+export default PatientProfilePage;

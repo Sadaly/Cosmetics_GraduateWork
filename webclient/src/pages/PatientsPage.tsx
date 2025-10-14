@@ -1,16 +1,7 @@
 ﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-type Patient = {
-    patientId: string;
-    cardtId: string;
-    fullname: string;
-};
-
-type PatientCard = {
-
-}
+import type { Patient } from "../TypesFromServer/Patient";
 
 const PatientsPage: React.FC = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -68,68 +59,87 @@ const PatientsPage: React.FC = () => {
             </button>
 
             {patients.length === 0 ? (
-                <p>Пациентов пока нет</p>
-            ) : (
-                <table
-                    style={{
-                        width: "100%",
-                        borderCollapse: "collapse",
-                        marginTop: "1rem",
-                    }}
-                >
-                    <thead>
-                        <tr>
-                            <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
-                                ФИО
-                            </th>
-                            <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
-                                Телефон
-                            </th>
-                            <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
-                                Email
-                            </th>
-                            <th style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {patients.map((p) => (
-                            <tr key={p.patientId}>
-                                <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                    {p.fullname}
-                                </td>
-                                <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                    <button
-                                        onClick={() => navigate(`/patients/${p.patientId}`)}
-                                        style={{
-                                            marginRight: "10px",
-                                            padding: "4px 8px",
-                                            border: "1px solid #0275d8",
-                                            backgroundColor: "white",
-                                            color: "#0275d8",
-                                            borderRadius: "4px",
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        Открыть
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(p.patientId)}
-                                        style={{
-                                            padding: "4px 8px",
-                                            border: "none",
-                                            backgroundColor: "#d9534f",
-                                            color: "white",
-                                            borderRadius: "4px",
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        Удалить
-                                    </button>
-                                </td>
+                <p>Пациентов пока нет</p>) : (
+                    <table
+                        style={{
+                            width: "100%",
+                            borderCollapse: "collapse",
+                            marginTop: "1rem",
+                        }}
+                    >
+                        <thead>
+
+                            <tr>
+                                <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
+                                    ФИО
+                                </th>
+                                <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
+                                    Возраст
+                                </th>
+                                <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
+                                    Телефон
+                                </th>
+                                <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
+                                    Жалобы
+                                </th>
+                                <th style={{ borderBottom: "1px solid #ddd", textAlign: "left", padding: "8px" }}>
+                                    Адрес
+                                </th>
+
+                                <th style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>Действия</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {patients.map((p) => (
+                                <tr key={p.patientId}>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        {p.fullname}
+                                    </td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        {p.age}
+                                    </td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        {p.phoneNumber}
+                                    </td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        {p.complaints}
+                                    </td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        {p.address}
+                                    </td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
+                                        <button
+                                            onClick={() => navigate(`/patients/${p.patientId}`)}
+                                            style={{
+                                                marginRight: "10px",
+                                                padding: "4px 8px",
+                                                border: "1px solid #0275d8",
+                                                backgroundColor: "white",
+                                                color: "#0275d8",
+                                                borderRadius: "4px",
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Открыть
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(p.patientId)}
+                                            style={{
+                                                padding: "4px 8px",
+                                                border: "none",
+                                                backgroundColor: "#d9534f",
+                                                color: "white",
+                                                borderRadius: "4px",
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Удалить
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
             )}
         </div>
     );

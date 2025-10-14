@@ -50,12 +50,18 @@ namespace Infrastructure.Services
 			if (rd.IsSuccess) return true;
 
 			//циклическая, представляет собой еженедельные ограничение по времени, например: рабочие дни.
+			//rd = await reservedDateRepository.GetByPredicateAsync(
+			//	x =>
+			//	x.Type == Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict
+			//	&& ((x.StartDate.DayOfWeek <= EndDate.DayOfWeek && x.StartDate.DayOfWeek >= StartDate.DayOfWeek)
+			//	|| (x.EndDate.DayOfWeek <= EndDate.DayOfWeek && x.EndDate.DayOfWeek >= StartDate.DayOfWeek)
+			//	|| (x.StartDate.DayOfWeek <= StartDate.DayOfWeek && x.EndDate.DayOfWeek >= EndDate.DayOfWeek)),
+			//	cancellationToken);
+
 			rd = await reservedDateRepository.GetByPredicateAsync(
 				x =>
 				x.Type == Domain.Enums.ReservedDateEnumType.DayOfWeekRestrict
-				&& ((x.StartDate.DayOfWeek < EndDate.DayOfWeek && x.StartDate.DayOfWeek > StartDate.DayOfWeek)
-				|| (x.EndDate.DayOfWeek < EndDate.DayOfWeek && x.EndDate.DayOfWeek > StartDate.DayOfWeek)
-				|| (x.StartDate.DayOfWeek <= StartDate.DayOfWeek && x.EndDate.DayOfWeek >= EndDate.DayOfWeek)),
+				&& x.StartDate.DayOfWeek == StartDate.DayOfWeek,
 				cancellationToken);
 
 			if (rd.IsSuccess) return true;

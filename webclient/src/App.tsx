@@ -6,6 +6,7 @@ import MainLayout from "./Layouts/MainLayout";
 import PatientForm from "./Pages/PatientForm";
 import PatientsPage from "./Pages/PatientsPage";
 import SchedulePage from "./Pages/SchedulePage";
+import PatientDetailsPage from "./Pages/PatientDetailsPage";
 
 
 const App: React.FC = () => {
@@ -22,6 +23,8 @@ const App: React.FC = () => {
                     <Route path="/schedule" element={<SchedulePage />} />
                     <Route path="/patients/create" element={<PatientForm />} />
                     <Route path="/patients/:id/edit" element={<PatientForm />} />
+                    <Route path="/patients/:id" element={<PatientDetailsPage />} />
+
                 </Route>
             </Routes>
         </Router>

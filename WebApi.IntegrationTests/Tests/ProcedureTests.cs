@@ -37,7 +37,7 @@ namespace WebApi.IntegrationTests.Tests
 
 			createType = new(_typename, _descr);
 			createType1 = new(_typename + "1", _descr);
-			createType2 = new(_typename + "1", _descr);
+			createType2 = new(_typename + "2", _descr);
 
 			createPatient = new(_name);
 		}
@@ -47,7 +47,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 
@@ -76,7 +76,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId1);
@@ -95,7 +95,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -112,7 +112,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var doctorId = (await Sender.Send(createDoctor)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
@@ -131,7 +131,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -149,7 +149,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var doctorId = (await Sender.Send(createDoctor)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
@@ -170,7 +170,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -188,7 +188,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -206,7 +206,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -225,7 +225,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -257,7 +257,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new ProcedureCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -289,7 +289,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new ProcedureCreateCommand(patientCardId, typeId1);
@@ -318,7 +318,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new ProcedureCreateCommand(patientCardId, typeId1);
@@ -370,7 +370,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new ProcedureCreateCommand(patientCardId, typeId1);
@@ -395,7 +395,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new ProcedureCreateCommand(patientCardId, typeId1);

@@ -4,11 +4,15 @@ namespace Application.Entity.Patients.Queries
 {
 	public sealed record PatientResponse(
 	Guid PatientId,
-	Guid CardtId,
-	string Fullname)
+	string Fullname,
+	Guid CardId,
+	string Adress,
+	int Age,
+	string Complaints,
+	string PhoneNumber)
 	{
 		internal PatientResponse(Patient patient)
-			: this(patient.Id, patient.Card.Id, patient.Fullname.Value)
+			: this(patient.Id, patient.Fullname.Value, patient.Card.Id, patient.Card.Adress.Value, patient.Card.Age, patient.Card.Complaints.Value, patient.Card.PhoneNumber.Value)
 		{ }
 	}
 }

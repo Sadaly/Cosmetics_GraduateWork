@@ -26,7 +26,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			createType = new(_typename);
 			createType1 = new(_typename + "1");
-			createType2 = new(_typename + "1");
+			createType2 = new(_typename + "2");
 
 			createPatient = new(_name + "1");
 		}
@@ -36,7 +36,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new SkinCareCreateCommand(patientCardId, typeId);
 
@@ -65,7 +65,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create = new SkinCareCreateCommand(patientCardId, typeId1);
@@ -84,7 +84,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new SkinCareCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -102,7 +102,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new SkinCareCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -134,7 +134,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId = (await Sender.Send(createType)).Value;
 			var create = new SkinCareCreateCommand(patientCardId, typeId);
 			var id = await Sender.Send(create);
@@ -166,7 +166,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
@@ -195,7 +195,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
@@ -247,7 +247,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new SkinCareCreateCommand(patientCardId, typeId1);
@@ -272,7 +272,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			//Arrange
 			var patientId = (await Sender.Send(createPatient)).Value;
-			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardtId;
+			var patientCardId = (await Sender.Send(new PatientGetQuery(PatientQueries.GetById(patientId)))).Value.CardId;
 			var typeId1 = (await Sender.Send(createType1)).Value;
 			var typeId2 = (await Sender.Send(createType2)).Value;
 			var create1 = new SkinCareCreateCommand(patientCardId, typeId1);

@@ -20,7 +20,7 @@ namespace WebApi.IntegrationTests.Tests
 		{
 			create = new(_name);
 			create1 = new(_name + "1");
-			create2 = new(_name + "1");
+			create2 = new(_name + "2");
 		}
 
 		[Fact]

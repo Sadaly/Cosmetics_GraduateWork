@@ -28,11 +28,11 @@ namespace Application.UnitTests.Entities.Patients.Queries
 			_handler = new PatientGetQueryHandler(_repository);
 
 			_repository.GetByPredicateAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
-				expr.Compile()(_patient) == true), Arg.Any<CancellationToken>())
+				expr.Compile()(_patient) == true), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
 				.Returns(_patient);
 
 			_repository.GetByPredicateAsync(Arg.Is<Expression<Func<Patient, bool>>>(expr =>
-				expr.Compile()(_patient) == false), Arg.Any<CancellationToken>())
+				expr.Compile()(_patient) == false), Arg.Any<CancellationToken>(), Domain.Abstractions.FetchMode.Include)
 				.Returns(Result.Failure<Patient>(PersistenceErrors.Entity<Patient>.NotFound));
 		}
 

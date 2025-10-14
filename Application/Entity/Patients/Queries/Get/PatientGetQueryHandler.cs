@@ -8,7 +8,7 @@ namespace Application.Entity.Patients.Queries.Get
 	{
 		public async Task<Result<PatientResponse>> Handle(PatientGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await patientRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await patientRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<PatientResponse>(entity.Error);
 
 			var response = new PatientResponse(entity.Value);

@@ -72,10 +72,10 @@ namespace Persistence.Abstractions
 			return entity;
 		}
 		public async Task<Result<List<T>>> GetAllAsync(CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
-			=> await GetAllByModeAsync(0, _dbSet.Count(), x => true, cancellationToken, mode);
+			=> await GetAllByModeAsync(null, null, x => true, cancellationToken, mode);
 
 		public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
-			=> await GetAllByModeAsync(0, _dbSet.Count(), predicate, cancellationToken, mode);
+			=> await GetAllByModeAsync(null, null, predicate, cancellationToken, mode);
 
 		public async Task<Result<List<T>>> GetAllAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, FetchMode mode = FetchMode.Default)
 		{
@@ -132,7 +132,7 @@ namespace Persistence.Abstractions
 			if (entities != null) return await entities.FirstOrDefaultAsync(predicate, cancellationToken);
 			return null;
 		}
-		private async Task<List<T>?> GetAllByModeAsync(int startIndex, int count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
+		private async Task<List<T>?> GetAllByModeAsync(int? startIndex, int? count, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken, FetchMode mode)
 		{
 			var entities = mode switch
 			{
@@ -142,8 +142,9 @@ namespace Persistence.Abstractions
 				FetchMode.IncludeNoTracking => GetAllIncludeNoTracking(),
 				_ => null
 			};
-			if (entities != null) return await entities.Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex).Take(count).ToListAsync(cancellationToken);
-			return null;
+			if (entities == null) return null;
+			if (startIndex != null && count != null) return await entities.Where(predicate).OrderBy(e => e.CreatedAt).Skip(startIndex.Value).Take(count.Value).ToListAsync(cancellationToken);
+			return await entities.Where(predicate).OrderBy(e => e.CreatedAt).ToListAsync(cancellationToken);
 		}
 		#endregion
 		#region Verification

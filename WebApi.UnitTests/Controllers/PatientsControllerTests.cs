@@ -31,7 +31,7 @@ namespace WebApi.UnitTests.Controllers
 		{
 			_name = "name";
 			_id = Guid.NewGuid();
-			_response = new(_id, _pcId, _name);
+			_response = new(_id, _name, _pcId, "", 0, "", "");
 			_filter = new() { Fullname = _name, };
 			_sender = Substitute.For<ISender>();
 
