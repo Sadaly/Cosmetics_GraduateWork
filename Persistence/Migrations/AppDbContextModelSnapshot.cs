@@ -333,7 +333,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Adress", "Domain.Entity.PatientCard.Adress#Text", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Address", "Domain.Entity.PatientCard.Address#Text", b1 =>
                         {
                             b1.IsRequired();
 

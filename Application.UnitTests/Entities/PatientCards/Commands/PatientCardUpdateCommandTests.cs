@@ -42,10 +42,10 @@ namespace Application.UnitTests.Entities.PatientCards.Commands
 
 		[Theory]
 		[MemberData(nameof(InvalidPatientCardUpdateTestCases))]
-		public async Task Handle_Should_ReturnError_WhenInvalidNameInput(string? Adress, string? Complains, string? Phonenumber, string expectedErrorCode)
+		public async Task Handle_Should_ReturnError_WhenInvalidNameInput(string? Address, string? Complains, string? Phonenumber, string expectedErrorCode)
 		{
 			//Act
-			var result = await _handler.Handle(new PatientCardUpdateCommand(_patientcard.Id, 0, Adress, Complains, Phonenumber), default);
+			var result = await _handler.Handle(new PatientCardUpdateCommand(_patientcard.Id, 0, Address, Complains, Phonenumber), default);
 
 			//Assert
 			result.Error.Code.Should().Be(expectedErrorCode);
@@ -53,10 +53,10 @@ namespace Application.UnitTests.Entities.PatientCards.Commands
 
 		[Theory]
 		[MemberData(nameof(ValidPatientCardUpdateTestCases))]
-		public async Task Handle_Should_ReturnSuccess_WhenValidNameInput(string? Adress, string? Complains, string? Phonenumber)
+		public async Task Handle_Should_ReturnSuccess_WhenValidNameInput(string? Address, string? Complains, string? Phonenumber)
 		{
 			//Act
-			var result = await _handler.Handle(new PatientCardUpdateCommand(_patientcard.Id, 0, Adress, Complains, Phonenumber), default);
+			var result = await _handler.Handle(new PatientCardUpdateCommand(_patientcard.Id, 0, Address, Complains, Phonenumber), default);
 
 			//Assert
 			result.Value.Should().Be(_patientcard.Id);

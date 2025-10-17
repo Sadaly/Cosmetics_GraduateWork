@@ -26,8 +26,8 @@ namespace WebApi.UnitTests.Controllers
 		public PatientCardsControllerTests()
 		{
 			_id = Guid.NewGuid();
-			_response = new(_id, 0, "adress", "", "");
-			_filter = new() { Adress = "address", };
+			_response = new(_id, _id, "", 0, "address", "", "");
+			_filter = new() { Address = "address", };
 			_sender = Substitute.For<ISender>();
 
 			_controller = new PatientCardsController(_sender)
@@ -42,7 +42,7 @@ namespace WebApi.UnitTests.Controllers
 		public async Task Should_ReturnOkResult_WhenUpdateCommandSucceeds()
 		{
 			// Arrange
-			var command = new PatientCardUpdateCommand(_id, 0, "adress", "", "");
+			var command = new PatientCardUpdateCommand(_id, 0, "address", "", "");
 
 			_sender.Send(command, Arg.Any<CancellationToken>()).Returns(_id);
 
@@ -59,7 +59,7 @@ namespace WebApi.UnitTests.Controllers
 		public async Task Should_ReturnBadRequest_WhenUpdateCommandFails()
 		{
 			// Arrange
-			var command = new PatientCardUpdateCommand(_id, 0, "adress", "", "");
+			var command = new PatientCardUpdateCommand(_id, 0, "address", "", "");
 			var error = new Error("Code", "Message");
 
 			_sender.Send(command, Arg.Any<CancellationToken>()).Returns(Result.Failure<Guid>(error));

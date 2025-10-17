@@ -9,10 +9,10 @@ namespace Domain.Entity
 	{
 		private PatientCard(Guid id) : base(id) { }
 
-		private PatientCard(Guid id, byte age, Text adress, Text complaints, PhoneNumber phoneNumber, Patient patient) : base(id)
+		private PatientCard(Guid id, byte age, Text address, Text complaints, PhoneNumber phoneNumber, Patient patient) : base(id)
 		{
 			Age = age;
-			Adress = adress;
+			Address = address;
 			Complaints = complaints;
 			PhoneNumber = phoneNumber;
 			PatientId = patient.Id;
@@ -20,7 +20,7 @@ namespace Domain.Entity
 		}
 
 		public byte Age { get; set; }
-		public Text Adress { get; set; } = null!;
+		public Text Address { get; set; } = null!;
 		public Text Complaints { get; set; } = null!;
 		public PhoneNumber PhoneNumber { get; set; } = null!;
 		public Guid PatientId { get; set; }
@@ -36,24 +36,24 @@ namespace Domain.Entity
 		public List<SkinCare> SkinCares { get; } = [];
 		public List<SkinFeature> SkinFeatures { get; } = [];
 
-		public static Result<PatientCard> Create(byte age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
+		public static Result<PatientCard> Create(byte age, Result<Text> address, Result<Text> complaints, Result<PhoneNumber> phoneNumber, Result<Patient> patient)
 		{
-			if (adress.IsFailure) return adress.Error;
+			if (address.IsFailure) return address.Error;
 			if (patient.IsFailure) return patient.Error;
 			if (complaints.IsFailure) return complaints.Error;
 			if (phoneNumber.IsFailure) return phoneNumber.Error;
 			var id = Guid.NewGuid();
-			return new PatientCard(id, age, adress.Value, complaints.Value, phoneNumber.Value, patient.Value);
+			return new PatientCard(id, age, address.Value, complaints.Value, phoneNumber.Value, patient.Value);
 		}
 
-		public Result<PatientCard> Update(byte? age, Result<Text> adress, Result<Text> complaints, Result<PhoneNumber> phoneNumber)
+		public Result<PatientCard> Update(byte? age, Result<Text> address, Result<Text> complaints, Result<PhoneNumber> phoneNumber)
 		{
-			if (adress.IsFailure) return adress.Error;
+			if (address.IsFailure) return address.Error;
 			if (complaints.IsFailure) return complaints.Error;
 			if (phoneNumber.IsFailure) return phoneNumber.Error;
 
 			if (age != null) Age = age.Value;
-			if (adress.Value.Value != Text.DEFAULT_VALUE) Adress = adress.Value;
+			if (address.Value.Value != Text.DEFAULT_VALUE) Address = address.Value;
 			if (complaints.Value.Value != Text.DEFAULT_VALUE) Complaints = complaints.Value;
 			if (phoneNumber.Value.Value != PhoneNumber.DEFAULT_VALUE) PhoneNumber = phoneNumber.Value;
 

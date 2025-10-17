@@ -7,7 +7,7 @@ namespace Domain.SupportData.Filters
 	public class PatientCardFilter : IEntityFilter<PatientCard>
 	{
 		public string? PatientName { get; set; }
-		public string? Adress { get; set; }
+		public string? Address { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? Complaints { get; set; }
 		public byte? FromAge { get; set; }
@@ -19,7 +19,7 @@ namespace Domain.SupportData.Filters
 		{
 			return patientcard =>
 				(string.IsNullOrWhiteSpace(PatientName) || patientcard.Patient.Fullname.Value.Contains(PatientName)) &&
-				(string.IsNullOrWhiteSpace(Adress) || patientcard.Adress.Value.Contains(Adress)) &&
+				(string.IsNullOrWhiteSpace(Address) || patientcard.Address.Value.Contains(Address)) &&
 				(string.IsNullOrWhiteSpace(PhoneNumber) || patientcard.PhoneNumber.Value.Contains(PhoneNumber)) &&
 				(string.IsNullOrWhiteSpace(Complaints) || patientcard.Complaints.Value.Contains(Complaints)) &&
 				(!FromAge.HasValue || FromAge < patientcard.Age) &&

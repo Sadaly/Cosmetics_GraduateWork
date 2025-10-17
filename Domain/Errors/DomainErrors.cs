@@ -66,7 +66,7 @@ namespace Domain.Errors
 
 			public static readonly Error TooShort = new(
 				"Username.TooShort",
-				$"Поле слишком короткое. Минимальная длина {Domain.ValueObjects.Username.MAX_LENGTH} символа");
+				$"Поле слишком короткое. Минимальная длина {Domain.ValueObjects.Username.MIN_LENGTH} символа");
 
 			public static readonly Error AlreadySet = new(
 				"Username.AlreadySet",
