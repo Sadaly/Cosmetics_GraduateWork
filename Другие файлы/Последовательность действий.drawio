@@ -1,1 +1,249 @@
-<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0" version="28.2.7">
+  <diagram id="26udYyT_6ah_sElpnr0Z" name="Страница — 1">
+    <mxGraphModel dx="2253" dy="769" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="52X-lHW2EFVwULXTu285-2" value="Вход в систему" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;" parent="1" source="52X-lHW2EFVwULXTu285-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15.090909090909236" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-3" value="Оператор" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="-30" y="80" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-4" value="Домашняя страница" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-5" value="Окно пациентов" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-6" value="Подробная информация о пациете" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="680" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-7" value="" style="endArrow=none;html=1;rounded=0;" parent="1" target="52X-lHW2EFVwULXTu285-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="600" as="sourcePoint" />
+            <mxPoint x="360" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-8" value="" style="endArrow=none;html=1;rounded=0;" parent="1" target="52X-lHW2EFVwULXTu285-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="600" as="sourcePoint" />
+            <mxPoint x="330" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-9" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="739.55" y="600" as="sourcePoint" />
+            <mxPoint x="739.55" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-10" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="539.55" y="600" as="sourcePoint" />
+            <mxPoint x="539.55" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-12" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-10" y="200" as="sourcePoint" />
+            <mxPoint x="140" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-14" value="1. Вход" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="30" y="180" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-15" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="240" as="sourcePoint" />
+            <mxPoint x="340" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-16" value="2. Вход успешен&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="210" y="220" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-18" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="320" as="sourcePoint" />
+            <mxPoint x="140" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="220" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-19" value="3. Вход неудачен" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="190" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-23" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="270" as="sourcePoint" />
+            <mxPoint x="540" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-24" value="4. Переход" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="390" y="240" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-25" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="465" as="sourcePoint" />
+            <mxPoint x="740" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-26" value="5. Добавление пациента" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="590" y="285" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-27" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="320" as="sourcePoint" />
+            <mxPoint x="540" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-28" value="6. Удаление пациента" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="590" y="335" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-29" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="370" as="sourcePoint" />
+            <mxPoint x="540" y="330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-30" value="7. Просмотр и поиск пациентов" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="590" y="385" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-31" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="420" as="sourcePoint" />
+            <mxPoint x="540" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-32" value="8. Просмотр карты пациента" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="580" y="430" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-33" value="9. Внесение информации" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="790" y="205" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-34" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="240" as="sourcePoint" />
+            <mxPoint x="740" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="830" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-35" value="10. Изменение информации" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="790" y="265" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-36" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="300" as="sourcePoint" />
+            <mxPoint x="740" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="830" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-37" value="11. Добавление и удаление симптомов у пациента" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="790" y="315" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-38" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="350" as="sourcePoint" />
+            <mxPoint x="740" y="310" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="830" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-39" value="Форма назначения процедур" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="880" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-40" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="939.55" y="600" as="sourcePoint" />
+            <mxPoint x="939.55" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-42" value="12. Создание симптомов" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="790" y="365" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-43" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="400" as="sourcePoint" />
+            <mxPoint x="740" y="360" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="830" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-44" value="14. Назначение типа процедуры" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="990" y="185" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-45" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="220" as="sourcePoint" />
+            <mxPoint x="940" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1030" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-46" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="445" as="sourcePoint" />
+            <mxPoint x="940" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-47" value="13. Переход в форму назначения процедур" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="780" y="410" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-50" value="15. Назначение времени процедуры" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="990" y="240" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-51" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="275" as="sourcePoint" />
+            <mxPoint x="940" y="235" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1030" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-53" value="16. Указано запрещенное время" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="990" y="295" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-54" value="" style="endArrow=none;html=1;rounded=0;curved=1;startArrow=classic;startFill=1;endFill=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="330" as="sourcePoint" />
+            <mxPoint x="940" y="290" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1030" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-57" value="Расписание процедур" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1080" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="52X-lHW2EFVwULXTu285-58" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1139.55" y="600" as="sourcePoint" />
+            <mxPoint x="1139.55" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
