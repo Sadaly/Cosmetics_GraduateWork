@@ -8,7 +8,7 @@ namespace Application.Entity.PatientCards.Queries.Get
 	{
 		public async Task<Result<PatientCardResponse>> Handle(PatientCardGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await patientcardRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await patientcardRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<PatientCardResponse>(entity.Error);
 
 			var response = new PatientCardResponse(entity.Value);

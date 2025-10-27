@@ -1,12 +1,10 @@
 ﻿import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
-import type { Patient } from "../TypesFromServer/Patient"
+import api from "../api/api";
 import type { PatientCard } from "../TypesFromServer/PatientCard"
 
 const PatientDetailsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [patient, setPatient] = useState<Patient>({} as Patient);
     const [patientCard, setPatientCard] = useState<PatientCard>({} as PatientCard);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
@@ -18,25 +16,10 @@ const PatientDetailsPage: React.FC = () => {
     useEffect(() => {
         if (!id) return;
 
-        const fetchPatient = async () => {
-            try {
-                setLoadingPatient(true);
-                const res = await axios.get(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
-                setPatient(res.data);
-                return res.data; // Возвращаем данные пациента
-            } catch (err) {
-                console.error("Ошибка загрузки пациента", err);
-                alert("Не удалось загрузить данные пациента");
-                return null;
-            } finally {
-                setLoadingPatient(false);
-            }
-        };
-
-        const fetchPatientCard = async (cardId: string) => {
+        const fetchPatientCard = async () => {
             try {
                 setLoadingCard(true);
-                const responsePC = await axios.get(`https://localhost:7135/api/PatientCards/${cardId}`, { withCredentials: true });
+                const responsePC = await api.get(`/PatientCards/${id}`);
                 setPatientCard(responsePC.data);
             } catch (err) {
                 console.error("Ошибка загрузки карты пациента", err);
@@ -45,16 +28,7 @@ const PatientDetailsPage: React.FC = () => {
                 setLoadingCard(false);
             }
         };
-
-        // Сначала загружаем пациента, затем его карту
-        const loadData = async () => {
-            const patientData = await fetchPatient();
-            if (patientData && patientData.cardId) {
-                await fetchPatientCard(patientData.cardId);
-            }
-        };
-
-        loadData();
+        fetchPatientCard();
     }, [id]);
 
     // Сохранить данные пациента
@@ -62,11 +36,12 @@ const PatientDetailsPage: React.FC = () => {
         try {
             setIsLoading(true);
             setSaving(true);
-            await axios.put("https://localhost:7135/api/Patients/Update", {
-                id: patient.patientId,
-                fullname: patient.fullname,
+            await axios.put(`https://localhost:7135/api/Patients/Update`, {
+                id: patientCard.patientId,
+                fullname: patientCard.fullname,
             }, { withCredentials: true });
-            alert("Данные пациента обновлены");
+            alert(patientCard.fullname);
+            alert(patientCard.patientId);
         } catch (err) {
             console.error(err);
             alert("Не удалось сохранить данные пациента");
@@ -92,17 +67,11 @@ const PatientDetailsPage: React.FC = () => {
         }
     };
 
-
-    const handlePatientChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setPatient(prev => ({ ...prev, [name]: value }));
-    };
-
     const handleCardChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setPatientCard(prev => ({
             ...prev,
-            id: patient.cardId,
+            id: patientCard.id,
             [name]: name === "age" ? Number(value) : value,
         }));
     };
@@ -110,7 +79,7 @@ const PatientDetailsPage: React.FC = () => {
 
     if (loadingCard && loadingPatient && isLoading) return <div>Загрузка...</div>;
     if (error) return <div style={{ color: "red" }}>{error}</div>;
-    if (!patient) return <div>Пациент не найден</div>;
+    if (!patientCard) return <div>Пациент не найден</div>;
 
     return (
         <div style={{ margin: "2rem" }}>
@@ -120,9 +89,9 @@ const PatientDetailsPage: React.FC = () => {
                 <label>ФИО:</label>
                 <input
                     type="text"
-                    value={patient.fullname}
+                    value={patientCard.fullname}
                     name="fullname"
-                    onChange={handlePatientChange}
+                    onChange={handleCardChange}
                     style={{ marginLeft: "1rem", width: "300px" }}
                 />
                 <button onClick={savePatient}>

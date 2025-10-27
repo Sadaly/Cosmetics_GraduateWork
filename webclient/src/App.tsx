@@ -6,25 +6,28 @@ import PatientsPage from "./Pages/PatientsPage";
 import SchedulePage from "./Pages/SchedulePage";
 import PatientDetailsPage from "./Pages/PatientDetailsPage";
 import MainLayout from "./layouts/MainLayout";
+import ErrorBoundary from "./ErrorHandlingMiddleware/ErrorBoundary";
 
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <Routes>
-                {/* Логин отдельный, без header */}
-                <Route path="/" element={<LoginPage />} />
+        <ErrorBoundary>
+            <Router>
+                <Routes>
+                    {/* Логин отдельный, без header */}
+                    <Route path="/" element={<LoginPage />} />
 
-                {/* Все страницы под layout с header */}
-                <Route element={<MainLayout />}>
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/patients" element={<PatientsPage />} />
-                    <Route path="/schedule" element={<SchedulePage />} />
-                    <Route path="/patients/:id" element={<PatientDetailsPage />} />
+                    {/* Все страницы под layout с header */}
+                    <Route element={<MainLayout />}>
+                        <Route path="/home" element={<HomePage />} />
+                        <Route path="/patients" element={<PatientsPage />} />
+                        <Route path="/schedule" element={<SchedulePage />} />
+                        <Route path="/patients/:id" element={<PatientDetailsPage />} />
 
-                </Route>
-            </Routes>
-        </Router>
+                    </Route>
+                </Routes>
+            </Router>
+        </ErrorBoundary>
     );
 };
 

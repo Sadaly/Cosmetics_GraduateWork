@@ -1,8 +1,8 @@
 ﻿import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import type { PatientCard } from "../TypesFromServer/PatientCard";
-import { count } from "node:console";
+import api from "../api/api";
+
 
 const PatientsPage: React.FC = () => {
     const [patients, setPatients] = useState<PatientCard[]>([]);
@@ -20,19 +20,30 @@ const PatientsPage: React.FC = () => {
 
     const currentPage = Math.floor(startIndex / pageSize) + 1;
 
+    /** Utility: convert yyyy-MM-dd → UTC ISO string */
+    const toUtcIsoDate = (dateString: string, endOfDay = false): string => {
+        if (!dateString) return "";
+        const time = endOfDay ? "T23:59:59Z" : "T00:00:00Z";
+        return new Date(dateString + time).toISOString();
+    };
+
     const fetchPatients = async (start: number, count: number) => {
         setLoading(true);
         try {
-            const response = await axios.get("https://localhost:7135/api/Patients/Take", {
-                params: {
-                    Fullname: searchName || undefined,
-                    CreationDateFrom: creationDateFrom || undefined,
-                    CreationDateTo: creationDateTo || undefined,
-                    StartIndex: start,
-                    Count: count,
-                },
+            const params: any = {
+                StartIndex: start,
+                Count: count,
+            };
+
+            if (searchName.trim()) params.Fullname = searchName.trim();
+            if (creationDateFrom) params.CreationDateFrom = toUtcIsoDate(creationDateFrom);
+            if (creationDateTo) params.CreationDateTo = toUtcIsoDate(creationDateTo, true);
+
+            const response = await api.get("/PatientCards/Take", {
+                params,
                 withCredentials: true,
             });
+
             const data: PatientCard[] = response.data;
             setPatients(data);
             setHasMore(data.length === count);
@@ -44,15 +55,16 @@ const PatientsPage: React.FC = () => {
         }
     };
 
-    // Load data when pagination, filters, or search changes
+    // Fetch when pagination or filters change
     useEffect(() => {
         fetchPatients(startIndex, pageSize);
-    }, [startIndex, pageSize, searchName, creationDateFrom, creationDateTo]);
+        setLoading(false);
+    }, [loading, startIndex, pageSize]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        setStartIndex(0); // reset to first page on new search
-        fetchPatients(0, pageSize);
+        setStartIndex(0); // useEffect will refetch
+        fetchPatients(startIndex, pageSize);
     };
 
     const handleCreatePatient = async (e: React.FormEvent) => {
@@ -89,6 +101,7 @@ const PatientsPage: React.FC = () => {
         try {
             await axios.delete(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
             setPatients((prev) => prev.filter((p) => p.patientId !== id));
+            setLoading(true);
         } catch (err) {
             console.error("Ошибка удаления пациента", err);
             alert("Ошибка при удалении");
@@ -107,37 +120,6 @@ const PatientsPage: React.FC = () => {
     return (
         <div style={{ padding: "2rem" }}>
             <h1>Пациенты</h1>
-
-            {/* Add new patient */}
-            <form onSubmit={handleCreatePatient} style={{ display: "flex", gap: "10px", marginBottom: "1.5rem" }}>
-                <input
-                    type="text"
-                    placeholder="Введите ФИО"
-                    value={newPatientName}
-                    onChange={(e) => setNewPatientName(e.target.value)}
-                    style={{
-                        padding: "8px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        flex: "1",
-                        maxWidth: "300px",
-                    }}
-                />
-                <button
-                    type="submit"
-                    disabled={saving}
-                    style={{
-                        padding: "8px 12px",
-                        backgroundColor: "#5cb85c",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: saving ? "wait" : "pointer",
-                    }}
-                >
-                    {saving ? "Добавление..." : "Добавить"}
-                </button>
-            </form>
 
             {/* Search form */}
             <form
@@ -194,7 +176,7 @@ const PatientsPage: React.FC = () => {
                     🔍 Найти
                 </button>
                 <button
-                    type="button"
+                    type="submit"
                     onClick={() => {
                         setSearchName("");
                         setCreationDateFrom("");
@@ -248,12 +230,12 @@ const PatientsPage: React.FC = () => {
                             {patients.map((p) => (
                                 <tr key={p.patientId}>
                                     <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.fullname || "-"}</td>
-                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.age ?? "-"}</td>
-                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.phoneNumber ?? "-"}</td>
-                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.complaints ?? "-"}</td>
-                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.address ?? "-"}</td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.age || "-"}</td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.phoneNumber || "-"}</td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.complaints || "-"}</td>
+                                    <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>{p.address || "-"}</td>
                                     <td style={{ borderBottom: "1px solid #ddd", padding: "8px" }}>
-                                        <button onClick={() => navigate(`/patients/${p.patientId}`)} style={{ marginRight: "10px" }}>
+                                        <button onClick={() => navigate(`/patients/${p.id}`)} style={{ marginRight: "10px" }}>
                                             Открыть
                                         </button>
                                         <button
@@ -307,6 +289,37 @@ const PatientsPage: React.FC = () => {
                     </div>
                 </>
             )}
+
+            {/* Add new patient */}
+            <form onSubmit={handleCreatePatient} style={{ display: "flex", gap: "10px", marginTop: "1.5rem" }}>
+                <input
+                    type="text"
+                    placeholder="Введите ФИО"
+                    value={newPatientName}
+                    onChange={(e) => setNewPatientName(e.target.value)}
+                    style={{
+                        padding: "8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        flex: "1",
+                        maxWidth: "300px",
+                    }}
+                />
+                <button
+                    type="submit"
+                    disabled={saving}
+                    style={{
+                        padding: "8px 12px",
+                        backgroundColor: "#5cb85c",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: saving ? "wait" : "pointer",
+                    }}
+                >
+                    {saving ? "Добавление..." : "Добавить"}
+                </button>
+            </form>
         </div>
     );
 };
