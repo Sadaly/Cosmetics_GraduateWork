@@ -66,5 +66,11 @@ namespace Domain.Entity
 			Duration = duration;
 			return this;
 		}
+		public Result<Procedure> Proceed()
+		{
+			IsComplete = true;
+			IsCancelled = false;
+			return this;
+		}
 	}
 }

@@ -8,7 +8,7 @@ namespace Application.Entity.AgeChanges.Queries.Get
 	{
 		public async Task<Result<AgeChangeResponse>> Handle(AgeChangeGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await ageChangeRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await ageChangeRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<AgeChangeResponse>(entity.Error);
 
 			var response = new AgeChangeResponse(entity.Value);

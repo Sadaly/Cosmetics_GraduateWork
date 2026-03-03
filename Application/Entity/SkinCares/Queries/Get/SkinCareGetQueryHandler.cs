@@ -8,7 +8,7 @@ namespace Application.Entity.SkinCares.Queries.Get
 	{
 		public async Task<Result<SkinCareResponse>> Handle(SkinCareGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await skinCareRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await skinCareRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<SkinCareResponse>(entity.Error);
 
 			var response = new SkinCareResponse(entity.Value);

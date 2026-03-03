@@ -8,7 +8,7 @@ namespace Application.Entity.ExternalProcedureRecords.Queries.Get
 	{
 		public async Task<Result<ExternalProcedureRecordResponse>> Handle(ExternalProcedureRecordGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await externalProcedureRecordRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await externalProcedureRecordRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<ExternalProcedureRecordResponse>(entity.Error);
 
 			var response = new ExternalProcedureRecordResponse(entity.Value);

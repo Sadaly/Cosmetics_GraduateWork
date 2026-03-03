@@ -8,7 +8,7 @@ namespace Application.Entity.HealthConds.Queries.Get
 	{
 		public async Task<Result<HealthCondResponse>> Handle(HealthCondGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await healthCondRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await healthCondRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<HealthCondResponse>(entity.Error);
 
 			var response = new HealthCondResponse(entity.Value);

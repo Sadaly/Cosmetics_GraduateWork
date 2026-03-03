@@ -1,6 +1,7 @@
 ﻿using Application.Entity.Procedures.Commands.AssignDoctor;
 using Application.Entity.Procedures.Commands.ChangeType;
 using Application.Entity.Procedures.Commands.Create;
+using Application.Entity.Procedures.Commands.Proceed;
 using Application.Entity.Procedures.Commands.RemoveDoctor;
 using Application.Entity.Procedures.Commands.SoftDelete;
 using Application.Entity.Procedures.Commands.UpdateDate;
@@ -38,6 +39,13 @@ namespace WebApi.Controllers
 		[HttpPut("AssignDoctor")]
 		public async Task<IActionResult> AssignDoctor(
 			[FromBody] ProcedureAssignDoctorCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut("Proceed")]
+		public async Task<IActionResult> Proceed(
+			[FromBody] ProcedureProceedCommand command,
 			CancellationToken cancellationToken)
 			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 

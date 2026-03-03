@@ -1,4 +1,4 @@
-using Application.Entity.Procedures.Commands.AssignDoctor;
+﻿using Application.Entity.Procedures.Commands.AssignDoctor;
 using Application.Entity.Procedures.Commands.ChangeType;
 using Application.Entity.Procedures.Commands.Create;
 using Application.Entity.Procedures.Commands.RemoveDoctor;
@@ -38,7 +38,7 @@ namespace WebApi.UnitTests.Controllers
 			_typeId = Guid.NewGuid();
 			_id = Guid.NewGuid();
 			_doctorId = Guid.NewGuid();
-			_response = new(_id, _typeId);
+			_response = new(_id, _patientCardId, 0, DateTime.UtcNow, _typeId, "", _doctorId);
 			_typeName = "type";
 			_filter = new() { Typename = _typeName, };
 			_sender = Substitute.For<ISender>();

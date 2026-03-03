@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import type { ErrorResponse } from "../TypesFromServer/ErrorResponse";
 import { Link, useNavigate } from 'react-router-dom';
+import api from "../api/api";
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -32,12 +32,7 @@ const LoginPage: React.FC = () => {
         const command = { email, password };
 
         try {
-            const response = await axios.post('https://localhost:7135/api/Users/Login', command, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-            });
+            const response = await api.post('https://localhost:7135/api/Users/Login', command);
 
             console.log('User logged in successfully:', response.data.message);
             navigate('/home');

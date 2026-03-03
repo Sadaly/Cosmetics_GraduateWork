@@ -12,6 +12,7 @@ namespace Domain.Entity
 		{
 			StandartDescription = standartDescription;
 			StandartDuration = standartDuration;
+			StandartPrice = standartPrice;
 		}
 		public int StandartDuration { get; set; }
 		public string StandartDescription { get; set; } = string.Empty;

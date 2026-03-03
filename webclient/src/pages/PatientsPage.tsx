@@ -72,17 +72,15 @@ const PatientsPage: React.FC = () => {
         if (!newPatientName.trim()) return alert("Введите ФИО пациента");
         setSaving(true);
         try {
-            const response = await axios.post(
-                "https://localhost:7135/api/Patients",
-                { fullname: newPatientName },
-                { withCredentials: true }
+            const response = await api.post(
+                `/Patients`,
+                { fullname: newPatientName }
             );
             const newId = response.data;
             if (!newId) throw new Error("Patient ID not returned from server");
 
-            const fullPatientRes = await axios.get(
-                `https://localhost:7135/api/Patients/${newId}`,
-                { withCredentials: true }
+            const fullPatientRes = await api.get(
+                `/Patients/${newId}`
             );
 
             if (!hasMore && fullPatientRes.data < pageSize)
@@ -99,7 +97,7 @@ const PatientsPage: React.FC = () => {
     const handleDelete = async (id: string) => {
         if (!window.confirm("Удалить пациента?")) return;
         try {
-            await axios.delete(`https://localhost:7135/api/Patients/${id}`, { withCredentials: true });
+            await api.delete(`/Patients/${id}`);
             setPatients((prev) => prev.filter((p) => p.patientId !== id));
             setLoading(true);
         } catch (err) {

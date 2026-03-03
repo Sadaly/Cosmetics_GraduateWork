@@ -9,10 +9,11 @@ namespace Application.Entity.Patients.Queries
 	string Address,
 	int Age,
 	string Complaints,
-	string PhoneNumber)
+	string PhoneNumber,
+	DateTime CreationDate)
 	{
 		internal PatientResponse(Patient patient)
-			: this(patient.Id, patient.Fullname.Value, patient.Card.Id, patient.Card.Address.Value, patient.Card.Age, patient.Card.Complaints.Value, patient.Card.PhoneNumber.Value)
+			: this(patient.Id, patient.Fullname.Value, patient.Card.Id, patient.Card.Address.Value, patient.Card.Age, patient.Card.Complaints.Value, patient.Card.PhoneNumber.Value, patient.CreatedAt)
 		{ }
 	}
 }

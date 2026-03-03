@@ -9,8 +9,8 @@ namespace Application.Entity.SkinFeatures.Queries.GetAll
 		public async Task<Result<List<SkinFeatureResponse>>> Handle(SkinFeatureGetAllQuery request, CancellationToken cancellationToken)
 		{
 			var entities = request.StartIndex == null || request.Count == null
-				? await skinFeatureRepository.GetAllAsync(request.Query.Predicate, cancellationToken)
-				: await skinFeatureRepository.GetAllAsync(request.StartIndex.Value, request.Count.Value, request.Query.Predicate, cancellationToken);
+				? await skinFeatureRepository.GetAllAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include)
+				: await skinFeatureRepository.GetAllAsync(request.StartIndex.Value, request.Count.Value, request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entities.IsFailure) return Result.Failure<List<SkinFeatureResponse>>(entities.Error);
 
 			var listRes = entities.Value.Select(u => new SkinFeatureResponse(u)).ToList();

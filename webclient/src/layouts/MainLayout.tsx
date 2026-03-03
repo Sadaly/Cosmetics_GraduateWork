@@ -45,7 +45,7 @@ const MainLayout: React.FC = () => {
             </header>
 
             {/* Контент страницы */}
-            <main style={{ padding: "2rem" }}>
+            <main style={{ minWidth: "99vw" }}>
                 <Outlet />
             </main>
         </div>

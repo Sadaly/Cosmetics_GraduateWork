@@ -8,7 +8,7 @@ namespace Application.Entity.SkinFeatures.Queries.Get
 	{
 		public async Task<Result<SkinFeatureResponse>> Handle(SkinFeatureGetQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await skinFeatureRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken);
+			var entity = await skinFeatureRepository.GetByPredicateAsync(request.Query.Predicate, cancellationToken, Domain.Abstractions.FetchMode.Include);
 			if (entity.IsFailure) return Result.Failure<SkinFeatureResponse>(entity.Error);
 
 			var response = new SkinFeatureResponse(entity.Value);
