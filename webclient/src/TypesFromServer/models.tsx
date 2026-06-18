@@ -17,11 +17,13 @@ export interface ExternalProcedureRecord {
     patientCardId: string;
     typeId: string;
     date: string; // ISO 8601
+    typeName: string;
 }
 
 export interface AgeChange {
     patientCardId: string;
     typeId: string;
+    typeName: string;
 }
 
 export interface AgeChangeType {
@@ -32,6 +34,7 @@ export interface AgeChangeType {
 export interface HealthCond {
     patientCardId: string;
     typeId: string;
+    typeName: string;
 }
 
 export interface HealthCondType {
@@ -81,13 +84,20 @@ export interface ExternalProcedureRecordType {
 }
 
 export interface Procedure {
+    procedureId: string;
     patientCardId: string;
+    price: number;
+    scheduledDate: string | null; // ISO 8601
     typeId: string;
+    title: string;
+    doctorId: string | null;
 }
 
 export interface ProcedureType {
     id: string;
     title: string;
+    price: number;       // StandartPrice from backend
+    duration: number;    // StandartDuration from backend
 }
 
 export interface ReservedDate {
@@ -99,6 +109,7 @@ export interface ReservedDate {
 export interface SkinCare {
     patientCardId: string;
     typeId: string;
+    typeName: string;
 }
 
 export interface SkinCareType {
@@ -109,6 +120,7 @@ export interface SkinCareType {
 export interface SkinFeature {
     patientCardId: string;
     typeId: string;
+    typeName: string;
 }
 
 export interface SkinFeatureType {

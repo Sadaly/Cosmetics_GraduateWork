@@ -1,4 +1,4 @@
-using Application.Entity.ProcedureTypes.Commands.Create;
+﻿using Application.Entity.ProcedureTypes.Commands.Create;
 using Application.Entity.ProcedureTypes.Commands.SoftDelete;
 using Application.Entity.ProcedureTypes.Commands.Update;
 using Application.Entity.ProcedureTypes.Queries;
@@ -30,7 +30,7 @@ namespace WebApi.UnitTests.Controllers
 		{
 			_id = Guid.NewGuid();
 			_typeName = "type";
-			_response = new(_id, _typeName);
+			_response = new(_id, _typeName, 100, 100);
 			_filter = new() { Typename = _typeName, };
 			_sender = Substitute.For<ISender>();
 

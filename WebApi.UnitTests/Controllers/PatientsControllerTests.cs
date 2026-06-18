@@ -1,4 +1,4 @@
-using Application.Entity.Patients.Commands.Create;
+﻿using Application.Entity.Patients.Commands.Create;
 using Application.Entity.Patients.Commands.SoftDelete;
 using Application.Entity.Patients.Commands.Update;
 using Application.Entity.Patients.Queries;
@@ -31,7 +31,7 @@ namespace WebApi.UnitTests.Controllers
 		{
 			_name = "name";
 			_id = Guid.NewGuid();
-			_response = new(_id, _name, _pcId, "", 0, "", "");
+			_response = new(_id, _name, _pcId, "", 0, "", "", DateTime.UtcNow);
 			_filter = new() { Fullname = _name, };
 			_sender = Substitute.For<ISender>();
 

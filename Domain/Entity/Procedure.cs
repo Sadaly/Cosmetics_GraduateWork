@@ -72,5 +72,11 @@ namespace Domain.Entity
 			IsCancelled = false;
 			return this;
 		}
+		public Result<Procedure> Cancel()
+		{
+			IsCancelled = true;
+			IsComplete = false;
+			return this;
+		}
 	}
 }
