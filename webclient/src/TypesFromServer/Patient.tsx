@@ -1,4 +1,4 @@
-export interface Patient {
+﻿export interface Patient {
     patientId: string;
     cardId: string;
     fullname: string;
@@ -6,4 +6,5 @@ export interface Patient {
     age: number;
     complaints: string;
     phoneNumber: string;
+    creationDate: string;
 }

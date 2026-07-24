@@ -38,6 +38,10 @@ namespace Persistence.Repositories
 			.Include(e => e.SkinFeatures)
 			.Include(e => e.Specifics);
 
+		private protected override IQueryable<PatientCard> GetAllDefault()
+			=> base.GetAllDefault()
+			.Include(e => e.Patient);
+
 		public override async Task<Result<PatientCard>> RemoveAsync(Result<PatientCard> entity, CancellationToken cancellationToken = default)
 		{
 			if (entity.IsFailure) return entity;

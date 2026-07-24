@@ -2,6 +2,7 @@
 using Application.Entity.PatientCards.Queries;
 using Application.Entity.PatientCards.Queries.Get;
 using Application.Entity.PatientCards.Queries.GetAll;
+using Application.Entity.PatientCards.Queries.GetByPatientId;
 using Domain.SupportData.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,13 @@ namespace WebApi.Controllers
 			Guid patientcardId,
 			CancellationToken cancellationToken)
 			=> (await Sender.Send(new PatientCardGetQuery(PatientCardQueries.GetById(patientcardId)), cancellationToken)).ToActionResult();
+
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpGet("ByPatientId")]
+		public async Task<IActionResult> GetByPatientId(
+			Guid PatientId,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(new PatientCardGetByPatientIdQuery(PatientId), cancellationToken)).ToActionResult();
 
 	}
 }

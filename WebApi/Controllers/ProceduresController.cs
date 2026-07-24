@@ -1,6 +1,8 @@
 ﻿using Application.Entity.Procedures.Commands.AssignDoctor;
+using Application.Entity.Procedures.Commands.Cancel;
 using Application.Entity.Procedures.Commands.ChangeType;
 using Application.Entity.Procedures.Commands.Create;
+using Application.Entity.Procedures.Commands.Proceed;
 using Application.Entity.Procedures.Commands.RemoveDoctor;
 using Application.Entity.Procedures.Commands.SoftDelete;
 using Application.Entity.Procedures.Commands.UpdateDate;
@@ -42,9 +44,23 @@ namespace WebApi.Controllers
 			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 
 		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut("Proceed")]
+		public async Task<IActionResult> Proceed(
+			[FromBody] ProcedureProceedCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
 		[HttpPut("RemoveDoctor")]
 		public async Task<IActionResult> RemoveDoctor(
 			[FromBody] ProcedureRemoveDoctorCommand command,
+			CancellationToken cancellationToken)
+			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
+
+		[Authorize(Policy = AuthorizePolicy.UserOnly)]
+		[HttpPut("Cancel")]
+		public async Task<IActionResult> Cancel(
+			[FromBody] ProcedureCancelCommand command,
 			CancellationToken cancellationToken)
 			=> (await Sender.Send(command, cancellationToken)).ToActionResult();
 

@@ -40,10 +40,23 @@ namespace WebApi.Controllers
 			Result<string> tokenResult = await Sender.Send(command, cancellationToken);
 			if (tokenResult.IsFailure) return tokenResult.ToActionResult();
 
-			return tokenService.GetClaim(
-				tokenService.SetJwtToken(Response, tokenResult.Value),
-				ClaimTypes.NameIdentifier)
-				.ToActionResult();
+			var token = tokenService.SetJwtToken(Response, tokenResult.Value);
+			var userId = tokenService.GetClaim(token, ClaimTypes.NameIdentifier);
+			var email = tokenService.GetClaim(token, ClaimTypes.Email);
+			var fullname = tokenService.GetClaim(token, "Fullname");
+			var role = tokenService.GetClaim(token, ClaimTypes.Role);
+
+			return Ok(new LoginResponse
+			{
+				Token = token,
+				User = new UserDto
+				{
+					Id = userId ?? string.Empty,
+					Email = email ?? string.Empty,
+					Fullname = fullname ?? string.Empty,
+					Role = role ?? string.Empty
+				}
+			});
 		}
 
 		[HttpPost("Logout")]

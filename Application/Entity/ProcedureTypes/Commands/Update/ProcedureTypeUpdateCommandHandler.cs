@@ -31,6 +31,12 @@ namespace Application.Entity.ProcedureTypes.Commands.Update
 				if (update.IsFailure) return Result.Failure<Guid>(update.Error);
 			}
 
+			if (request.StandartPrice != null)
+			{
+				var update = procedureType.Value.UpdateStandartPrice(request.StandartPrice);
+				if (update.IsFailure) return Result.Failure<Guid>(update.Error);
+			}
+
 			var add = await procedureTypeRepository.UpdateAsync(procedureType.Value, cancellationToken);
 			var save = await unitOfWork.SaveChangesAsync(add, cancellationToken);
 

@@ -1,4 +1,4 @@
-using Application.Abstractions;
+﻿using Application.Abstractions;
 using Application.Behaviors;
 using Domain.Entity;
 using FluentValidation;
@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddDefaultPolicy(policy =>
 	{
-		policy.WithOrigins("https://localhost:62284");
+		policy.WithOrigins("https://localhost:5173");
 		policy.AllowAnyHeader();
 		policy.AllowAnyMethod();
 		policy.AllowCredentials();

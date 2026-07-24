@@ -39,8 +39,8 @@ namespace Persistence.Abstractions
 			var base_verific = await base.VerificationBeforeUpdateAsync(entity, cancellationToken);
 			if (base_verific.IsFailure) return base_verific;
 
-			//Запрещаем создавать сущности с уже используемыми названиями
-			var exists = await GetByPredicateAsync(title => title.Title == entity.Value.Title, cancellationToken, FetchMode.NoTracking);
+			// Запрещаем переименование в уже занятый title, но разрешаем оставить собственный title без изменений
+			var exists = await GetByPredicateAsync(title => title.Title == entity.Value.Title && title.Id != entity.Value.Id, cancellationToken, FetchMode.NoTracking);
 			if (!exists.IsFailure) return PersistenceErrors.TypeEntity<TypeE>.TitleAlreadyInUse;
 
 			return entity.Value;
