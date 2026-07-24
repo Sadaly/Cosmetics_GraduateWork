@@ -2,7 +2,11 @@
 
 **Cosmetics_GraduateWork** — это дипломная работа, система управления клиникой косметологии.
 
-[![Watch demo](https://youtube.com)](https://youtu.be/koaEjJL7ODs)
+<p align="center">
+  <a href="https://youtu.be/koaEjJL7ODs">
+    <img src="https://youtube.com" alt="Watch demo" width="600">
+  </a>
+</p>
 
 ---
 
